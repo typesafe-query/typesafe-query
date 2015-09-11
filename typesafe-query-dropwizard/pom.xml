@@ -1,0 +1,34 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.github.typesafe-query</groupId>
+    <artifactId>typesafe-query</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+  <artifactId>typesafe-query-dropwizard</artifactId>
+  
+  <properties>
+      <dropwizard.version>0.8.1</dropwizard.version>
+      <dropwizard.java8.version>0.8.0-1</dropwizard.java8.version>
+  </properties>
+  <dependencies>
+    <dependency>
+      <groupId>com.github.typesafe-query</groupId>
+      <artifactId>typesafe-query-core</artifactId>
+      <version>${project.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.dropwizard</groupId>
+      <artifactId>dropwizard-core</artifactId>
+      <version>${dropwizard.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.dropwizard.modules</groupId>
+      <artifactId>dropwizard-java8-jdbi</artifactId>
+      <version>${dropwizard.java8.version}</version>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
+</project>
