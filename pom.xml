@@ -44,6 +44,11 @@
     <url>https://github.com/typesafe-query/typesafe-query/issues</url>
   </issueManagement>
   
+  <ciManagement>
+    <system>semaphore</system>
+    <url>https://semaphoreci.com/typesafe-query/typesafe-query</url>
+  </ciManagement>
+  
   <distributionManagement>
     <repository>
       <id>internal.repo</id>
