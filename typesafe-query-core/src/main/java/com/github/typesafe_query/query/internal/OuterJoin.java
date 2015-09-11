@@ -11,9 +11,6 @@ import com.github.typesafe_query.meta.IDBTable;
  */
 public class OuterJoin<T> extends InnerJoin<T> {
 
-	/**
-	 * @param joinTarget
-	 */
 	public OuterJoin(IDBTable joinTable,T query) {
 		super(joinTable,query);
 	}

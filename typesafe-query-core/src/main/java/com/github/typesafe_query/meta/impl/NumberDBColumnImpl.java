@@ -22,10 +22,6 @@ import com.github.typesafe_query.query.internal.function.SqrtFunc;
  */
 public class NumberDBColumnImpl<T extends Number & Comparable<? super T>> extends ComparableDBColumnImpl<T> implements INumberDBColumn<T> {
 
-	/**
-	 * @param table
-	 * @param name
-	 */
 	public NumberDBColumnImpl(IDBTable table, String name) {
 		super(table, name);
 	}
@@ -38,12 +34,6 @@ public class NumberDBColumnImpl<T extends Number & Comparable<? super T>> extend
 		super(case_);
 	}
 
-	/**
-	 * @param table
-	 * @param name
-	 * @param otherName
-	 * @param converters
-	 */
 	protected NumberDBColumnImpl(IDBColumn<?> wrap) {
 		super(wrap);
 	}

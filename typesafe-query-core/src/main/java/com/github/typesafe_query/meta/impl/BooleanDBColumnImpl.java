@@ -7,10 +7,7 @@ import com.github.typesafe_query.query.Case;
 import com.github.typesafe_query.query.TypesafeQuery;
 
 public class BooleanDBColumnImpl extends DBColumnImpl<Boolean> implements IBooleanDBColumn{
-	/**
-	 * @param table
-	 * @param name
-	 */
+
 	public BooleanDBColumnImpl(IDBTable table, String name) {
 		super(table, name);
 	}
@@ -23,12 +20,6 @@ public class BooleanDBColumnImpl extends DBColumnImpl<Boolean> implements IBoole
 		super(case_);
 	}
 
-	/**
-	 * @param table
-	 * @param name
-	 * @param otherName
-	 * @param converters
-	 */
 	protected BooleanDBColumnImpl(IDBColumn<?> wrap) {
 		super(wrap);
 	}

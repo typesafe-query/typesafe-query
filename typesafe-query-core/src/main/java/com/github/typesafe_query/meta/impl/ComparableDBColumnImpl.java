@@ -33,10 +33,6 @@ import com.github.typesafe_query.query.internal.function.CoalesceFunc;
 public abstract class ComparableDBColumnImpl<T extends Comparable<? super T>> extends DBColumnImpl<T> implements
 		IComparableDBColumn<T> {
 
-	/**
-	 * @param table
-	 * @param name
-	 */
 	public ComparableDBColumnImpl(IDBTable table, String name) {
 		super(table, name);
 	}
@@ -49,12 +45,6 @@ public abstract class ComparableDBColumnImpl<T extends Comparable<? super T>> ex
 		super(case_);
 	}
 
-	/**
-	 * @param table
-	 * @param name
-	 * @param otherName
-	 * @param converters
-	 */
 	protected ComparableDBColumnImpl(IDBColumn<?> wrap) {
 		super(wrap);
 	}

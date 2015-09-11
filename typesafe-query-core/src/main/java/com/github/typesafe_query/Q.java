@@ -53,6 +53,7 @@ public final class Q {
 	
 	/**
 	 * {@link TypesafeQuery}を返します。
+	 * @param columns select対象のカラム
 	 * @return {@link TypesafeQuery}
 	 */
 	public static TypesafeQuery select(IDBColumn<?>... columns){
@@ -90,7 +91,6 @@ public final class Q {
 
 	/**
 	 * {@link Param}を返します。
-	 * @param key パラメーターキー
 	 * @return {@link Param}
 	 */
 	public static Param param(){
@@ -101,8 +101,11 @@ public final class Q {
 	 * エイリアス付きの{@link IDBColumn}を返します。
 	 * @param alias エイリアス
 	 * @param v DBカラム
+	 * @param <T> DBカラムの型
+	 * @param <V> DBカラム
 	 * @return {@link IDBColumn}
 	 */
+	
 	public static <T,V extends IDBColumn<T>> V $(String alias,V v){
 		return v.createFromTableAlias(alias);
 	}
@@ -148,6 +151,8 @@ public final class Q {
 	 * coalsesce式を返します。
 	 * @param r デフォルト値
 	 * @param v 対象DBカラム
+	 * @param <V> DBカラムの型
+	 * @param <R> DBカラム
 	 * @return coalsesce
 	 */
 	public static <V extends Comparable<? super V>,R extends IComparableDBColumn<V>> R coalsesce(R r,V v){
@@ -158,6 +163,8 @@ public final class Q {
 	 * coalsesce式を返します。
 	 * @param r デフォルトDBカラム
 	 * @param v 対象DBカラム
+	 * @param <V> DBカラムの型
+	 * @param <R> DBカラム
 	 * @return coalsesce
 	 */
 	public static <V extends Comparable<? super V>,R extends IComparableDBColumn<V>> R coalsesce(R r,R v){
@@ -168,6 +175,7 @@ public final class Q {
 	/**
 	 * MAXを返します。
 	 * @param c 対象DBカラム
+	 * @param <T> DBカラムの型
 	 * @return MAX
 	 */
 	public static <T extends Number & Comparable<? super T>> INumberDBColumn<T> max(INumberDBColumn<T> c){
@@ -177,6 +185,7 @@ public final class Q {
 	/**
 	 * MINを返します。
 	 * @param c 対象DBカラム
+	 * @param <T> DBカラムの型
 	 * @return MIN
 	 */
 	public static <T extends Number & Comparable<? super T>> INumberDBColumn<T> min(INumberDBColumn<T> c){
@@ -186,6 +195,7 @@ public final class Q {
 	/**
 	 * ABSを返します。
 	 * @param c 対象DBカラム
+	 * @param <T> DBカラムの型
 	 * @return ABS
 	 */
 	public static <T extends Number & Comparable<? super T>> INumberDBColumn<T> abs(INumberDBColumn<T> c){
@@ -195,6 +205,7 @@ public final class Q {
 	/**
 	 * AVGを返します。
 	 * @param c 対象DBカラム
+	 * @param <T> DBカラムの型
 	 * @return AVG
 	 */
 	public static <T extends Number & Comparable<? super T>> INumberDBColumn<T> avg(INumberDBColumn<T> c){
@@ -204,6 +215,7 @@ public final class Q {
 	/**
 	 * SQRTを返します。
 	 * @param c 対象DBカラム
+	 * @param <T> DBカラムの型
 	 * @return SQRT
 	 */
 	public static <T extends Number & Comparable<? super T>> INumberDBColumn<T> sqrt(INumberDBColumn<T> c){
@@ -290,6 +302,7 @@ public final class Q {
 	 * TO_NUMBERを返します。
 	 * @param c 対象DBカラム
 	 * @param cls 型
+	 * @param <T> DBカラムの型
 	 * @return TO_NUMBER
 	 */
 	public static <T extends Number & Comparable<? super T>> INumberDBColumn<T> toNumber(IStringDBColumn c,Class<T> cls){
@@ -301,6 +314,7 @@ public final class Q {
 	 * @param c 対象DBカラム
 	 * @param cls 型
 	 * @param format フォーマット
+	 * @param <T> DBカラムの型
 	 * @return TO_NUMBER
 	 */
 	public static <T extends Number & Comparable<? super T>> INumberDBColumn<T> toNumber(IStringDBColumn c,Class<T> cls,String format){

@@ -12,10 +12,7 @@ import com.github.typesafe_query.query.TypesafeQuery;
  *
  */
 public class NotLikeExp extends LikeExp {
-	/**
-	 * @param left
-	 * @param right
-	 */
+
 	public NotLikeExp(IDBColumn<String> left, String right) {
 		super(left, right);
 	}

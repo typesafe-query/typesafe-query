@@ -20,10 +20,6 @@ public class InExp<T extends Comparable<? super T>> implements Exp {
 	private T[] objects;
 	private TypesafeQuery query;
 	
-	/**
-	 * @param columns
-	 * @param objects
-	 */
 	public InExp(IDBColumn<T> left,T[] objects) {
 		if(left == null || objects == null){
 			throw new NullPointerException();

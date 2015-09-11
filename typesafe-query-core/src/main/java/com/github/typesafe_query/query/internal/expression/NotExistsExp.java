@@ -11,9 +11,6 @@ import com.github.typesafe_query.query.TypesafeQuery;
  */
 public class NotExistsExp extends ExistsExp {
 
-	/**
-	 * @param exp
-	 */
 	public NotExistsExp(TypesafeQuery subQuery) {
 		super(subQuery);
 	}

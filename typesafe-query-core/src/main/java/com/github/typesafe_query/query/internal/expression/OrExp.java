@@ -11,9 +11,6 @@ import com.github.typesafe_query.query.Exp;
  */
 public class OrExp extends AndExp {
 
-	/**
-	 * @param exps
-	 */
 	public OrExp(Exp[] exps) {
 		super(exps);
 	}

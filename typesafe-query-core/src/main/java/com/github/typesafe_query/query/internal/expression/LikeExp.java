@@ -12,10 +12,7 @@ import com.github.typesafe_query.query.TypesafeQuery;
  *
  */
 public class LikeExp extends ComparableExp<String> {
-	/**
-	 * @param left
-	 * @param right
-	 */
+
 	public LikeExp(IDBColumn<String> left, String right) {
 		super(left, right);
 	}

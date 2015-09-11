@@ -246,7 +246,7 @@ public class Field implements Comparable<Field>{
 
         /**
          * マップ系のインターフェースを持つか調べます。
-         * @return
+         * @return 持っていたらtrue
          */
         public boolean isHaveMapInterFace() {
                 if (type == null) {

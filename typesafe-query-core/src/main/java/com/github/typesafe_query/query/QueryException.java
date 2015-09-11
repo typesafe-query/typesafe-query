@@ -13,7 +13,7 @@ public class QueryException extends RuntimeException {
 	/**
 	 * メッセージ、例外を指定して新しいインスタンスを生成します。
 	 * @param message メッセージ
-	 * @param couse 例外
+	 * @param cause 例外
 	 */
 	public QueryException(String message, Throwable cause) {
 		super(message, cause);
@@ -29,7 +29,7 @@ public class QueryException extends RuntimeException {
 
 	/**
 	 * 例外を指定して新しいインスタンスを生成します。
-	 * @param couse 例外
+	 * @param cause 例外
 	 */
 	public QueryException(Throwable cause) {
 		super(cause);

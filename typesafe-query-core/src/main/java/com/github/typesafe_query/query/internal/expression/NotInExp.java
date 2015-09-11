@@ -15,10 +15,6 @@ import com.github.typesafe_query.query.internal.QueryUtils;
  */
 public class NotInExp<T extends Comparable<? super T>> extends InExp<T> {
 
-	/**
-	 * @param left
-	 * @param objects
-	 */
 	public NotInExp(IDBColumn<T> left, T[] objects) {
 		super(left, objects);
 	}

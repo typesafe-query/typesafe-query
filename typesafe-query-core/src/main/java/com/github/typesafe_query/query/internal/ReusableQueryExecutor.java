@@ -14,13 +14,13 @@ import com.github.typesafe_query.query.QueryExecutor;
  * FIXME v0.x.x TypesafeもstringもModelも全部再利用できるやーつ。ほしい。
  * FIXME v0.x.x Query系は適宜reuse()とか呼べ！！Model系はラップしてやんよ。的なスタンスでいいのか？
  * <pre>
- * List&lt;Hoge&gt; result = new ArrayList<>();
+ * List&lt;Hoge&gt; result = new ArrayList&lt;&gt;();
  * prepare(select()
  *         .from(Hoge_.TABLE)
  *         .where(Hoge_.NAME.eq(param())
  *         .reuse()
- * ).execute((executor) -> {
- *     names.stream().forEach((name) -> {
+ * ).execute((executor) -&gt; {
+ *     names.stream().forEach((name) -&gt; {
  *         result.add(
  *           executor
  *             .addParam(name)

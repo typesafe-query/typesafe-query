@@ -23,11 +23,6 @@ public class DefaultQueryContext implements QueryContext {
 	
 	private Map<String, Map<String,IDBTable>> fromMap;
 	
-	/**
-	 * @param criteriaBuilder
-	 * @param criteriaQuery
-	 * @param root
-	 */
 	public DefaultQueryContext(IDBTable root) {
 		super();
 		fromMap = new HashMap<String, Map<String,IDBTable>>();

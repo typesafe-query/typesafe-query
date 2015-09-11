@@ -15,9 +15,7 @@ import com.github.typesafe_query.query.QueryContext;
  */
 public abstract class CompositeExp implements Exp {
 	private Exp[] exps;
-	/**
-	 * @param exps
-	 */
+
 	public CompositeExp(Exp[] exps) {
 		if(exps == null){
 			throw new NullPointerException("IExp[] is null!");

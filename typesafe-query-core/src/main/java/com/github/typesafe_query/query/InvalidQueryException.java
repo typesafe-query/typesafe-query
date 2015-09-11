@@ -13,7 +13,7 @@ public class InvalidQueryException extends QueryException {
 	/**
 	 * メッセージ、例外を指定して新しいインスタンスを生成します。
 	 * @param message メッセージ
-	 * @param couse 例外
+	 * @param cause 例外
 	 */
 	public InvalidQueryException(String message, Throwable cause) {
 		super(message, cause);
@@ -29,7 +29,7 @@ public class InvalidQueryException extends QueryException {
 
 	/**
 	 * 例外を指定して新しいインスタンスを生成します。
-	 * @param couse 例外
+	 * @param cause 例外
 	 */
 	public InvalidQueryException(Throwable cause) {
 		super(cause);

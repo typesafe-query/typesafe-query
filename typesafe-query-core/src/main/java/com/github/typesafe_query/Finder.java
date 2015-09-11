@@ -41,6 +41,7 @@ public interface Finder<I,T> {
 
 	/**
 	 * 一覧を返します
+	 * @param orders ソート順
 	 * @return 一覧
 	 */
 	List<T> list(Order...orders);
@@ -48,6 +49,7 @@ public interface Finder<I,T> {
 	/**
 	 * 件数を指定して一覧を返します。
 	 * @param limit 最大件数
+	 * @param orders ソート順
 	 * @return 一覧
 	 */
 	List<T> list(int limit,Order...orders);
@@ -56,6 +58,7 @@ public interface Finder<I,T> {
 	 * 開始位置と件数を指定して一覧を返します。
 	 * @param offset 開始位置
 	 * @param limit 最大件数
+	 * @param orders ソート順
 	 * @return 一覧
 	 */
 	List<T> list(int offset,int limit,Order...orders);
@@ -72,6 +75,7 @@ public interface Finder<I,T> {
 	/**
 	 * 条件を指定して一覧を返します。
 	 * @param expression 条件
+	 * @param orders ソート順
 	 * @return 一覧
 	 */
 	List<T> listWhere(Exp expression,Order...orders);
@@ -80,6 +84,7 @@ public interface Finder<I,T> {
 	 * 条件、件数を指定して一覧を返します。
 	 * @param expression 条件
 	 * @param limit 最大件数
+	 * @param orders ソート順
 	 * @return 一覧
 	 */
 	List<T> listWhere(Exp expression,Integer limit,Order...orders);
@@ -89,6 +94,7 @@ public interface Finder<I,T> {
 	 * @param expression 条件
 	 * @param offset 開始位置
 	 * @param limit 件数
+	 * @param orders ソート順
 	 * @return 一覧
 	 */
 	List<T> listWhere(Exp expression,Integer offset,Integer limit,Order...orders);

@@ -18,10 +18,6 @@ import com.github.typesafe_query.query.TypesafeQuery;
 public class DateDBColumnImpl<T extends Comparable<? super T>> extends ComparableDBColumnImpl<T> implements
 		IDateDBColumn<T> {
 
-	/**
-	 * @param table
-	 * @param name
-	 */
 	public DateDBColumnImpl(IDBTable table, String name) {
 		super(table, name);
 	}
@@ -34,9 +30,6 @@ public class DateDBColumnImpl<T extends Comparable<? super T>> extends Comparabl
 		super(case_);
 	}
 
-	/**
-	 * @param wrap
-	 */
 	protected DateDBColumnImpl(IDBColumn<?> wrap) {
 		super(wrap);
 	}

@@ -13,18 +13,10 @@ import com.github.typesafe_query.query.TypesafeQuery;
  */
 public class EqExp<T> extends BasicExp<T> {
 
-	/**
-	 * @param left
-	 * @param right
-	 */
 	public EqExp(IDBColumn<T> left, IDBColumn<T> right) {
 		super(left, right);
 	}
 
-	/**
-	 * @param left
-	 * @param right
-	 */
 	public EqExp(IDBColumn<T> left, T right) {
 		super(left, right);
 	}

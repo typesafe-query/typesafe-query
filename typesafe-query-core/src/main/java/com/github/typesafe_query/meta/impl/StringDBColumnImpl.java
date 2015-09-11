@@ -29,10 +29,6 @@ import com.github.typesafe_query.query.internal.function.UpperFunc;
  */
 public class StringDBColumnImpl extends ComparableDBColumnImpl<String> implements IStringDBColumn{
 
-	/**
-	 * @param table
-	 * @param name
-	 */
 	public StringDBColumnImpl(IDBTable table, String name) {
 		super(table, name);
 	}
@@ -45,12 +41,6 @@ public class StringDBColumnImpl extends ComparableDBColumnImpl<String> implement
 		super(case_);
 	}
 
-	/**
-	 * @param table
-	 * @param name
-	 * @param otherName
-	 * @param converters
-	 */
 	protected StringDBColumnImpl(IDBColumn<?> wrap) {
 		super(wrap);
 	}

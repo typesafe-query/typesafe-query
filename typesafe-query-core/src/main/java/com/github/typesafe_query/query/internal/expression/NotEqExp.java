@@ -13,18 +13,10 @@ import com.github.typesafe_query.query.TypesafeQuery;
  */
 public class NotEqExp<T> extends EqExp<T> {
 
-	/**
-	 * @param left
-	 * @param right
-	 */
 	public NotEqExp(IDBColumn<T> left, IDBColumn<T> right) {
 		super(left, right);
 	}
 
-	/**
-	 * @param left
-	 * @param right
-	 */
 	public NotEqExp(IDBColumn<T> left, T right) {
 		super(left, right);
 	}

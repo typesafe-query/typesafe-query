@@ -201,7 +201,7 @@ public class JavaClass {
 
         /**
          * クラス名を返します
-         * @param simpleName クラス名
+         * @return クラス名
          */
         public String getSimpleName(){
                 return this.simpleName;
@@ -364,7 +364,7 @@ public class JavaClass {
 
         /**
          * このJavaClassのインポートクラスを追加します。
-         * @param imprt インポートクラス
+         * @param jc インポートクラス
          */
         public void addImport(JavaClass jc) {
                 if(shouldSetImport(jc)){

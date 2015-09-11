@@ -13,18 +13,10 @@ import com.github.typesafe_query.query.TypesafeQuery;
  */
 public abstract class ComparableExp<T extends Comparable<? super T>> extends BasicExp<T> {
 
-	/**
-	 * @param left
-	 * @param right
-	 */
 	protected ComparableExp(IDBColumn<T> left, IDBColumn<T> right) {
 		super(left, right);
 	}
 
-	/**
-	 * @param left
-	 * @param right
-	 */
 	protected ComparableExp(IDBColumn<T> left, T right) {
 		super(left, right);
 	}

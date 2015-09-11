@@ -36,10 +36,11 @@ public class ModelHandler<T>{
 		this.root = table;
 		this.modelDescription = description;
 	}
-	
+
 	/**
 	 * このModelを作成します。
-	 * @return 作成できたかどうか
+	 * @param model モデル
+	 * @return 作成したキー
 	 */
 	public Long createByGeneratedKey(T model){
 		if(model == null){
@@ -113,7 +114,7 @@ public class ModelHandler<T>{
 
 	/**
 	 * このModelを作成します。
-	 * @return 作成できたかどうか
+	 * @param model モデル
 	 */
 	public void create(T model){
 		if(model == null){
@@ -166,6 +167,7 @@ public class ModelHandler<T>{
 	/**
 	 * このModelを更新します。
 	 * TODO v0.3.x 一部だけ更新を追加したい
+	 * @param model モデル
 	 */
 	public void save(T model){
 		if(model == null){
@@ -250,6 +252,7 @@ public class ModelHandler<T>{
 	
 	/**
 	 * このModelを削除します。
+	 * @param model モデル
 	 */
 	public void delete(T model){
 		if(model == null){

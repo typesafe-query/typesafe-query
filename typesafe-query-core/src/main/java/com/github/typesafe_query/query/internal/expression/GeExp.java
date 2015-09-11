@@ -13,18 +13,10 @@ import com.github.typesafe_query.query.TypesafeQuery;
  */
 public class GeExp<T extends Comparable<? super T>> extends ComparableExp<T> {
 
-	/**
-	 * @param left
-	 * @param right
-	 */
 	public GeExp(IDBColumn<T> left, IDBColumn<T> right) {
 		super(left, right);
 	}
 
-	/**
-	 * @param left
-	 * @param right
-	 */
 	public GeExp(IDBColumn<T> left, T right) {
 		super(left, right);
 	}
