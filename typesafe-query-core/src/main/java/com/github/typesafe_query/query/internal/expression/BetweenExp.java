@@ -129,10 +129,10 @@ public class BetweenExp<T extends Comparable<? super T>> implements Exp {
 			return null;
 		}
 		
-		return getPredicate(l, f, t);
+		return getSQL(l, f, t);
 	}
 	
-	protected String getPredicate(String l,String f,String t){
+	protected String getSQL(String l,String f,String t){
 		return String.format("%s BETWEEN %s AND %s", l,f,t);
 	}
 }

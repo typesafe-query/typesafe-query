@@ -19,10 +19,10 @@ public class ExistsExp implements Exp {
 	
 	@Override
 	public String getSQL(QueryContext context) {
-		return getPredicate(subQuery.getSQL(context));
+		return getSQL(subQuery.getSQL(context));
 	}
 	
-	protected String getPredicate(String subquery){
+	protected String getSQL(String subquery){
 		return String.format("EXISTS(%s)",subquery);
 	}
 }

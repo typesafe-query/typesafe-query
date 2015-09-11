@@ -16,7 +16,7 @@ public class NotExistsExp extends ExistsExp {
 	}
 
 	@Override
-	protected String getPredicate(String subquery) {
+	protected String getSQL(String subquery) {
 		return String.format("NOT EXISTS(%s)",subquery);
 	}
 }

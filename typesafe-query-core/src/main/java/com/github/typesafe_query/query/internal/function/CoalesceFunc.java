@@ -27,6 +27,10 @@ public class CoalesceFunc implements Func {
 	@Override
 	public String getSQL(QueryContext context,
 			String expression) {
+		if(defValue == null && defObject == null){
+			return "COALESCE(" + expression + ",NULL)";
+		}
+		
 		if(defValue != null){
 			return "COALESCE(" + expression + "," + context.getColumnPath(defValue) + ")";
 		}

@@ -29,10 +29,10 @@ public class IsNullExpTest {
 		Exp exp = new IsNullExp<String>(new StringDBColumnImpl(t,"name"));
 		
 		QueryContext context = new DefaultQueryContext(t);
-		String predicate = exp.getSQL(context); 
+		String actual = exp.getSQL(context); 
 		
-		assertThat(predicate, notNullValue());
-		assertThat(predicate, is("table1.name IS NULL"));
+		assertThat(actual, notNullValue());
+		assertThat(actual, is("table1.name IS NULL"));
 	}
 	
 	@Test(expected=NullPointerException.class)

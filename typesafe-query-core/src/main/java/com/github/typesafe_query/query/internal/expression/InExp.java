@@ -42,7 +42,7 @@ public class InExp<T extends Comparable<? super T>> implements Exp {
 		if(query != null){
 			List<String> list = new ArrayList<String>();
 			list.add(query.getSQL(context));
-			return getPredicate(context.getColumnPath(left), list);
+			return getSQL(context.getColumnPath(left), list);
 		}
 		
 		List<String> expressions = new ArrayList<String>();
@@ -55,10 +55,10 @@ public class InExp<T extends Comparable<? super T>> implements Exp {
 		if(expressions.isEmpty()){
 			return null;
 		}
-		return getPredicate(context.getColumnPath(left), expressions);
+		return getSQL(context.getColumnPath(left), expressions);
 	}
 	
-	protected String getPredicate(String l,List<String> expressions){
+	protected String getSQL(String l,List<String> expressions){
 		return String.format("%s IN(%s)", l, QueryUtils.joinWith(",", expressions));
 	}
 }

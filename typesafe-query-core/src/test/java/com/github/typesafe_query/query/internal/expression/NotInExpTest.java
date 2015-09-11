@@ -31,10 +31,10 @@ public class NotInExpTest {
 		Exp exp = new NotInExp<String>(new StringDBColumnImpl(t,"name"),objs);
 		
 		QueryContext context = new DefaultQueryContext(t);
-		String predicate = exp.getSQL(context); 
+		String actual = exp.getSQL(context); 
 		
-		assertThat(predicate, notNullValue());
-		assertThat(predicate, is("table1.name NOT IN('piyo1','piyo2')"));
+		assertThat(actual, notNullValue());
+		assertThat(actual, is("table1.name NOT IN('piyo1','piyo2')"));
 	}
 	@Test(expected=NullPointerException.class)
 	public void ng_leftNullWithObjects(){
@@ -57,8 +57,8 @@ public class NotInExpTest {
 		Exp exp = new NotInExp<String>(new StringDBColumnImpl(t,"name"),objs);
 		
 		QueryContext context = new DefaultQueryContext(t);
-		String predicate = exp.getSQL(context); 
+		String actual = exp.getSQL(context); 
 		
-		assertThat(predicate, nullValue());
+		assertThat(actual, nullValue());
 	}
 }

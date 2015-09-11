@@ -30,10 +30,10 @@ public class NotBetweenExpTest {
 		Exp exp = new NotBetweenExp<String>(new StringDBColumnImpl(t,"name1"), new StringDBColumnImpl(t,"name2"), new StringDBColumnImpl(t,"name3"));
 		
 		QueryContext context = new DefaultQueryContext(t);
-		String predicate = exp.getSQL(context); 
+		String actual = exp.getSQL(context); 
 		
-		assertThat(predicate, notNullValue());
-		assertThat(predicate, is("table1.name1 NOT BETWEEN table1.name2 AND table1.name3"));
+		assertThat(actual, notNullValue());
+		assertThat(actual, is("table1.name1 NOT BETWEEN table1.name2 AND table1.name3"));
 	}
 	
 	@Test
@@ -42,10 +42,10 @@ public class NotBetweenExpTest {
 		Exp exp = new NotBetweenExp<String>(new StringDBColumnImpl(t,"name1"), new StringDBColumnImpl(t,"name2"), "to");
 
 		QueryContext context = new DefaultQueryContext(t);
-		String predicate = exp.getSQL(context); 
+		String actual = exp.getSQL(context); 
 		
-		assertThat(predicate, notNullValue());
-		assertThat(predicate, is("table1.name1 NOT BETWEEN table1.name2 AND 'to'"));
+		assertThat(actual, notNullValue());
+		assertThat(actual, is("table1.name1 NOT BETWEEN table1.name2 AND 'to'"));
 	}
 	
 	@Test
@@ -53,10 +53,10 @@ public class NotBetweenExpTest {
 		IDBTable t = new DBTableImpl("table1");
 		Exp exp = new NotBetweenExp<String>(new StringDBColumnImpl(t,"name1"), "fromPiyo", new StringDBColumnImpl(t,"name2"));
 		QueryContext context = new DefaultQueryContext(t);
-		String predicate = exp.getSQL(context); 
+		String actual = exp.getSQL(context); 
 		
-		assertThat(predicate, notNullValue());
-		assertThat(predicate, is("table1.name1 NOT BETWEEN 'fromPiyo' AND table1.name2"));
+		assertThat(actual, notNullValue());
+		assertThat(actual, is("table1.name1 NOT BETWEEN 'fromPiyo' AND table1.name2"));
 	}
 	
 	@Test
@@ -64,10 +64,10 @@ public class NotBetweenExpTest {
 		IDBTable t = new DBTableImpl("table1");
 		Exp exp = new NotBetweenExp<Integer>(new NumberDBColumnImpl<Integer>(t,"age"), 18, 30);
 		QueryContext context = new DefaultQueryContext(t);
-		String predicate = exp.getSQL(context); 
+		String actual = exp.getSQL(context); 
 		
-		assertThat(predicate, notNullValue());
-		assertThat(predicate, is("table1.age NOT BETWEEN 18 AND 30"));
+		assertThat(actual, notNullValue());
+		assertThat(actual, is("table1.age NOT BETWEEN 18 AND 30"));
 
 	}
 	
@@ -90,9 +90,9 @@ public class NotBetweenExpTest {
 		
 		Exp exp = new NotBetweenExp<String>(new StringDBColumnImpl(t,"name"), s, new StringDBColumnImpl(t,"name"));
 		QueryContext context = new DefaultQueryContext(t);
-		String predicate = exp.getSQL(context); 
+		String actual = exp.getSQL(context); 
 		
-		assertThat(predicate, nullValue());
+		assertThat(actual, nullValue());
 	}
 	
 	@Test(expected=NullPointerException.class)
@@ -109,8 +109,8 @@ public class NotBetweenExpTest {
 		
 		Exp exp = new NotBetweenExp<String>(new StringDBColumnImpl(t,"name"), new StringDBColumnImpl(t,"name"),s);
 		QueryContext context = new DefaultQueryContext(t);
-		String predicate = exp.getSQL(context); 
+		String actual = exp.getSQL(context); 
 		
-		assertThat(predicate, nullValue());
+		assertThat(actual, nullValue());
 	}
 }

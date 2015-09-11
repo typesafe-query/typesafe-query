@@ -24,7 +24,7 @@ public class NotInExp<T extends Comparable<? super T>> extends InExp<T> {
 	}
 
 	@Override
-	protected String getPredicate(String l,List<String> expressions){
+	protected String getSQL(String l,List<String> expressions){
 		return String.format("%s NOT IN(%s)",l, QueryUtils.joinWith(",", expressions));
 	}
 }

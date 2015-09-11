@@ -53,7 +53,7 @@ public class SubstringFunc implements Func {
 		}
 		
 		if(fromExp == null){
-			return null;
+			return expression;
 		}
 		
 		String toExp = null;
@@ -63,6 +63,6 @@ public class SubstringFunc implements Func {
 			toExp = QueryUtils.literal(to);
 		}
 		
-		return toExp != null?"SUBSTR(" + expression + "," + fromExp + "," + toExp + ")":"SUBSTRING(" + expression + "," + fromExp + ")";
+		return toExp != null?"SUBSTR(" + expression + "," + fromExp + "," + toExp + ")":"SUBSTR(" + expression + "," + fromExp + ")";
 	}
 }

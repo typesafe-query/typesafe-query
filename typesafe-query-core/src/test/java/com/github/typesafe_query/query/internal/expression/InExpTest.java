@@ -32,10 +32,10 @@ public class InExpTest {
 		Exp exp = new InExp<String>(new StringDBColumnImpl(t,"name"),objs);
 		
 		QueryContext context = new DefaultQueryContext(t);
-		String predicate = exp.getSQL(context); 
+		String actual = exp.getSQL(context); 
 		
-		assertThat(predicate, notNullValue());
-		assertThat(predicate, is("table1.name IN('piyo1','piyo2')"));
+		assertThat(actual, notNullValue());
+		assertThat(actual, is("table1.name IN('piyo1','piyo2')"));
 	}
 	
 	@Test(expected=NullPointerException.class)
@@ -61,8 +61,8 @@ public class InExpTest {
 		Exp exp = new InExp<String>(new StringDBColumnImpl(t,"name"),objs);
 		
 		QueryContext context = new DefaultQueryContext(t);
-		String predicate = exp.getSQL(context); 
+		String actual = exp.getSQL(context); 
 		
-		assertThat(predicate, nullValue());
+		assertThat(actual, nullValue());
 	}
 }

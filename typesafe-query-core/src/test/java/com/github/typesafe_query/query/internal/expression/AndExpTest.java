@@ -54,10 +54,10 @@ public class AndExpTest {
 		Exp exp = new AndExp(exps);
 		
 		QueryContext context = new DefaultQueryContext(t);
-		String predicate = exp.getSQL(context); 
+		String actual = exp.getSQL(context); 
 		
-		assertThat(predicate, notNullValue());
-		assertThat(predicate,is("(table1.age < 12 AND (table1.age < 245 AND table1.name = 'piyo' AND table1.name LIKE '%piyo' ESCAPE '!'))"));
+		assertThat(actual, notNullValue());
+		assertThat(actual,is("(table1.age < 12 AND (table1.age < 245 AND table1.name = 'piyo' AND table1.name LIKE '%piyo' ESCAPE '!'))"));
 	}
 	
 	@Test(expected=NullPointerException.class)
@@ -73,9 +73,9 @@ public class AndExpTest {
 		Exp exp = new AndExp(exps);
 		
 		QueryContext context = new DefaultQueryContext(t);
-		String predicate = exp.getSQL(context);
+		String actual = exp.getSQL(context);
 		
-		assertNull(predicate);
+		assertNull(actual);
 	}
 	@Test
 	public void ok_exps_1(){
@@ -85,9 +85,9 @@ public class AndExpTest {
 		Exp exp = new AndExp(exps);
 		
 		QueryContext context = new DefaultQueryContext(t);
-		String predicate = exp.getSQL(context);
+		String actual = exp.getSQL(context);
 		
-		assertThat(predicate, notNullValue());
-		assertThat(predicate,is("table1.age < 245"));
+		assertThat(actual, notNullValue());
+		assertThat(actual,is("table1.age < 245"));
 	}
 }

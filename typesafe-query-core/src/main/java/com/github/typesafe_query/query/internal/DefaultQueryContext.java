@@ -5,6 +5,7 @@ package com.github.typesafe_query.query.internal;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import com.github.typesafe_query.meta.IDBColumn;
 import com.github.typesafe_query.meta.IDBTable;
@@ -26,7 +27,7 @@ public class DefaultQueryContext implements QueryContext {
 	public DefaultQueryContext(IDBTable root) {
 		super();
 		fromMap = new HashMap<String, Map<String,IDBTable>>();
-		this.root = root;
+		this.root = Objects.requireNonNull(root);
 		addFrom(root);
 	}
 

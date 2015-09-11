@@ -34,10 +34,10 @@ public class OrExpTest {
 		Exp exp = new OrExp(exps);
 		
 		QueryContext context = new DefaultQueryContext(t);
-		String predicate = exp.getSQL(context); 
+		String actual = exp.getSQL(context); 
 		
-		assertThat(predicate, notNullValue());
-		assertThat(predicate,is("(table1.age < 245 OR table1.name = 'piyo')"));
+		assertThat(actual, notNullValue());
+		assertThat(actual,is("(table1.age < 245 OR table1.name = 'piyo')"));
 	}
 	
 	@Test
@@ -56,10 +56,10 @@ public class OrExpTest {
 		Exp exp = new OrExp(exps);
 		
 		QueryContext context = new DefaultQueryContext(t);
-		String predicate = exp.getSQL(context); 
+		String actual = exp.getSQL(context); 
 		
-		assertThat(predicate, notNullValue());
-		assertThat(predicate,is("(table1.age < 12 OR (table1.age < 245 OR table1.name1 = 'piyo' OR table1.name2 LIKE '%piyo' ESCAPE '!'))"));
+		assertThat(actual, notNullValue());
+		assertThat(actual,is("(table1.age < 12 OR (table1.age < 245 OR table1.name1 = 'piyo' OR table1.name2 LIKE '%piyo' ESCAPE '!'))"));
 	}
 	
 	@Test(expected=NullPointerException.class)
@@ -76,9 +76,9 @@ public class OrExpTest {
 		Exp exp = new OrExp(exps);
 		
 		QueryContext context = new DefaultQueryContext(t);
-		String predicate = exp.getSQL(context);
+		String actual = exp.getSQL(context);
 		
-		assertNull(predicate);
+		assertNull(actual);
 	}
 	@Test
 	public void ok_exps_1(){
@@ -89,9 +89,9 @@ public class OrExpTest {
 		Exp exp = new OrExp(exps);
 		
 		QueryContext context = new DefaultQueryContext(t);
-		String predicate = exp.getSQL(context);
+		String actual = exp.getSQL(context);
 		
-		assertThat(predicate, notNullValue());
-		assertThat(predicate,is("table1.age < 245"));
+		assertThat(actual, notNullValue());
+		assertThat(actual,is("table1.age < 245"));
 	}
 }

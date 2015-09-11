@@ -48,7 +48,7 @@ public class NotBetweenExp<T extends Comparable<? super T>> extends BetweenExp<T
 		super(left, fromObject, toParam);
 	}
 
-	protected String getPredicate(String l,String f,String t){
+	protected String getSQL(String l,String f,String t){
 		return String.format("%s NOT BETWEEN %s AND %s",l,f,t);
 	}
 }

@@ -6,6 +6,7 @@ package com.github.typesafe_query.query.internal.function;
 import com.github.typesafe_query.meta.IDBColumn;
 import com.github.typesafe_query.query.Func;
 import com.github.typesafe_query.query.QueryContext;
+import com.github.typesafe_query.query.internal.QueryUtils;
 
 /**
  * @author Takahiko Sato(MOSA architect Inc.)
@@ -27,9 +28,13 @@ public class ConcatFunc implements Func {
 	@Override
 	public String getSQL(QueryContext context,
 			String expression) {
-		if(concatValue != null){
-			return "CONCAT(" + expression + "," + concatValue.getExpression(context, expression) + ")";
+		if(concatValue == null && concatObject == null){
+			return expression;
 		}
-		return "CONCAT(" + expression + "," + concatObject.toString() + ")";
+		
+		if(concatValue != null){
+			return "CONCAT(" + expression + "," + context.getColumnPath(concatValue) + ")";
+		}
+		return "CONCAT(" + expression + "," + QueryUtils.literal(concatObject) + ")";
 	}
 }
