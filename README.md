@@ -1,5 +1,6 @@
 #Typesafe Query
 
+[![GitHub version](https://badge.fury.io/gh/typesafe-query%2Ftypesafe-query.svg)](http://badge.fury.io/gh/typesafe-query%2Ftypesafe-query)
 [![Build Status](https://semaphoreci.com/api/v1/projects/b529705d-c846-4923-85fd-ded727e7c343/537605/shields_badge.svg)](https://semaphoreci.com/typesafe-query/typesafe-query)
 [![Coverage Status](https://coveralls.io/repos/typesafe-query/typesafe-query/badge.svg?branch=master&service=github)](https://coveralls.io/github/typesafe-query/typesafe-query?branch=master)
 
@@ -22,10 +23,17 @@ Typesafe QueryではJava8から導入されたOptional、DateTime APIをO/Rマ�
 Maven
 
 ```
+<repositories>
+  <repository>
+    <id>typesafe-query</id>
+    <url>http://typesafe-query.github.io/maven/</url>
+  </repository>
+</repositories>
+
 <dependency>
-  <groupId>com.github.typesafe_query</groupId>
+  <groupId>com.github.typesafe-query</groupId>
   <artifactId>typesafe-query-core</artifactId>
-  <version>0.0.2</version>
+  <version>0.0.1</version>
 </dependency>
 ```
 
