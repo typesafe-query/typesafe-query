@@ -86,7 +86,7 @@ public class BetweenExp<T extends Comparable<? super T>> implements Exp {
 	}
 	
 	public BetweenExp(IDBColumn<T> left, IDBColumn<T> from, Param toParam) {
-		if(left == null || to == null){
+		if(left == null || toParam == null){
 			throw new NullPointerException();
 		}
 		this.left = left;
@@ -95,7 +95,7 @@ public class BetweenExp<T extends Comparable<? super T>> implements Exp {
 	}
 
 	public BetweenExp(IDBColumn<T> left, Param fromParam, Param toParam) {
-		if(left == null || to == null){
+		if(left == null || toParam == null){
 			throw new NullPointerException();
 		}
 		this.left = left;

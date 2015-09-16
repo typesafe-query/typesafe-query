@@ -9,11 +9,14 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import com.github.typesafe_query.Q;
+import com.github.typesafe_query.meta.IDBColumn;
 import com.github.typesafe_query.meta.IDBTable;
 import com.github.typesafe_query.meta.impl.DBTableImpl;
 import com.github.typesafe_query.meta.impl.StringDBColumnImpl;
 import com.github.typesafe_query.query.Exp;
 import com.github.typesafe_query.query.QueryContext;
+import com.github.typesafe_query.query.TypesafeQuery;
 import com.github.typesafe_query.query.internal.DefaultQueryContext;
 
 /**
@@ -22,6 +25,36 @@ import com.github.typesafe_query.query.internal.DefaultQueryContext;
  */
 public class InExpTest {
 	
+	@Test
+	public void ok_constructors(){
+		IDBTable t = new DBTableImpl("table1");
+		IDBColumn<String> col1 = new StringDBColumnImpl(t,"col1");
+		
+		new InExp<String>(col1,new String[]{});
+		
+		try {
+			new InExp<String>(null,new String[]{});
+			fail();
+		} catch (NullPointerException e) {
+		}
+		try {
+			new InExp<String>(col1,(String[])null);
+			fail();
+		} catch (NullPointerException e) {
+		}
+		
+		new InExp<String>(col1,Q.select());
+		try {
+			new InExp<String>(null,Q.select());
+			fail();
+		} catch (NullPointerException e) {
+		}
+		try {
+			new InExp<String>(col1,(TypesafeQuery)null);
+			fail();
+		} catch (NullPointerException e) {
+		}
+	}
 	
 	@Test
 	public void ok_withObject(){
@@ -38,19 +71,19 @@ public class InExpTest {
 		assertThat(actual, is("table1.name IN('piyo1','piyo2')"));
 	}
 	
-	@Test(expected=NullPointerException.class)
-	public void ng_leftNullWithObjects(){
+	@Test
+	public void ok_withObject_includeNull(){
+		IDBTable t = new DBTableImpl("table1");
 		String[] objs = new String[2];
 		objs[0] = "piyo1";
-		objs[1] = "piyo2";
-		new InExp<String>(null, objs);
-	}
-	
-	@Test(expected=NullPointerException.class)
-	public void ng_ObjectsNull(){
-		IDBTable t = new DBTableImpl("table1");
-		String[] objs = null;
-		new InExp<String>(new StringDBColumnImpl(t,"name"),objs);
+		objs[1] = null;
+		Exp exp = new InExp<String>(new StringDBColumnImpl(t,"name"),objs);
+		
+		QueryContext context = new DefaultQueryContext(t);
+		String actual = exp.getSQL(context); 
+		
+		assertThat(actual, notNullValue());
+		assertThat(actual, is("table1.name IN('piyo1')"));
 	}
 	
 	@Test

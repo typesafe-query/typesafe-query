@@ -9,12 +9,14 @@ import static org.hamcrest.CoreMatchers.*;
 
 import org.junit.Test;
 
+import com.github.typesafe_query.Q;
 import com.github.typesafe_query.meta.IDBColumn;
 import com.github.typesafe_query.meta.IDBTable;
 import com.github.typesafe_query.meta.impl.DBTableImpl;
 import com.github.typesafe_query.meta.impl.NumberDBColumnImpl;
 import com.github.typesafe_query.meta.impl.StringDBColumnImpl;
 import com.github.typesafe_query.query.Exp;
+import com.github.typesafe_query.query.Param;
 import com.github.typesafe_query.query.QueryContext;
 import com.github.typesafe_query.query.internal.DefaultQueryContext;
 
@@ -24,6 +26,108 @@ import com.github.typesafe_query.query.internal.DefaultQueryContext;
  *
  */
 public class BetweenExpTest {
+	@Test
+	public void ok_constructors(){
+		IDBTable t = new DBTableImpl("table1");
+		IDBColumn<String> left = new StringDBColumnImpl(t, "left");
+		IDBColumn<String> from = new StringDBColumnImpl(t, "col1");
+		IDBColumn<String> to = new StringDBColumnImpl(t, "col2");
+		
+		new BetweenExp<>(left, from, to);
+		try {
+			new BetweenExp<>((IDBColumn<String>)null, from, to);
+			fail();
+		} catch (NullPointerException e) {
+		}
+		try {
+			new BetweenExp<>(left, (IDBColumn<String>)null, to);
+			fail();
+		} catch (NullPointerException e) {
+		}
+		try {
+			new BetweenExp<>(left, from, (IDBColumn<String>)null);
+			fail();
+		} catch (NullPointerException e) {
+		}
+
+		
+		new BetweenExp<>(left, from, Q.param());
+		try {
+			new BetweenExp<>((IDBColumn<String>)null, from, (Param)null);
+			fail();
+		} catch (NullPointerException e) {
+		}
+		try {
+			new BetweenExp<>(left, from, (Param)null);
+			fail();
+		} catch (NullPointerException e) {
+		}
+
+		
+		new BetweenExp<>(left, from, "to");
+		try {
+			new BetweenExp<>((IDBColumn<String>)null, (IDBColumn<String>)null, "to");
+			fail();
+		} catch (NullPointerException e) {
+		}
+
+		new BetweenExp<>(left, Q.param(), to);
+		try {
+			new BetweenExp<>((IDBColumn<String>)null, Q.param(), (IDBColumn<String>)null);
+			fail();
+		} catch (NullPointerException e) {
+		}
+		try {
+			new BetweenExp<>(left, Q.param(), (IDBColumn<String>)null);
+			fail();
+		} catch (NullPointerException e) {
+		}
+
+		
+		new BetweenExp<>(left, Q.param(), Q.param());
+		try {
+			new BetweenExp<>((IDBColumn<String>)null, Q.param(), (Param)null);
+			fail();
+		} catch (NullPointerException e) {
+		}
+		try {
+			new BetweenExp<>(left, Q.param(), (Param)null);
+			fail();
+		} catch (NullPointerException e) {
+		}
+
+		
+		new BetweenExp<>(left, Q.param(), "to");
+		try {
+			new BetweenExp<>((IDBColumn<String>)null, Q.param(), "to");
+			fail();
+		} catch (NullPointerException e) {
+		}
+
+		
+		new BetweenExp<>(left, "from", to);
+		try {
+			new BetweenExp<>((IDBColumn<String>)null, "from", (IDBColumn<String>)null);
+			fail();
+		} catch (NullPointerException e) {
+		}
+
+		
+		new BetweenExp<>(left, "from", Q.param());
+		try {
+			new BetweenExp<>((IDBColumn<String>)null, "from", Q.param());
+			fail();
+		} catch (NullPointerException e) {
+		}
+		
+		new BetweenExp<>(left, "from", "to");
+		try {
+			new BetweenExp<>((IDBColumn<String>)null, "from", "to");
+			fail();
+		} catch (NullPointerException e) {
+		}
+
+	}
 	
 	@Test
 	public void ok_withColumnColumn(){
@@ -72,18 +176,6 @@ public class BetweenExpTest {
 		assertThat(actual, is("table1.age BETWEEN 18 AND 30"));
 	}
 	
-	@Test(expected=NullPointerException.class)
-	public void ng_leftNull(){
-		new BetweenExp<String>(null, "fromPiyo", "toPiyo");
-	}
-	
-	@Test(expected=NullPointerException.class)
-	public void ng_fromColumnNull(){
-		IDBTable t = new DBTableImpl("table1");
-		IDBColumn<Long> col = null;
-		new BetweenExp<Long>(new NumberDBColumnImpl<Long>(t,"hoge"), col, 20000L);
-	}
-	
 	@Test
 	public void ok_fromObjectNull(){
 		IDBTable t = new DBTableImpl("table1");
@@ -96,13 +188,6 @@ public class BetweenExpTest {
 		assertThat(actual, nullValue());
 	}
 	
-	@Test(expected=NullPointerException.class)
-	public void ng_toColumnNull(){
-		IDBTable t = new DBTableImpl("table1");
-		IDBColumn<Long> col = null;
-		new BetweenExp<Long>(new NumberDBColumnImpl<Long>(t,"hoge"), 5L, col);
-	}
-	
 	@Test
 	public void ok_toObjectNull(){
 		IDBTable t = new DBTableImpl("table1");
@@ -113,5 +198,17 @@ public class BetweenExpTest {
 		String actual = exp.getSQL(context); 
 		
 		assertThat(actual, nullValue());
+	}
+	
+	@Test
+	public void ok_Col_Param_Param(){
+		IDBTable t = new DBTableImpl("table1");
+		Exp exp = new BetweenExp<String>(new StringDBColumnImpl(t,"name"), Q.param(),Q.param());
+
+		QueryContext context = new DefaultQueryContext(t);
+		String actual = exp.getSQL(context); 
+		
+		assertThat(actual, notNullValue());
+		assertThat(actual, is("table1.name BETWEEN ? AND ?"));
 	}
 }

@@ -9,12 +9,14 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import com.github.typesafe_query.Q;
 import com.github.typesafe_query.meta.IDBColumn;
 import com.github.typesafe_query.meta.IDBTable;
 import com.github.typesafe_query.meta.impl.DBTableImpl;
 import com.github.typesafe_query.meta.impl.NumberDBColumnImpl;
 import com.github.typesafe_query.meta.impl.StringDBColumnImpl;
 import com.github.typesafe_query.query.Exp;
+import com.github.typesafe_query.query.Param;
 import com.github.typesafe_query.query.QueryContext;
 import com.github.typesafe_query.query.internal.DefaultQueryContext;
 
@@ -23,6 +25,107 @@ import com.github.typesafe_query.query.internal.DefaultQueryContext;
  *
  */
 public class NotBetweenExpTest {
+	@Test
+	public void ok_constructors(){
+		IDBTable t = new DBTableImpl("table1");
+		IDBColumn<String> left = new StringDBColumnImpl(t, "left");
+		IDBColumn<String> from = new StringDBColumnImpl(t, "col1");
+		IDBColumn<String> to = new StringDBColumnImpl(t, "col2");
+		
+		new NotBetweenExp<>(left, from, to);
+		try {
+			new NotBetweenExp<>((IDBColumn<String>)null, from, to);
+			fail();
+		} catch (NullPointerException e) {
+		}
+		try {
+			new NotBetweenExp<>(left, (IDBColumn<String>)null, to);
+			fail();
+		} catch (NullPointerException e) {
+		}
+		try {
+			new NotBetweenExp<>(left, from, (IDBColumn<String>)null);
+			fail();
+		} catch (NullPointerException e) {
+		}
+
+		
+		new NotBetweenExp<>(left, from, Q.param());
+		try {
+			new NotBetweenExp<>((IDBColumn<String>)null, from, (Param)null);
+			fail();
+		} catch (NullPointerException e) {
+		}
+		try {
+			new NotBetweenExp<>(left, from, (Param)null);
+			fail();
+		} catch (NullPointerException e) {
+		}
+
+		
+		new NotBetweenExp<>(left, from, "to");
+		try {
+			new NotBetweenExp<>((IDBColumn<String>)null, (IDBColumn<String>)null, "to");
+			fail();
+		} catch (NullPointerException e) {
+		}
+
+		new NotBetweenExp<>(left, Q.param(), to);
+		try {
+			new NotBetweenExp<>((IDBColumn<String>)null, Q.param(), (IDBColumn<String>)null);
+			fail();
+		} catch (NullPointerException e) {
+		}
+		try {
+			new NotBetweenExp<>(left, Q.param(), (IDBColumn<String>)null);
+			fail();
+		} catch (NullPointerException e) {
+		}
+
+		
+		new NotBetweenExp<>(left, Q.param(), Q.param());
+		try {
+			new NotBetweenExp<>((IDBColumn<String>)null, Q.param(), (Param)null);
+			fail();
+		} catch (NullPointerException e) {
+		}
+		try {
+			new NotBetweenExp<>(left, Q.param(), (Param)null);
+			fail();
+		} catch (NullPointerException e) {
+		}
+
+		
+		new NotBetweenExp<>(left, Q.param(), "to");
+		try {
+			new NotBetweenExp<>((IDBColumn<String>)null, Q.param(), "to");
+			fail();
+		} catch (NullPointerException e) {
+		}
+
+		
+		new NotBetweenExp<>(left, "from", to);
+		try {
+			new NotBetweenExp<>((IDBColumn<String>)null, "from", (IDBColumn<String>)null);
+			fail();
+		} catch (NullPointerException e) {
+		}
+
+		
+		new NotBetweenExp<>(left, "from", Q.param());
+		try {
+			new NotBetweenExp<>((IDBColumn<String>)null, "from", Q.param());
+			fail();
+		} catch (NullPointerException e) {
+		}
+		
+		new NotBetweenExp<>(left, "from", "to");
+		try {
+			new NotBetweenExp<>((IDBColumn<String>)null, "from", "to");
+			fail();
+		} catch (NullPointerException e) {
+		}
+	}
 	
 	@Test
 	public void ok_withColumnColumn(){
@@ -71,17 +174,7 @@ public class NotBetweenExpTest {
 
 	}
 	
-	@Test(expected=NullPointerException.class)
-	public void ng_leftNull(){
-		new NotBetweenExp<String>(null, "fromPiyo", "toPiyo");
-	}
 	
-	@Test(expected=NullPointerException.class)
-	public void ng_fromColumnNull(){
-		IDBTable t = new DBTableImpl("table1");
-		IDBColumn<Long> col = null;
-		new NotBetweenExp<Long>(new NumberDBColumnImpl<Long>(t,"hoge"), col, 20000L);
-	}
 	
 	@Test
 	public void ok_fromObjectNull(){
@@ -93,13 +186,6 @@ public class NotBetweenExpTest {
 		String actual = exp.getSQL(context); 
 		
 		assertThat(actual, nullValue());
-	}
-	
-	@Test(expected=NullPointerException.class)
-	public void ng_toColumnNull(){
-		IDBTable t = new DBTableImpl("table1");
-		IDBColumn<Long> col = null;
-		new NotBetweenExp<Long>(new NumberDBColumnImpl<Long>(t,"hoge"), 5L, col);
 	}
 	
 	@Test

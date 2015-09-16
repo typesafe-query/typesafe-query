@@ -26,9 +26,10 @@ public class AndExpTest {
 	@Test
 	public void ok(){
 		IDBTable t = new DBTableImpl("table1");
-		Exp[] exps = new Exp[2];
+		Exp[] exps = new Exp[3];
 		exps[0] = new LtExp<Integer>(new NumberDBColumnImpl<Integer>(t, "age"), 245);
 		exps[1] = new EqExp<String>(new StringDBColumnImpl(t, "name"), "piyo");
+		exps[2] = new EqExp<String>(new StringDBColumnImpl(t, "name2"), (String)null);
 		Exp exp = new AndExp(exps);
 		
 		QueryContext context = new DefaultQueryContext(t);
