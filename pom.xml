@@ -13,6 +13,11 @@
   <url>https://github.com/typesafe-query</url>
   <description>Typesafe Query is a Java framework for RDB accessing simply.</description>
   
+  <organization>
+    <name>Typesafe Query Team</name>
+    <url>http://typesafe-query.github.io/</url>
+  </organization>
+  
   <developers>
     <developer>
       <name>Takahiko Sato</name>

@@ -6,17 +6,15 @@
 
 ##Typesafe Queryとは？
 Typesafe QueryはSQLを安全に記述するためのとても便利な一連のヘルパを提供します。  
+以下の特徴があります。
 
 
-###特徴
-Typesafe Queryでは以下を重要視しています。
-
-* 柔軟なO/Rマッピング
-* JDBCを(なるべく)意識させない
-* ネイティブSQLを記述するようにJavaコードを記述できる
-* スキーマの変更に強い
-
-###Java8対応
+###柔軟なO/Rマッピング
+###JDBCを(なるべく)意識させない
+###ネイティブSQLを記述するようにJavaコードを記述できる
+###スキーマの変更に強い
+###No JPA
+###Java 8 対応
 Typesafe QueryではJava8から導入されたOptional、DateTime APIをO/Rマッピングに使用できます。
 
 ##インストール
@@ -30,14 +28,19 @@ Maven
   </repository>
 </repositories>
 
-<dependency>
-  <groupId>com.github.typesafe-query</groupId>
-  <artifactId>typesafe-query-core</artifactId>
-  <version>0.0.1</version>
-</dependency>
+```
+
+```
+<dependencies>
+  <dependency>
+    <groupId>com.github.typesafe-query</groupId>
+    <artifactId>typesafe-query-core</artifactId>
+    <version>0.0.1</version>
+  </dependency>
+</dependencies>
 ```
 
 ##使い方
-typesafe-query-core
+###Core
 
 [https://github.com/typesafe-query/typesafe-query/tree/master/typesafe-query-core](https://github.com/typesafe-query/typesafe-query/tree/master/typesafe-query-core)

@@ -6,6 +6,7 @@
     <version>0.0.1-SNAPSHOT</version>
   </parent>
   <artifactId>typesafe-query-core</artifactId>
+  <name>Typesafe Query Core</name>
   
   <dependencies>
     <dependency>
