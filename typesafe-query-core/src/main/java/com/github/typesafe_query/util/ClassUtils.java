@@ -160,7 +160,7 @@ public final class ClassUtils {
 	}
 	
 	public static Object callGetter(Field f,Object target){
-		String getterName = toGetterName(f.getName());
+		String getterName = toGetterName(f);
 		Method m = getMethod(getterName, new Class[]{}, target.getClass());
 		if(m != null){
 			return invoke(m, target);
@@ -194,8 +194,11 @@ public final class ClassUtils {
 		return toAccessorName(fieldName, "set");
 	}
 	
-	public static String toGetterName(String fieldName){
-		return toAccessorName(fieldName, "get");
+	public static String toGetterName(Field f){
+		if(f.getType().equals(Boolean.class) || f.getType().equals(boolean.class)){
+			return toAccessorName(f.getName(), "is");
+		}
+		return toAccessorName(f.getName(), "get");
 	}
 	
 	private static String toAccessorName(String fieldName,String accessorTypeName){

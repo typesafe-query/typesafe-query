@@ -3,11 +3,10 @@
   <parent>
     <groupId>com.github.typesafe-query</groupId>
     <artifactId>typesafe-query</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.4</version>
   </parent>
   <artifactId>typesafe-query-dropwizard</artifactId>
   <name>Typesafe Query Dropwizard</name>
-  
   <properties>
       <dropwizard.version>0.8.1</dropwizard.version>
       <dropwizard.java8.version>0.8.0-1</dropwizard.java8.version>

@@ -3,9 +3,8 @@
   <parent>
     <groupId>com.github.typesafe-query</groupId>
     <artifactId>typesafe-query</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.4</version>
   </parent>
   <artifactId>typesafe-query-tools</artifactId>
   <name>Typesafe Query Tools</name>
-  
 </project>
