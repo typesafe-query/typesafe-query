@@ -31,6 +31,7 @@ public class DefaultJdbcValueConverter implements JdbcValueConverter{
 		JDBC_CLASSES.add(Float.class);
 		JDBC_CLASSES.add(Double.class);
 		JDBC_CLASSES.add(BigDecimal.class);
+		JDBC_CLASSES.add(Boolean.class);
 		
 		JDBC_CLASSES.add(LocalDate.class);
 		JDBC_CLASSES.add(LocalTime.class);
