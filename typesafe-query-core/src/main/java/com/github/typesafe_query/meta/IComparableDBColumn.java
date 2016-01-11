@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.github.typesafe_query.meta;
 
@@ -16,7 +16,7 @@ public interface IComparableDBColumn<T extends Comparable<? super T>> extends ID
 	//--->conversions
 	<C extends IComparableDBColumn<T>> C coalesce(C c);
 	<C extends IComparableDBColumn<T>> C coalesce(T t);
-	
+
 	//--->expressions
 	Exp gt(IComparableDBColumn<T> c);
 	Exp gt(T t);
@@ -60,7 +60,10 @@ public interface IComparableDBColumn<T extends Comparable<? super T>> extends ID
 	@SuppressWarnings("unchecked")
 	Exp notIn(T...ts);
 	Exp notIn(TypesafeQuery query);
-	
+
+	//---->function
+	IComparableDBColumn<T> count();
+
 	//---->orders
 	Order asc();
 	Order desc();

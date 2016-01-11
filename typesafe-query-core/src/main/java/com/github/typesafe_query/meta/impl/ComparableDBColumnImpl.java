@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.github.typesafe_query.meta.impl;
 
@@ -25,6 +25,7 @@ import com.github.typesafe_query.query.internal.expression.LtExp;
 import com.github.typesafe_query.query.internal.expression.NotBetweenExp;
 import com.github.typesafe_query.query.internal.expression.NotInExp;
 import com.github.typesafe_query.query.internal.function.CoalesceFunc;
+import com.github.typesafe_query.query.internal.function.CountFunc;
 
 /**
  * @author Takahiko Sato(MOSA architect Inc.)
@@ -36,7 +37,7 @@ public abstract class ComparableDBColumnImpl<T extends Comparable<? super T>> ex
 	public ComparableDBColumnImpl(IDBTable table, String name) {
 		super(table, name);
 	}
-	
+
 	public ComparableDBColumnImpl(TypesafeQuery query) {
 		super(query);
 	}
@@ -48,7 +49,7 @@ public abstract class ComparableDBColumnImpl<T extends Comparable<? super T>> ex
 	protected ComparableDBColumnImpl(IDBColumn<?> wrap) {
 		super(wrap);
 	}
-	
+
 	protected ComparableDBColumnImpl(IDBColumn<?> wrap, String otherName) {
 		super(wrap, otherName);
 	}
@@ -74,7 +75,7 @@ public abstract class ComparableDBColumnImpl<T extends Comparable<? super T>> ex
 	public Exp gt(T t) {
 		return new GtExp<T>(this, t);
 	}
-	
+
 	@Override
 	public Exp gt(Param p) {
 		return new GtExp<T>(this, p);
@@ -94,7 +95,7 @@ public abstract class ComparableDBColumnImpl<T extends Comparable<? super T>> ex
 	public Exp lt(T t) {
 		return new LtExp<T>(this, t);
 	}
-	
+
 	@Override
 	public Exp lt(Param p) {
 		return new LtExp<T>(this, p);
@@ -114,7 +115,7 @@ public abstract class ComparableDBColumnImpl<T extends Comparable<? super T>> ex
 	public Exp ge(T t) {
 		return new GeExp<T>(this, t);
 	}
-	
+
 	@Override
 	public Exp ge(Param p) {
 		return new GeExp<T>(this, p);
@@ -174,7 +175,7 @@ public abstract class ComparableDBColumnImpl<T extends Comparable<? super T>> ex
 	public Exp between(T from, T to) {
 		return new BetweenExp<T>(this, from, to);
 	}
-	
+
 	@Override
 	public Exp between(IComparableDBColumn<T> from, Param to) {
 		return new BetweenExp<T>(this, from, to);
@@ -265,6 +266,11 @@ public abstract class ComparableDBColumnImpl<T extends Comparable<? super T>> ex
 	@Override
 	public Exp notIn(TypesafeQuery query) {
 		return new NotInExp<T>(this, query);
+	}
+
+	@Override
+	public IComparableDBColumn<T> count() {
+		return addFunc(new CountFunc());
 	}
 
 	@Override
