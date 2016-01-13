@@ -61,6 +61,9 @@ public interface IComparableDBColumn<T extends Comparable<? super T>> extends ID
 	Exp notIn(T...ts);
 	Exp notIn(TypesafeQuery query);
 	
+	//---->function
+	IComparableDBColumn<T> count();
+	
 	//---->orders
 	Order asc();
 	Order desc();

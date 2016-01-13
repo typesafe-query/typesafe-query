@@ -170,7 +170,16 @@ public final class Q {
 	public static <V extends Comparable<? super V>,R extends IComparableDBColumn<V>> R coalsesce(R r,R v){
 		return r.coalesce(v);
 	}
-	
+	/**
+	 * COUNTを返します。
+	 * @param c 対象DBカラム
+	 * @param <T> DBカラムの型
+	 * @return COUNT
+	 */
+	public static <T extends Number & Comparable<? super T>> IComparableDBColumn<?> count(IComparableDBColumn<?> c){
+		return c.count();
+	}
+	 
 	//--->numeric functions
 	/**
 	 * MAXを返します。
