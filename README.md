@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/typesafe-query/typesafe-query.png?label=ready&title=Ready)](https://waffle.io/typesafe-query/typesafe-query)
 #Typesafe Query
 
 [![GitHub version](https://badge.fury.io/gh/typesafe-query%2Ftypesafe-query.svg)](http://badge.fury.io/gh/typesafe-query%2Ftypesafe-query)
