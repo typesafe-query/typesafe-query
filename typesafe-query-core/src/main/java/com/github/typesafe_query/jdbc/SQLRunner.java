@@ -6,7 +6,7 @@ import java.util.Optional;
 import com.github.typesafe_query.jdbc.mapper.ResultMapper;
 
 /**
- * TODO v0.3.x テストできるようにする。テスト用インスタンスを差し込めるように
+ * TODO v0.3.x テストできるようにする。テスト用インスタンスを差し込めるように #34
  * @author Takahiko Sato(MOSA Architect Inc.)
  *
  */

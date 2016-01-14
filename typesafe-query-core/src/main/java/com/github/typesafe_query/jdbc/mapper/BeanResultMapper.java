@@ -25,8 +25,8 @@ import com.github.typesafe_query.util.Tuple;
 
 
 /**
- * TODO v0.3.x パフォーマンスが悪いと思うので要検討
- * TODO v0.3.x 2階層しか対応していないので無限階層に対応する。LazyLoadを見据えて。IDはどの階層まで許す？
+ * TODO v0.3.x パフォーマンスが悪いと思うので要検討 #33
+ * TODO v0.3.x 2階層しか対応していないので無限階層に対応する。LazyLoadを見据えて。IDはどの階層まで許す？ #5
  * 
  * <p>NAME→name</p>
  * <p>USER_NAME→userName</p>

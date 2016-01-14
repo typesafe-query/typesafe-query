@@ -11,8 +11,8 @@ import com.github.typesafe_query.jdbc.mapper.ResultMapper;
 import com.github.typesafe_query.query.QueryExecutor;
 
 /**
- * FIXME v0.x.x TypesafeもstringもModelも全部再利用できるやーつ。ほしい。
- * FIXME v0.x.x Query系は適宜reuse()とか呼べ！！Model系はラップしてやんよ。的なスタンスでいいのか？
+ * FIXME v0.x.x TypesafeもstringもModelも全部再利用できるやーつ。ほしい。 #23
+ * FIXME v0.x.x Query系は適宜reuse()とか呼べ！！Model系はラップしてやんよ。的なスタンスでいいのか？ #23
  * <pre>
  * List&lt;Hoge&gt; result = new ArrayList&lt;&gt;();
  * prepare(select()

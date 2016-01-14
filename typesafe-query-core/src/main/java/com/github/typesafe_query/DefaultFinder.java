@@ -21,7 +21,7 @@ import com.github.typesafe_query.util.Tuple;
  * モデルの検索を行います。
  * <p>検索を行うクラスです</p>
  * 
- * TODO v0.3.x 再利用可能インスタンスを作成するファクトリメソッドを追加する？
+ * TODO v0.3.x 再利用可能インスタンスを作成するファクトリメソッドを追加する？ #23
  * @author Takahiko Sato(MOSA architect Inc.)
  */
 public class DefaultFinder<I,T> implements Finder<I, T>{
