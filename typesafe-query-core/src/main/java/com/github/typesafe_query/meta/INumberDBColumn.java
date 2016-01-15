@@ -3,6 +3,7 @@
  */
 package com.github.typesafe_query.meta;
 
+import java.math.BigDecimal;
 
 /**
  * @author Takahiko Sato(MOSA architect Inc.)
@@ -12,7 +13,7 @@ public interface INumberDBColumn<T extends Number & Comparable<? super T>> exten
 	//--->conversions
 	INumberDBColumn<T> max();
 	INumberDBColumn<T> min();
-	INumberDBColumn<T> abs();
-	INumberDBColumn<T> avg();
-	INumberDBColumn<T> sqrt();
+	INumberDBColumn<BigDecimal> abs();
+	INumberDBColumn<BigDecimal> avg();
+	INumberDBColumn<BigDecimal> sqrt();
 }

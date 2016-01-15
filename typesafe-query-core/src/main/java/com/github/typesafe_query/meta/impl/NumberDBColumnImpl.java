@@ -3,6 +3,8 @@
  */
 package com.github.typesafe_query.meta.impl;
 
+import java.math.BigDecimal;
+
 import com.github.typesafe_query.meta.IComparableDBColumn;
 import com.github.typesafe_query.meta.IDBColumn;
 import com.github.typesafe_query.meta.IDBTable;
@@ -65,20 +67,24 @@ public class NumberDBColumnImpl<T extends Number & Comparable<? super T>> extend
 	}
 	
 	@Override
-	public INumberDBColumn<T> avg() {
-		NumberDBColumnImpl<T> c = new NumberDBColumnImpl<T>(this);
+	public INumberDBColumn<BigDecimal> avg() {
+		NumberDBColumnImpl<BigDecimal> c = new NumberDBColumnImpl<BigDecimal>(this);
 		c.add(new AvgFunc());
 		return c;
 	}
 
 	@Override
-	public INumberDBColumn<T> abs() {
-		return addFunc(new AbsFunc());
+	public INumberDBColumn<BigDecimal> abs() {
+		NumberDBColumnImpl<BigDecimal> c = new NumberDBColumnImpl<BigDecimal>(this);
+		c.add(new AbsFunc());
+		return c;
 	}
 
 	@Override
-	public INumberDBColumn<T> sqrt() {
-		return addFunc(new SqrtFunc());
+	public INumberDBColumn<BigDecimal> sqrt() {
+		NumberDBColumnImpl<BigDecimal> c = new NumberDBColumnImpl<BigDecimal>(this);
+		c.add(new SqrtFunc());
+		return c;
 	}
 
 	@SuppressWarnings("unchecked")

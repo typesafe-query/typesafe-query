@@ -3,6 +3,7 @@
  */
 package com.github.typesafe_query;
 
+import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -198,7 +199,7 @@ public final class Q {
 	 * @param <T> DBカラムの型
 	 * @return ABS
 	 */
-	public static <T extends Number & Comparable<? super T>> INumberDBColumn<T> abs(INumberDBColumn<T> c){
+	public static INumberDBColumn<BigDecimal> abs(INumberDBColumn<?> c){
 		return c.abs();
 	}
 	
@@ -208,7 +209,7 @@ public final class Q {
 	 * @param <T> DBカラムの型
 	 * @return AVG
 	 */
-	public static <T extends Number & Comparable<? super T>> INumberDBColumn<T> avg(INumberDBColumn<T> c){
+	public static INumberDBColumn<BigDecimal> avg(INumberDBColumn<?> c){
 		return c.avg();
 	}
 	
@@ -218,7 +219,7 @@ public final class Q {
 	 * @param <T> DBカラムの型
 	 * @return SQRT
 	 */
-	public static <T extends Number & Comparable<? super T>> INumberDBColumn<T> sqrt(INumberDBColumn<T> c){
+	public static INumberDBColumn<BigDecimal> sqrt(INumberDBColumn<?> c){
 		return c.sqrt();
 	}
 	
