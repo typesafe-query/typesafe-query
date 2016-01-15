@@ -37,7 +37,7 @@ public interface Finder<I,T> {
 	 * @param exp 検索条件
 	 * @return 件数
 	 */
-	long countWhere(Exp exp);
+	long countWhere(Exp... expressions);
 
 	/**
 	 * 一覧を返します
@@ -63,14 +63,14 @@ public interface Finder<I,T> {
 	 */
 	List<T> list(int offset,int limit,Order...orders);
 	
-	T requiredWhere(Exp expression);
+	T requiredWhere(Exp... expressions);
 	
 	/**
 	 * 条件を指定して1件取得します
 	 * @param expression 条件
 	 * @return 1件の結果
 	 */
-	Optional<T> where(Exp expression);
+	Optional<T> where(Exp... expressions);
 	
 	/**
 	 * 条件を指定して一覧を返します。
