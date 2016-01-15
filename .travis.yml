@@ -1,0 +1,13 @@
+sudo: false
+language: java
+jdk:
+  - oraclejdk8
+cache:
+  directories:
+    - $HOME/.m2
+
+after_success:
+  mvn -DrepoToken=Uk5wdp4kGV2QMEHPVZl1P9MNq7Yq0Pkfs clean test jacoco:report coveralls:report
+
+notifications:
+  slack: mosa:5oLEwDAzdho8SDfiTVpVU3Rc
