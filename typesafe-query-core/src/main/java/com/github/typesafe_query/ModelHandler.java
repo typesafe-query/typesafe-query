@@ -116,7 +116,7 @@ public class ModelHandler<T>{
 	 * このModelを作成します。
 	 * @param model モデル
 	 */
-	public void create(T model){
+	public boolean create(T model){
 		if(model == null){
 			throw new NullPointerException("対象オブジェクトがnullです");
 		}
@@ -161,7 +161,7 @@ public class ModelHandler<T>{
 			q.addParam(o);
 		}
 		
-		q.executeUpdate();
+		return q.executeUpdate() != 0;
 	}
 	
 	/**
@@ -169,7 +169,7 @@ public class ModelHandler<T>{
 	 * TODO v0.3.x 一部だけ更新を追加したい #31
 	 * @param model モデル
 	 */
-	public void save(T model){
+	public boolean save(T model){
 		if(model == null){
 			throw new NullPointerException("対象オブジェクトがnullです");
 		}
@@ -247,14 +247,14 @@ public class ModelHandler<T>{
 			q.addParam(o);
 		}
 		
-		q.executeUpdate();
+		return q.executeUpdate() != 0;
 	}
 	
 	/**
 	 * このModelを削除します。
 	 * @param model モデル
 	 */
-	public void delete(T model){
+	public boolean delete(T model){
 		if(model == null){
 			throw new NullPointerException("対象オブジェクトがnullです");
 		}
@@ -300,7 +300,7 @@ public class ModelHandler<T>{
 			q.addParam(o);
 		}
 		
-		q.executeUpdate();
+		return q.executeUpdate() != 0;
 	}
 	
 	protected QueryExecutor createExecutor(String sql){
