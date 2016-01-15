@@ -7,18 +7,21 @@ import java.util.List;
 import com.github.typesafe_query.annotation.Column;
 import com.github.typesafe_query.annotation.EmbeddedId;
 import com.github.typesafe_query.annotation.Id;
+import com.github.typesafe_query.meta.IDBTable;
 import com.github.typesafe_query.util.ClassUtils;
 import com.github.typesafe_query.util.Tuple;
 
-public class ModelDescription {
-	private final Class<?> modelClass;
+public class ModelDescription<T> {
+	private final Class<T> modelClass;
+	private final IDBTable table;
 	
 	private final List<Tuple<String, String>> idNames;
 	private final List<Tuple<String, String>> allNames;
 	private final List<Tuple<String, String>> valueNames;
 	
-	public ModelDescription(Class<?> modelClass,List<String> fieldNames) {
+	public ModelDescription(Class<T> modelClass,IDBTable table,List<String> fieldNames) {
 		this.modelClass = modelClass;
+		this.table = table;
 		
 		this.idNames = new ArrayList<Tuple<String, String>>();
 		this.allNames = new ArrayList<Tuple<String, String>>();
@@ -82,8 +85,12 @@ public class ModelDescription {
 		return convertedStr.toLowerCase();
 	}
 	
-	public Class<?> getModelClass() {
+	public Class<T> getModelClass() {
 		return modelClass;
+	}
+
+	public IDBTable getTable() {
+		return table;
 	}
 
 	public List<Tuple<String, String>> getIdNames(){

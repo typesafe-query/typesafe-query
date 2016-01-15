@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.github.typesafe_query;
 
 import java.lang.reflect.Field;
@@ -33,7 +30,7 @@ public class DefaultFinder<I,T> implements Finder<I, T>{
 	
 	private IDBTable root;
 	
-	private ModelDescription modelDescription;
+	private ModelDescription<T> modelDescription;
 	
 	/**
 	 * モデルクラス、テーブル、モデル詳細を指定して新しいインスタンスを生成します。
@@ -41,9 +38,9 @@ public class DefaultFinder<I,T> implements Finder<I, T>{
 	 * @param table テーブル
 	 * @param modelDescription モデル詳細
 	 */
-	public DefaultFinder(Class<T> modelClass,IDBTable table,ModelDescription modelDescription) {
-		this.modelClass = modelClass;
-		this.root = table;
+	public DefaultFinder(ModelDescription<T> modelDescription) {
+		this.modelClass = modelDescription.getModelClass();
+		this.root = modelDescription.getTable();
 		this.modelDescription = modelDescription;
 	}
 	
