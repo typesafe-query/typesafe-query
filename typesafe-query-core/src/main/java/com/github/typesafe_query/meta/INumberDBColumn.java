@@ -15,4 +15,5 @@ public interface INumberDBColumn<T extends Number & Comparable<? super T>> exten
 	INumberDBColumn<T> abs();
 	INumberDBColumn<T> avg();
 	INumberDBColumn<T> sqrt();
+	INumberDBColumn<T> count();
 }

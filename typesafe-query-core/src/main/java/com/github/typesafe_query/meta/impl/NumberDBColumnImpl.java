@@ -12,6 +12,7 @@ import com.github.typesafe_query.query.Func;
 import com.github.typesafe_query.query.TypesafeQuery;
 import com.github.typesafe_query.query.internal.function.AbsFunc;
 import com.github.typesafe_query.query.internal.function.AvgFunc;
+import com.github.typesafe_query.query.internal.function.CountFunc;
 import com.github.typesafe_query.query.internal.function.MaxFunc;
 import com.github.typesafe_query.query.internal.function.MinFunc;
 import com.github.typesafe_query.query.internal.function.SqrtFunc;
@@ -81,6 +82,11 @@ public class NumberDBColumnImpl<T extends Number & Comparable<? super T>> extend
 		return addFunc(new SqrtFunc());
 	}
 
+	@Override
+	public INumberDBColumn<T> count() {
+		return addFunc(new CountFunc());
+	}
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public <V extends IDBColumn<T>> V createFromTableAlias(String tableAlias) {

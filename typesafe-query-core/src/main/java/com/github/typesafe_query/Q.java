@@ -14,6 +14,7 @@ import com.github.typesafe_query.meta.IComparableDBColumn;
 import com.github.typesafe_query.meta.IDBColumn;
 import com.github.typesafe_query.meta.INumberDBColumn;
 import com.github.typesafe_query.meta.IStringDBColumn;
+import com.github.typesafe_query.meta.impl.NumberDBColumnImpl;
 import com.github.typesafe_query.query.BatchQueryExecutor;
 import com.github.typesafe_query.query.Exp;
 import com.github.typesafe_query.query.NamedQuery;
@@ -170,14 +171,15 @@ public final class Q {
 	public static <V extends Comparable<? super V>,R extends IComparableDBColumn<V>> R coalsesce(R r,R v){
 		return r.coalesce(v);
 	}
+
 	/**
 	 * COUNTを返します。
 	 * @param c 対象DBカラム
-	 * @param <T> DBカラムの型
 	 * @return COUNT
 	 */
-	public static <T extends Number & Comparable<? super T>> IComparableDBColumn<?> count(IComparableDBColumn<?> c){
-		return c.count();
+	public static INumberDBColumn<Long> count(IComparableDBColumn<?> c){
+		INumberDBColumn<Long> nc = new NumberDBColumnImpl<>(c.getTable(), c.getName());
+		return nc.count();
 	}
 	 
 	//--->numeric functions

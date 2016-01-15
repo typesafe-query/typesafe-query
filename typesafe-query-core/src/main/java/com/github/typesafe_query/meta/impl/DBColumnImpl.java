@@ -35,6 +35,10 @@ public abstract class DBColumnImpl<T> implements IDBColumn<T> {
 
 	private List<Func> funcs;
 	
+	public DBColumnImpl() {
+		
+	}
+	
 	public DBColumnImpl(IDBTable table,String name) {
 		this.table = table;
 		this.name = name;
