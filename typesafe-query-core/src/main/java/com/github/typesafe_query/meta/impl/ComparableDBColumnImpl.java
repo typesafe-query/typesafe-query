@@ -10,9 +10,9 @@ import com.github.typesafe_query.query.Case;
 import com.github.typesafe_query.query.Exp;
 import com.github.typesafe_query.query.Func;
 import com.github.typesafe_query.query.Order;
+import com.github.typesafe_query.query.Order.Type;
 import com.github.typesafe_query.query.Param;
 import com.github.typesafe_query.query.TypesafeQuery;
-import com.github.typesafe_query.query.Order.Type;
 import com.github.typesafe_query.query.internal.OrderImpl;
 import com.github.typesafe_query.query.internal.expression.BetweenExp;
 import com.github.typesafe_query.query.internal.expression.GeExp;
@@ -25,6 +25,7 @@ import com.github.typesafe_query.query.internal.expression.LtExp;
 import com.github.typesafe_query.query.internal.expression.NotBetweenExp;
 import com.github.typesafe_query.query.internal.expression.NotInExp;
 import com.github.typesafe_query.query.internal.function.CoalesceFunc;
+import com.github.typesafe_query.query.internal.function.CountFunc;
 
 /**
  * @author Takahiko Sato(MOSA architect Inc.)
@@ -267,6 +268,11 @@ public abstract class ComparableDBColumnImpl<T extends Comparable<? super T>> ex
 		return new NotInExp<T>(this, query);
 	}
 
+	@Override
+	public IComparableDBColumn<T> count() {
+		return addFunc(new CountFunc());
+	}
+	
 	@Override
 	public Order asc() {
 		return new OrderImpl(this, Type.ASC);
