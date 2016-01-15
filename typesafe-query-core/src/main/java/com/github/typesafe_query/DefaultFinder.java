@@ -121,11 +121,18 @@ public class DefaultFinder<I,T> implements Finder<I, T>{
 	 * @return 件数
 	 */
 	@Override
-	public long countWhere(Exp exp){
-		if(exp == null){
+	public long countWhere(Exp... expressions){
+		if(expressions == null || expressions.length == 0){
 			return count();
 		}
 		String sql = String.format(SQL_TEMPLATE_COUNT, root.getName() + " " + root.getAlias());
+		
+		Exp exp;
+		if(expressions.length == 1){
+			exp = expressions[0];
+		}else{
+			exp = Q.and(expressions);
+		}
 		
 		DefaultQueryContext context = new DefaultQueryContext(root);
 		String p = exp.getSQL(context);
@@ -191,8 +198,8 @@ public class DefaultFinder<I,T> implements Finder<I, T>{
 	}
 	
 	@Override
-	public T requiredWhere(Exp expression){
-		return where(expression).orElseThrow(() -> new RuntimeException("Record is required but no result."));
+	public T requiredWhere(Exp... expressions){
+		return where(expressions).orElseThrow(() -> new RuntimeException("Record is required but no result."));
 	}
 	
 	/**
@@ -201,10 +208,10 @@ public class DefaultFinder<I,T> implements Finder<I, T>{
 	 * @return 1件の結果
 	 */
 	@Override
-	public Optional<T> where(Exp expression){
+	public Optional<T> where(Exp... expressions){
 		return Q.select()
 				.from(root)
-				.where(expression)
+				.where(expressions)
 				.forOnce()
 				.getResult(modelClass);
 	}
