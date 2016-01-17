@@ -10,7 +10,7 @@ import com.github.typesafe_query.query.internal.DefaultQueryContext;
 
 /**
  * 一括更新、一括削除をするためのクラスです。
- * TODO v0.x.x バッチ用インスタンスを作成するファクトリメソッドを追加する？
+ * TODO v0.x.x バッチ用インスタンスを作成するファクトリメソッドを追加する？ #23
  * @author Takahiko Sato(MOSA Architect Inc.)
  *
  */

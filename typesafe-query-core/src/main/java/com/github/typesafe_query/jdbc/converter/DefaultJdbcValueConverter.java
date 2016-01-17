@@ -23,7 +23,7 @@ public class DefaultJdbcValueConverter implements JdbcValueConverter{
 	private static final Set<Class<?>> JDBC_CLASSES = new HashSet<>();
 	
 	static{
-		//TODO v0.3.x CLOB BLOB XMLなど
+		//TODO v0.3.x CLOB BLOB XMLなど #6
 		JDBC_CLASSES.add(String.class);
 		JDBC_CLASSES.add(Short.class);
 		JDBC_CLASSES.add(Integer.class);

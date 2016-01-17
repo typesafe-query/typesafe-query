@@ -4,7 +4,7 @@ import java.io.Closeable;
 import java.sql.Connection;
 
 /**
- * FIXME v0.x.x これもっといい方法ないものか
+ * FIXME v0.x.x これもっといい方法ないものか #32
  * Play!Frameworkを参考にした。あれはThreadLocalで管理してたはず。1系だけど。
  * @author Takahiko Sato(MOSA architect Inc.)
  *
