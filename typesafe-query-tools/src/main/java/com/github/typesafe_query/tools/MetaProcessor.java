@@ -194,15 +194,24 @@ public class MetaProcessor extends AbstractProcessor {
 		metaClass.addField(_fld);
 
 		JavaClass _desc = new JavaClass(PACKAGE_NAME + ".ModelDescription");
+		_desc.setGenericTypes(new JavaClass[]{new JavaClass(te.getSimpleName().toString())});
 		
 		Field _dsc = new Field("_DESC");
 		_dsc.setQualifier(Qualifiers.PRIVATE);
 		_dsc.setStatical(true);
 		_dsc.setFinal(true);
 		_dsc.setType(_desc);
-		_dsc.setInitializeString("new ModelDescription("+ te.getSimpleName().toString() +".class, _FIELDS)");
+		_dsc.setInitializeString("new ModelDescription<>("+ te.getSimpleName().toString() +".class,TABLE,_FIELDS)");
 
 		metaClass.addField(_dsc);
+		
+		Method dm = new Method("description");
+		dm.setQualifier(Qualifiers.PUBLIC);
+		dm.setStatical(true);
+		dm.setReturnType(_desc);
+		dm.addBodyLine("return _DESC;");
+		
+		metaClass.addMethod(dm);
 		
 		//ModelHandler,Finder,Bulkを定義する。
 		JavaClass modelHandler = new JavaClass(PACKAGE_NAME + ".ModelHandler");
@@ -213,8 +222,9 @@ public class MetaProcessor extends AbstractProcessor {
 		mf.setStatical(true);
 		mf.setFinal(true);
 		mf.setType(modelHandler);
-		mf.setInitializeString("new ModelHandler<"+te.getSimpleName().toString()+">(" + te.getSimpleName().toString() +".class,TABLE,_DESC)");
-
+		mf.setInitializeString("new DefaultModelHandler<>(_DESC)");
+		
+		metaClass.addImport(new JavaClass(PACKAGE_NAME + ".DefaultModelHandler"));
 		metaClass.addField(mf);
 		
 		Method mm = new Method("model");
@@ -232,7 +242,7 @@ public class MetaProcessor extends AbstractProcessor {
 		mmr.setQualifier(Qualifiers.PUBLIC);
 		mmr.setStatical(true);
 		mmr.setReturnType(reusableModelHandler);
-		mmr.addBodyLine("return new ReusableModelHandler<>"+"(" + te.getSimpleName().toString() +".class,TABLE,_DESC);");
+		mmr.addBodyLine("return new ReusableModelHandler<>"+"(_DESC);");
 		
 		metaClass.addMethod(mmr);
 
@@ -244,7 +254,7 @@ public class MetaProcessor extends AbstractProcessor {
 		ff.setStatical(true);
 		ff.setFinal(true);
 		ff.setType(finder);
-		ff.setInitializeString("new DefaultFinder<"+idClass+","+te.getSimpleName().toString()+">(" + te.getSimpleName().toString() +".class,TABLE,_DESC)");
+		ff.setInitializeString("new DefaultFinder<>(_DESC)");
 
 		metaClass.addImport(new JavaClass(PACKAGE_NAME + ".DefaultFinder"));
 		
