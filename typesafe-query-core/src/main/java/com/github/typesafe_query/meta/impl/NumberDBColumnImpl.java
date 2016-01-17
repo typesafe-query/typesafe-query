@@ -14,6 +14,7 @@ import com.github.typesafe_query.query.Func;
 import com.github.typesafe_query.query.TypesafeQuery;
 import com.github.typesafe_query.query.internal.function.AbsFunc;
 import com.github.typesafe_query.query.internal.function.AvgFunc;
+import com.github.typesafe_query.query.internal.function.CountFunc;
 import com.github.typesafe_query.query.internal.function.MaxFunc;
 import com.github.typesafe_query.query.internal.function.MinFunc;
 import com.github.typesafe_query.query.internal.function.SqrtFunc;
@@ -87,6 +88,13 @@ public class NumberDBColumnImpl<T extends Number & Comparable<? super T>> extend
 		return c;
 	}
 
+	@Override
+	public NumberDBColumn<Long> count() {
+		NumberDBColumnImpl<Long> c = new NumberDBColumnImpl<Long>(this);
+		c.add(new CountFunc());
+		return c;
+	}
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public <V extends DBColumn<T>> V createFromTableAlias(String tableAlias) {
