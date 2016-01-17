@@ -1,6 +1,6 @@
 package com.github.typesafe_query.query.internal.sql;
 
-import com.github.typesafe_query.meta.IDBTable;
+import com.github.typesafe_query.meta.DBTable;
 import com.github.typesafe_query.query.Exp;
 import com.github.typesafe_query.query.SQLBuilder;
 import com.github.typesafe_query.query.internal.DefaultQueryContext;
@@ -8,7 +8,7 @@ import com.github.typesafe_query.query.internal.DefaultQueryContext;
 public class DefaultSQLBuilder implements SQLBuilder{
 
 	@Override
-	public String createDeleteSQL(IDBTable root, Exp exp) {
+	public String createDeleteSQL(DBTable root, Exp exp) {
 		StringBuilder sb = new StringBuilder();
 		sb
 			.append("DELETE FROM ")

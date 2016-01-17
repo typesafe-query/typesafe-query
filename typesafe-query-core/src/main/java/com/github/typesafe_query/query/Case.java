@@ -4,17 +4,17 @@ import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
 
-import com.github.typesafe_query.meta.IBooleanDBColumn;
-import com.github.typesafe_query.meta.IDateDBColumn;
-import com.github.typesafe_query.meta.INumberDBColumn;
-import com.github.typesafe_query.meta.IStringDBColumn;
+import com.github.typesafe_query.meta.BooleanDBColumn;
+import com.github.typesafe_query.meta.DateDBColumn;
+import com.github.typesafe_query.meta.NumberDBColumn;
+import com.github.typesafe_query.meta.StringDBColumn;
 
 public interface Case {
 	String getSQL(QueryContext context);
-	IStringDBColumn endAsStringColumn();
-	IDateDBColumn<Date> endAsDateColumn();
-	IDateDBColumn<Timestamp> endAsTimestampColumn();
-	IDateDBColumn<Time> endAsTimeColumn();
-	IBooleanDBColumn endAsBooleanColumn();
-	<N extends Number & Comparable<? super N>> INumberDBColumn<N> endAsNumberColumn();
+	StringDBColumn endAsStringColumn();
+	DateDBColumn<Date> endAsDateColumn();
+	DateDBColumn<Timestamp> endAsTimestampColumn();
+	DateDBColumn<Time> endAsTimeColumn();
+	BooleanDBColumn endAsBooleanColumn();
+	<N extends Number & Comparable<? super N>> NumberDBColumn<N> endAsNumberColumn();
 }

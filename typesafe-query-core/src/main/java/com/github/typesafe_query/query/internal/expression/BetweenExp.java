@@ -3,7 +3,7 @@
  */
 package com.github.typesafe_query.query.internal.expression;
 
-import com.github.typesafe_query.meta.IDBColumn;
+import com.github.typesafe_query.meta.DBColumn;
 import com.github.typesafe_query.query.Exp;
 import com.github.typesafe_query.query.Param;
 import com.github.typesafe_query.query.QueryContext;
@@ -14,15 +14,15 @@ import com.github.typesafe_query.query.internal.QueryUtils;
  *
  */
 public class BetweenExp<T extends Comparable<? super T>> implements Exp {
-	private IDBColumn<T> left;
-	private IDBColumn<T> from;
-	private IDBColumn<T> to;
+	private DBColumn<T> left;
+	private DBColumn<T> from;
+	private DBColumn<T> to;
 	private T fromObject;
 	private T toObject;
 	private Param fromParam;
 	private Param toParam;
 
-	public BetweenExp(IDBColumn<T> left, IDBColumn<T> from, IDBColumn<T> to) {
+	public BetweenExp(DBColumn<T> left, DBColumn<T> from, DBColumn<T> to) {
 		if(left == null || from == null || to == null){
 			throw new NullPointerException();
 		}
@@ -31,7 +31,7 @@ public class BetweenExp<T extends Comparable<? super T>> implements Exp {
 		this.to = to;
 	}
 	
-	public BetweenExp(IDBColumn<T> left, IDBColumn<T> from, T toObject) {
+	public BetweenExp(DBColumn<T> left, DBColumn<T> from, T toObject) {
 		if(left == null || from == null){
 			throw new NullPointerException();
 		}
@@ -40,7 +40,7 @@ public class BetweenExp<T extends Comparable<? super T>> implements Exp {
 		this.toObject = toObject;
 	}
 	
-	public BetweenExp(IDBColumn<T> left, T fromObject, IDBColumn<T> to) {
+	public BetweenExp(DBColumn<T> left, T fromObject, DBColumn<T> to) {
 		if(left == null || to == null){
 			throw new NullPointerException();
 		}
@@ -49,7 +49,7 @@ public class BetweenExp<T extends Comparable<? super T>> implements Exp {
 		this.to = to;
 	}
 	
-	public BetweenExp(IDBColumn<T> left, T fromObject, T toObject) {
+	public BetweenExp(DBColumn<T> left, T fromObject, T toObject) {
 		if(left == null){
 			throw new NullPointerException();
 		}
@@ -58,7 +58,7 @@ public class BetweenExp<T extends Comparable<? super T>> implements Exp {
 		this.toObject = toObject;
 	}
 	
-	public BetweenExp(IDBColumn<T> left, T fromObject, Param toParam) {
+	public BetweenExp(DBColumn<T> left, T fromObject, Param toParam) {
 		if(left == null){
 			throw new NullPointerException();
 		}
@@ -67,7 +67,7 @@ public class BetweenExp<T extends Comparable<? super T>> implements Exp {
 		this.toParam = toParam;
 	}
 	
-	public BetweenExp(IDBColumn<T> left, Param fromParam, T toObject) {
+	public BetweenExp(DBColumn<T> left, Param fromParam, T toObject) {
 		if(left == null){
 			throw new NullPointerException();
 		}
@@ -76,7 +76,7 @@ public class BetweenExp<T extends Comparable<? super T>> implements Exp {
 		this.toObject = toObject;
 	}
 	
-	public BetweenExp(IDBColumn<T> left, Param fromParam, IDBColumn<T> to) {
+	public BetweenExp(DBColumn<T> left, Param fromParam, DBColumn<T> to) {
 		if(left == null || to == null){
 			throw new NullPointerException();
 		}
@@ -85,7 +85,7 @@ public class BetweenExp<T extends Comparable<? super T>> implements Exp {
 		this.to = to;
 	}
 	
-	public BetweenExp(IDBColumn<T> left, IDBColumn<T> from, Param toParam) {
+	public BetweenExp(DBColumn<T> left, DBColumn<T> from, Param toParam) {
 		if(left == null || toParam == null){
 			throw new NullPointerException();
 		}
@@ -94,7 +94,7 @@ public class BetweenExp<T extends Comparable<? super T>> implements Exp {
 		this.toParam = toParam;
 	}
 
-	public BetweenExp(IDBColumn<T> left, Param fromParam, Param toParam) {
+	public BetweenExp(DBColumn<T> left, Param fromParam, Param toParam) {
 		if(left == null || toParam == null){
 			throw new NullPointerException();
 		}

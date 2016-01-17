@@ -3,9 +3,9 @@
  */
 package com.github.typesafe_query.meta.impl;
 
-import com.github.typesafe_query.meta.IComparableDBColumn;
-import com.github.typesafe_query.meta.IDBColumn;
-import com.github.typesafe_query.meta.IDBTable;
+import com.github.typesafe_query.meta.ComparableDBColumn;
+import com.github.typesafe_query.meta.DBColumn;
+import com.github.typesafe_query.meta.DBTable;
 import com.github.typesafe_query.query.Case;
 import com.github.typesafe_query.query.Exp;
 import com.github.typesafe_query.query.Func;
@@ -31,9 +31,9 @@ import com.github.typesafe_query.query.internal.function.CoalesceFunc;
  *
  */
 public abstract class ComparableDBColumnImpl<T extends Comparable<? super T>> extends DBColumnImpl<T> implements
-		IComparableDBColumn<T> {
+		ComparableDBColumn<T> {
 
-	public ComparableDBColumnImpl(IDBTable table, String name) {
+	public ComparableDBColumnImpl(DBTable table, String name) {
 		super(table, name);
 	}
 	
@@ -45,28 +45,28 @@ public abstract class ComparableDBColumnImpl<T extends Comparable<? super T>> ex
 		super(case_);
 	}
 
-	protected ComparableDBColumnImpl(IDBColumn<?> wrap) {
+	protected ComparableDBColumnImpl(DBColumn<?> wrap) {
 		super(wrap);
 	}
 	
-	protected ComparableDBColumnImpl(IDBColumn<?> wrap, String otherName) {
+	protected ComparableDBColumnImpl(DBColumn<?> wrap, String otherName) {
 		super(wrap, otherName);
 	}
 
-	protected abstract <C extends IComparableDBColumn<T>> C addFunc(Func func);
+	protected abstract <C extends ComparableDBColumn<T>> C addFunc(Func func);
 
 	@Override
-	public <C extends IComparableDBColumn<T>> C coalesce(C c) {
+	public <C extends ComparableDBColumn<T>> C coalesce(C c) {
 		return addFunc(new CoalesceFunc(c));
 	}
 
 	@Override
-	public <C extends IComparableDBColumn<T>> C coalesce(T t) {
+	public <C extends ComparableDBColumn<T>> C coalesce(T t) {
 		return addFunc(new CoalesceFunc(t));
 	}
 
 	@Override
-	public Exp gt(IComparableDBColumn<T> c) {
+	public Exp gt(ComparableDBColumn<T> c) {
 		return new GtExp<T>(this, c);
 	}
 
@@ -86,7 +86,7 @@ public abstract class ComparableDBColumnImpl<T extends Comparable<? super T>> ex
 	}
 
 	@Override
-	public Exp lt(IComparableDBColumn<T> c) {
+	public Exp lt(ComparableDBColumn<T> c) {
 		return new LtExp<T>(this, c);
 	}
 
@@ -106,7 +106,7 @@ public abstract class ComparableDBColumnImpl<T extends Comparable<? super T>> ex
 	}
 
 	@Override
-	public Exp ge(IComparableDBColumn<T> c) {
+	public Exp ge(ComparableDBColumn<T> c) {
 		return new GeExp<T>(this, c);
 	}
 
@@ -126,7 +126,7 @@ public abstract class ComparableDBColumnImpl<T extends Comparable<? super T>> ex
 	}
 
 	@Override
-	public Exp le(IComparableDBColumn<T> c) {
+	public Exp le(ComparableDBColumn<T> c) {
 		return new LeExp<T>(this, c);
 	}
 
@@ -156,17 +156,17 @@ public abstract class ComparableDBColumnImpl<T extends Comparable<? super T>> ex
 	}
 
 	@Override
-	public Exp between(IComparableDBColumn<T> from, IComparableDBColumn<T> to) {
+	public Exp between(ComparableDBColumn<T> from, ComparableDBColumn<T> to) {
 		return new BetweenExp<T>(this, from, to);
 	}
 
 	@Override
-	public Exp between(IComparableDBColumn<T> from, T to) {
+	public Exp between(ComparableDBColumn<T> from, T to) {
 		return new BetweenExp<T>(this, from, to);
 	}
 
 	@Override
-	public Exp between(T from, IComparableDBColumn<T> to) {
+	public Exp between(T from, ComparableDBColumn<T> to) {
 		return new BetweenExp<T>(this, from, to);
 	}
 
@@ -176,7 +176,7 @@ public abstract class ComparableDBColumnImpl<T extends Comparable<? super T>> ex
 	}
 	
 	@Override
-	public Exp between(IComparableDBColumn<T> from, Param to) {
+	public Exp between(ComparableDBColumn<T> from, Param to) {
 		return new BetweenExp<T>(this, from, to);
 	}
 
@@ -186,7 +186,7 @@ public abstract class ComparableDBColumnImpl<T extends Comparable<? super T>> ex
 	}
 
 	@Override
-	public Exp between(Param from, IComparableDBColumn<T> to) {
+	public Exp between(Param from, ComparableDBColumn<T> to) {
 		return new BetweenExp<T>(this, from, to);
 	}
 
@@ -201,17 +201,17 @@ public abstract class ComparableDBColumnImpl<T extends Comparable<? super T>> ex
 	}
 
 	@Override
-	public Exp notBetween(IComparableDBColumn<T> from, IComparableDBColumn<T> to) {
+	public Exp notBetween(ComparableDBColumn<T> from, ComparableDBColumn<T> to) {
 		return new NotBetweenExp<T>(this, from, to);
 	}
 
 	@Override
-	public Exp notBetween(IComparableDBColumn<T> from, T to) {
+	public Exp notBetween(ComparableDBColumn<T> from, T to) {
 		return new NotBetweenExp<T>(this, from, to);
 	}
 
 	@Override
-	public Exp notBetween(T from, IComparableDBColumn<T> to) {
+	public Exp notBetween(T from, ComparableDBColumn<T> to) {
 		return new NotBetweenExp<T>(this, from, to);
 	}
 
@@ -221,7 +221,7 @@ public abstract class ComparableDBColumnImpl<T extends Comparable<? super T>> ex
 	}
 
 	@Override
-	public Exp notBetween(IComparableDBColumn<T> from, Param to) {
+	public Exp notBetween(ComparableDBColumn<T> from, Param to) {
 		return new NotBetweenExp<T>(this, from, to);
 	}
 
@@ -231,7 +231,7 @@ public abstract class ComparableDBColumnImpl<T extends Comparable<? super T>> ex
 	}
 
 	@Override
-	public Exp notBetween(Param from, IComparableDBColumn<T> to) {
+	public Exp notBetween(Param from, ComparableDBColumn<T> to) {
 		return new NotBetweenExp<T>(this, from, to);
 	}
 

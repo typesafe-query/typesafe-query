@@ -3,10 +3,10 @@
  */
 package com.github.typesafe_query.meta.impl;
 
-import com.github.typesafe_query.meta.IComparableDBColumn;
-import com.github.typesafe_query.meta.IDBColumn;
-import com.github.typesafe_query.meta.IDBTable;
-import com.github.typesafe_query.meta.IDateDBColumn;
+import com.github.typesafe_query.meta.ComparableDBColumn;
+import com.github.typesafe_query.meta.DBColumn;
+import com.github.typesafe_query.meta.DBTable;
+import com.github.typesafe_query.meta.DateDBColumn;
 import com.github.typesafe_query.query.Case;
 import com.github.typesafe_query.query.Func;
 import com.github.typesafe_query.query.TypesafeQuery;
@@ -16,9 +16,9 @@ import com.github.typesafe_query.query.TypesafeQuery;
  *
  */
 public class DateDBColumnImpl<T extends Comparable<? super T>> extends ComparableDBColumnImpl<T> implements
-		IDateDBColumn<T> {
+		DateDBColumn<T> {
 
-	public DateDBColumnImpl(IDBTable table, String name) {
+	public DateDBColumnImpl(DBTable table, String name) {
 		super(table, name);
 	}
 	
@@ -30,17 +30,17 @@ public class DateDBColumnImpl<T extends Comparable<? super T>> extends Comparabl
 		super(case_);
 	}
 
-	protected DateDBColumnImpl(IDBColumn<?> wrap) {
+	protected DateDBColumnImpl(DBColumn<?> wrap) {
 		super(wrap);
 	}
 	
-	protected DateDBColumnImpl(IDBColumn<?> wrap, String otherName) {
+	protected DateDBColumnImpl(DBColumn<?> wrap, String otherName) {
 		super(wrap, otherName);
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	protected <C extends IComparableDBColumn<T>> C addFunc(Func func) {
+	protected <C extends ComparableDBColumn<T>> C addFunc(Func func) {
 		DateDBColumnImpl<T> wrap = new DateDBColumnImpl<T>(this);
 		wrap.add(func);
 		return (C)func;
@@ -48,12 +48,12 @@ public class DateDBColumnImpl<T extends Comparable<? super T>> extends Comparabl
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <V extends IDBColumn<T>> V createFromTableAlias(String tableAlias) {
+	public <V extends DBColumn<T>> V createFromTableAlias(String tableAlias) {
 		return (V)new DateDBColumnImpl<T>(new DBTableImpl(getTable().getName(), tableAlias), getName());
 	}
 
 	@Override
-	public IDBColumn<T> as(String otherName) {
+	public DBColumn<T> as(String otherName) {
 		return new DateDBColumnImpl<T>(this, otherName);
 	}
 }

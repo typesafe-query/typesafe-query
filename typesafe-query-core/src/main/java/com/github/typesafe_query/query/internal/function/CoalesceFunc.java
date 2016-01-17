@@ -3,7 +3,7 @@
  */
 package com.github.typesafe_query.query.internal.function;
 
-import com.github.typesafe_query.meta.IDBColumn;
+import com.github.typesafe_query.meta.DBColumn;
 import com.github.typesafe_query.query.Func;
 import com.github.typesafe_query.query.QueryContext;
 import com.github.typesafe_query.query.internal.QueryUtils;
@@ -14,10 +14,10 @@ import com.github.typesafe_query.query.internal.QueryUtils;
  */
 public class CoalesceFunc implements Func {
 	
-	private IDBColumn<?> defValue;
+	private DBColumn<?> defValue;
 	private Object defObject;
 	
-	public CoalesceFunc(IDBColumn<?> defValue) {
+	public CoalesceFunc(DBColumn<?> defValue) {
 		this.defValue = defValue;
 	}
 	public CoalesceFunc(Object defObject) {

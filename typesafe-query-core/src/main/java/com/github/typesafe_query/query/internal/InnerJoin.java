@@ -4,7 +4,7 @@
 package com.github.typesafe_query.query.internal;
 
 
-import com.github.typesafe_query.meta.IDBTable;
+import com.github.typesafe_query.meta.DBTable;
 import com.github.typesafe_query.query.Exp;
 import com.github.typesafe_query.query.Join;
 
@@ -14,13 +14,13 @@ import com.github.typesafe_query.query.Join;
  */
 public class InnerJoin<T> implements Join<T> {
 	
-	private IDBTable joinTable;
+	private DBTable joinTable;
 	
 	private T query;
 	
 	private Exp on;
 	
-	public InnerJoin(IDBTable joinTable,T query) {
+	public InnerJoin(DBTable joinTable,T query) {
 		this.joinTable = joinTable;
 		this.query = query;
 	}
@@ -32,7 +32,7 @@ public class InnerJoin<T> implements Join<T> {
 	}
 
 	@Override
-	public IDBTable getTargetTable() {
+	public DBTable getTargetTable() {
 		return joinTable;
 	}
 

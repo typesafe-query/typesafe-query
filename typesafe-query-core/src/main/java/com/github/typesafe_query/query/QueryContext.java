@@ -4,8 +4,8 @@
 package com.github.typesafe_query.query;
 
 
-import com.github.typesafe_query.meta.IDBColumn;
-import com.github.typesafe_query.meta.IDBTable;
+import com.github.typesafe_query.meta.DBColumn;
+import com.github.typesafe_query.meta.DBTable;
 
 /**
  * クエリコンテキストです。
@@ -18,21 +18,21 @@ public interface QueryContext {
 	 * クエリのルートテーブルを返します。
 	 * @return ルートテーブル
 	 */
-	IDBTable getRoot();
+	DBTable getRoot();
 	
 	/**
 	 * テーブルエイリアス付きのカラム文字列を返します。
 	 * @param path カラム
 	 * @return カラム文字列表現
 	 */
-	String getColumnPath(IDBColumn<?> path);
+	String getColumnPath(DBColumn<?> path);
 	
 	/**
 	 * カラムが所属するテーブルを返します。
 	 * @param column カラム
 	 * @return テーブル
 	 */
-	IDBTable getFrom(IDBColumn<?> column);
+	DBTable getFrom(DBColumn<?> column);
 	
-	void addFrom(IDBTable table);
+	void addFrom(DBTable table);
 }

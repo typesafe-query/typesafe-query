@@ -9,7 +9,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import com.github.typesafe_query.meta.IDBTable;
+import com.github.typesafe_query.meta.DBTable;
 import com.github.typesafe_query.meta.impl.DBTableImpl;
 import com.github.typesafe_query.meta.impl.StringDBColumnImpl;
 import com.github.typesafe_query.query.Exp;
@@ -25,7 +25,7 @@ public class IsNotNullExpTest{
 	
 	@Test
 	public void ok_withColumn(){
-		IDBTable t = new DBTableImpl("table1");
+		DBTable t = new DBTableImpl("table1");
 		Exp exp = new IsNotNullExp<String>(new StringDBColumnImpl(t,"name"));
 		
 		QueryContext context = new DefaultQueryContext(t);
