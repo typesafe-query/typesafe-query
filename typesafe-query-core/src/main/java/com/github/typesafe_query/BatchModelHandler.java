@@ -1,15 +1,14 @@
 package com.github.typesafe_query;
 
 import static com.github.typesafe_query.Q.*;
-import com.github.typesafe_query.meta.DBTable;
 import com.github.typesafe_query.query.BatchQueryExecutor;
 import com.github.typesafe_query.query.QueryExecutor;
 
 @Beta
 public class BatchModelHandler<T> extends ReusableModelHandler<T>{
 
-	public BatchModelHandler(Class<T> modelClass, DBTable table, ModelDescription description) {
-		super(modelClass, table, description);
+	public BatchModelHandler(ModelDescription<T> description) {
+		super(description);
 	}
 
 	@Override

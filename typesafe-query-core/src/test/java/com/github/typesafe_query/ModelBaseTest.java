@@ -20,7 +20,7 @@ import com.github.typesafe_query.util.SQLUtils;
 import com.sample.model.ApUser;
 import com.sample.model.ApUser_;
 
-public class ModelHandlerTest {
+public class ModelBaseTest {
 	
 	private Connection con;
 	
@@ -65,22 +65,16 @@ public class ModelHandlerTest {
 		
 		//キー重複
 		try {
-			ApUser_.model().create(user);
+			user.create();
 			fail();
 		} catch (QueryException e) {
 		}
 		
 		//NOT NULL項目
 		try {
-			ApUser_.model().create(new ApUser());
+			new ApUser().create();
 			fail();
 		} catch (QueryException e) {
-		}
-		
-		try {
-			ApUser_.model().create(null);
-			fail();
-		} catch (NullPointerException e) {
 		}
 	}
 	
@@ -105,17 +99,10 @@ public class ModelHandlerTest {
 		//キー無し
 		u.setUserId(null);
 		try {
-			ApUser_.model().save(u);
+			u.save();
 			fail();
 		} catch (QueryException e) {
 		}
-		
-		try {
-			ApUser_.model().save(null);
-			fail();
-		} catch (NullPointerException e) {
-		}
-		
 	}
 	
 	@Test
@@ -123,24 +110,9 @@ public class ModelHandlerTest {
 		Optional<ApUser> user = ApUser_.find().byId("A2");
 		ApUser u = user.get();
 		
-		ApUser_.model().delete(u);
+		u.delete();
 		
 		Optional<ApUser> deleted = ApUser_.find().byId("A2");
 		assertThat(deleted, is(Optional.<ApUser>empty()));
-		
-		//キー無し
-		u.setUserId(null);
-		try {
-			ApUser_.model().delete(u);
-			fail();
-		} catch (QueryException e) {
-		}
-		
-		try {
-			ApUser_.model().delete(null);
-			fail();
-		} catch (NullPointerException e) {
-		}
-		
 	}
 }
