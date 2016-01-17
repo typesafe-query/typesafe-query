@@ -3,7 +3,7 @@
  */
 package com.github.typesafe_query.query.internal.expression;
 
-import com.github.typesafe_query.meta.IDBColumn;
+import com.github.typesafe_query.meta.DBColumn;
 import com.github.typesafe_query.query.Param;
 import com.github.typesafe_query.query.TypesafeQuery;
 
@@ -13,19 +13,19 @@ import com.github.typesafe_query.query.TypesafeQuery;
  */
 public class LtExp<T extends Comparable<? super T>> extends ComparableExp<T> {
 
-	public LtExp(IDBColumn<T> left, IDBColumn<T> right) {
+	public LtExp(DBColumn<T> left, DBColumn<T> right) {
 		super(left, right);
 	}
 
-	public LtExp(IDBColumn<T> left, T right) {
+	public LtExp(DBColumn<T> left, T right) {
 		super(left, right);
 	}
 	
-	public LtExp(IDBColumn<T> left, Param right) {
+	public LtExp(DBColumn<T> left, Param right) {
 		super(left, right);
 	}
 
-	public LtExp(IDBColumn<T> left, TypesafeQuery right) {
+	public LtExp(DBColumn<T> left, TypesafeQuery right) {
 		super(left, right);
 	}
 

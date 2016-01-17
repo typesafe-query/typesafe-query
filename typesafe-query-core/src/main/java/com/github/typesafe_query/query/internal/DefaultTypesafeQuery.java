@@ -13,12 +13,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.github.typesafe_query.Q;
-import com.github.typesafe_query.meta.IBooleanDBColumn;
-import com.github.typesafe_query.meta.IDBColumn;
-import com.github.typesafe_query.meta.IDBTable;
-import com.github.typesafe_query.meta.IDateDBColumn;
-import com.github.typesafe_query.meta.INumberDBColumn;
-import com.github.typesafe_query.meta.IStringDBColumn;
+import com.github.typesafe_query.meta.BooleanDBColumn;
+import com.github.typesafe_query.meta.DBColumn;
+import com.github.typesafe_query.meta.DBTable;
+import com.github.typesafe_query.meta.DateDBColumn;
+import com.github.typesafe_query.meta.NumberDBColumn;
+import com.github.typesafe_query.meta.StringDBColumn;
 import com.github.typesafe_query.meta.impl.BooleanDBColumnImpl;
 import com.github.typesafe_query.meta.impl.DBTableImpl;
 import com.github.typesafe_query.meta.impl.DateDBColumnImpl;
@@ -41,9 +41,9 @@ public class DefaultTypesafeQuery extends AbstractSQLQuery implements TypesafeQu
 	private static final String ROWNUM_TEMPATE_BOTH = "SELECT E.* FROM (%s) E WHERE E.RN BETWEEN %d AND %d";
 	private static final String ROWNUM_TEMPATE_NOLIMIT = "SELECT E.* FROM (%s) E WHERE E.RN >= %d";
 	
-	private IDBColumn<?>[] select;
+	private DBColumn<?>[] select;
 	
-	private IDBTable from;
+	private DBTable from;
 	
 	private boolean distinct;
 	
@@ -53,7 +53,7 @@ public class DefaultTypesafeQuery extends AbstractSQLQuery implements TypesafeQu
 	
 	private Exp where;
 	
-	private IDBColumn<?>[] groupBy;
+	private DBColumn<?>[] groupBy;
 	
 	private Order[] orderBy;
 	
@@ -65,22 +65,22 @@ public class DefaultTypesafeQuery extends AbstractSQLQuery implements TypesafeQu
 	private String sql;
 	
 	public DefaultTypesafeQuery() {
-		this(new IDBColumn<?>[0]);
+		this(new DBColumn<?>[0]);
 	}
 
-	public DefaultTypesafeQuery(IDBColumn<?>... columns) {
+	public DefaultTypesafeQuery(DBColumn<?>... columns) {
 		this.joins = new ArrayList<Join<TypesafeQuery>>();
 		this.select = columns;
 	}
 
 	@Override
-	public TypesafeQuery from(IDBTable root) {
+	public TypesafeQuery from(DBTable root) {
 		this.from = root;
 		return this;
 	}
 
 	@Override
-	public TypesafeQuery from(IDBTable root, String alias) {
+	public TypesafeQuery from(DBTable root, String alias) {
 		return from(new DBTableImpl(root.getName(), alias));
 	}
 
@@ -97,26 +97,26 @@ public class DefaultTypesafeQuery extends AbstractSQLQuery implements TypesafeQu
 	}
 	
 	@Override
-	public Join<TypesafeQuery> innerJoin(IDBTable joinTable) {
+	public Join<TypesafeQuery> innerJoin(DBTable joinTable) {
 		Join<TypesafeQuery> join = new InnerJoin<TypesafeQuery>(joinTable,this);
 		joins.add(join);
 		return join;
 	}
 	
 	@Override
-	public Join<TypesafeQuery> innerJoin(IDBTable joinTable, String alias) {
+	public Join<TypesafeQuery> innerJoin(DBTable joinTable, String alias) {
 		return innerJoin(new DBTableImpl(joinTable.getName(), alias));
 	}
 
 	@Override
-	public Join<TypesafeQuery> outerJoin(IDBTable joinTable) {
+	public Join<TypesafeQuery> outerJoin(DBTable joinTable) {
 		Join<TypesafeQuery> join = new OuterJoin<TypesafeQuery>(joinTable,this);
 		joins.add(join);
 		return join;
 	}
 
 	@Override
-	public Join<TypesafeQuery> outerJoin(IDBTable joinTable, String alias) {
+	public Join<TypesafeQuery> outerJoin(DBTable joinTable, String alias) {
 		return outerJoin(new DBTableImpl(joinTable.getName(), alias));
 	}
 
@@ -133,7 +133,7 @@ public class DefaultTypesafeQuery extends AbstractSQLQuery implements TypesafeQu
 	}
 
 	@Override
-	public TypesafeQuery groupBy(IDBColumn<?>... columns) {
+	public TypesafeQuery groupBy(DBColumn<?>... columns) {
 		this.groupBy = columns;
 		return this;
 	}
@@ -169,52 +169,52 @@ public class DefaultTypesafeQuery extends AbstractSQLQuery implements TypesafeQu
 	}
 	
 	@Override
-	public IDBTable as(String alias) {
+	public DBTable as(String alias) {
 		return new DBTableImpl(new SubQueryDBTableImpl(this,from),alias);
 	}
 
 	@Override
-	public IStringDBColumn asStringColumn() {
+	public StringDBColumn asStringColumn() {
 		return new StringDBColumnImpl(this);
 	}
 
 	@Override
-	public IDateDBColumn<LocalDate> asLocalDateColumn() {
+	public DateDBColumn<LocalDate> asLocalDateColumn() {
 		return new DateDBColumnImpl<LocalDate>(this);
 	}
 
 	@Override
-	public IDateDBColumn<LocalTime> asLocalTimeColumn() {
+	public DateDBColumn<LocalTime> asLocalTimeColumn() {
 		return new DateDBColumnImpl<LocalTime>(this);
 	}
 
 	@Override
-	public IDateDBColumn<LocalDateTime> asLocalDateTimeColumn() {
+	public DateDBColumn<LocalDateTime> asLocalDateTimeColumn() {
 		return new DateDBColumnImpl<LocalDateTime>(this);
 	}
 
 	@Override
-	public IDateDBColumn<Date> asDateColumn() {
+	public DateDBColumn<Date> asDateColumn() {
 		return new DateDBColumnImpl<Date>(this);
 	}
 
 	@Override
-	public IDateDBColumn<Timestamp> asTimestampColumn() {
+	public DateDBColumn<Timestamp> asTimestampColumn() {
 		return new DateDBColumnImpl<Timestamp>(this);
 	}
 
 	@Override
-	public IDateDBColumn<Time> asTimeColumn() {
+	public DateDBColumn<Time> asTimeColumn() {
 		return new DateDBColumnImpl<Time>(this);
 	}
 
 	@Override
-	public IBooleanDBColumn asBooleanColumn() {
+	public BooleanDBColumn asBooleanColumn() {
 		return new BooleanDBColumnImpl(this);
 	}
 
 	@Override
-	public <N extends Number & Comparable<? super N>> INumberDBColumn<N> asNumberColumn() {
+	public <N extends Number & Comparable<? super N>> NumberDBColumn<N> asNumberColumn() {
 		return new NumberDBColumnImpl<N>(this);
 	}
 
@@ -307,7 +307,7 @@ public class DefaultTypesafeQuery extends AbstractSQLQuery implements TypesafeQu
 		if(limit != null || offset != null){
 			sels.add(ROWNUM);
 		}
-		for(IDBColumn<?> c : select){
+		for(DBColumn<?> c : select){
 			sels.add(context.getColumnPath(c));
 		}
 		return joinWith(",",sels) + " ";
@@ -322,7 +322,7 @@ public class DefaultTypesafeQuery extends AbstractSQLQuery implements TypesafeQu
 			}else{
 				sb.append("INNER JOIN ");
 			}
-			IDBTable jt = j.getTargetTable();
+			DBTable jt = j.getTargetTable();
 			sb.append(String.format("%s ON %s ", jt.getQuery(context),j.getOn().getSQL(context)));
 			list.add(sb.toString());
 		}
@@ -332,7 +332,7 @@ public class DefaultTypesafeQuery extends AbstractSQLQuery implements TypesafeQu
 	
 	private String createGroupBy(QueryContext context){
 		List<String> list = new ArrayList<String>();
-		for(IDBColumn<?> c : groupBy){
+		for(DBColumn<?> c : groupBy){
 			list.add(context.getColumnPath(c));
 		}
 		return joinWith(",",list) + " ";

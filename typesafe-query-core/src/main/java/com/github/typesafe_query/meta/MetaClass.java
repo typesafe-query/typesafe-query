@@ -6,6 +6,6 @@ import com.github.typesafe_query.ModelDescription;
 @Beta
 public interface MetaClass<T> {
 	Class<T> modelClass();
-	IDBTable table();
+	DBTable table();
 	ModelDescription description();
 }

@@ -7,28 +7,28 @@ import com.github.typesafe_query.meta.impl.DateDBColumnImpl;
 import com.github.typesafe_query.meta.impl.StringDBColumnImpl;
 import com.github.typesafe_query.Finder;
 import java.sql.Date;
-import com.github.typesafe_query.meta.IDBTable;
+import com.github.typesafe_query.meta.DBTable;
 import java.time.LocalDate;
 import com.github.typesafe_query.ModelDescription;
 import java.util.List;
 import com.github.typesafe_query.DefaultFinder;
 import com.github.typesafe_query.ReusableModelHandler;
 import com.github.typesafe_query.ModelHandler;
-import com.github.typesafe_query.meta.IDateDBColumn;
+import com.github.typesafe_query.meta.DateDBColumn;
 import javax.annotation.Generated;
-import com.github.typesafe_query.meta.IStringDBColumn;
+import com.github.typesafe_query.meta.StringDBColumn;
 
 @Generated("Meta Generator")
 public final class ApUser_{
 
-	public static final IDBTable TABLE = new DBTableImpl("ap_user");
-	public static final IStringDBColumn USER_ID = new StringDBColumnImpl(TABLE,"user_id");
-	public static final IStringDBColumn LOCK_FLG = new StringDBColumnImpl(TABLE,"lock_flg");
-	public static final IStringDBColumn NAME = new StringDBColumnImpl(TABLE,"name");
-	public static final IDateDBColumn<Date> VALID_FROM = new DateDBColumnImpl<java.sql.Date>(TABLE,"valid_from");
-	public static final IDateDBColumn<LocalDate> VALID_TO = new DateDBColumnImpl<>(TABLE,"valid_to");
-	public static final IStringDBColumn ROLE_ID = new StringDBColumnImpl(TABLE,"role_id");
-	public static final IStringDBColumn UNIT_ID = new StringDBColumnImpl(TABLE,"unit_id");
+	public static final DBTable TABLE = new DBTableImpl("ap_user");
+	public static final StringDBColumn USER_ID = new StringDBColumnImpl(TABLE,"user_id");
+	public static final StringDBColumn LOCK_FLG = new StringDBColumnImpl(TABLE,"lock_flg");
+	public static final StringDBColumn NAME = new StringDBColumnImpl(TABLE,"name");
+	public static final DateDBColumn<Date> VALID_FROM = new DateDBColumnImpl<java.sql.Date>(TABLE,"valid_from");
+	public static final DateDBColumn<LocalDate> VALID_TO = new DateDBColumnImpl<>(TABLE,"valid_to");
+	public static final StringDBColumn ROLE_ID = new StringDBColumnImpl(TABLE,"role_id");
+	public static final StringDBColumn UNIT_ID = new StringDBColumnImpl(TABLE,"unit_id");
 	private static final List<String> _FIELDS = Arrays.asList("userId","lockFlg","name","validFrom","validTo","roleId","unitId");
 	private static final ModelDescription _DESC = new ModelDescription(ApUser.class, _FIELDS);
 	private static final ModelHandler<ApUser> model = new ModelHandler<ApUser>(ApUser.class,TABLE,_DESC);

@@ -3,7 +3,7 @@
  */
 package com.github.typesafe_query.query.internal.expression;
 
-import com.github.typesafe_query.meta.IDBColumn;
+import com.github.typesafe_query.meta.DBColumn;
 import com.github.typesafe_query.query.Param;
 import com.github.typesafe_query.query.TypesafeQuery;
 
@@ -13,19 +13,19 @@ import com.github.typesafe_query.query.TypesafeQuery;
  */
 public class EqExp<T> extends BasicExp<T> {
 
-	public EqExp(IDBColumn<T> left, IDBColumn<T> right) {
+	public EqExp(DBColumn<T> left, DBColumn<T> right) {
 		super(left, right);
 	}
 
-	public EqExp(IDBColumn<T> left, T right) {
+	public EqExp(DBColumn<T> left, T right) {
 		super(left, right);
 	}
 	
-	public EqExp(IDBColumn<T> left, Param right) {
+	public EqExp(DBColumn<T> left, Param right) {
 		super(left, right);
 	}
 	
-	public EqExp(IDBColumn<T> left, TypesafeQuery right) {
+	public EqExp(DBColumn<T> left, TypesafeQuery right) {
 		super(left, right);
 	}
 

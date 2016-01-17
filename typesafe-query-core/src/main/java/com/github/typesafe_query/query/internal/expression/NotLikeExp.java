@@ -3,7 +3,7 @@
  */
 package com.github.typesafe_query.query.internal.expression;
 
-import com.github.typesafe_query.meta.IDBColumn;
+import com.github.typesafe_query.meta.DBColumn;
 import com.github.typesafe_query.query.Param;
 import com.github.typesafe_query.query.TypesafeQuery;
 
@@ -13,15 +13,15 @@ import com.github.typesafe_query.query.TypesafeQuery;
  */
 public class NotLikeExp extends LikeExp {
 
-	public NotLikeExp(IDBColumn<String> left, String right) {
+	public NotLikeExp(DBColumn<String> left, String right) {
 		super(left, right);
 	}
 	
-	public NotLikeExp(IDBColumn<String> left, Param right) {
+	public NotLikeExp(DBColumn<String> left, Param right) {
 		super(left, right);
 	}
 
-	public NotLikeExp(IDBColumn<String> left, TypesafeQuery right) {
+	public NotLikeExp(DBColumn<String> left, TypesafeQuery right) {
 		super(left, right);
 	}
 

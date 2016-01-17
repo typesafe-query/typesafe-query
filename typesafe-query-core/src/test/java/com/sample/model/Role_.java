@@ -5,22 +5,22 @@ import java.util.Arrays;
 import com.github.typesafe_query.meta.impl.DBTableImpl;
 import com.github.typesafe_query.meta.impl.StringDBColumnImpl;
 import com.github.typesafe_query.Finder;
-import com.github.typesafe_query.meta.IDBTable;
+import com.github.typesafe_query.meta.DBTable;
 import com.github.typesafe_query.ModelDescription;
 import java.util.List;
 import com.github.typesafe_query.DefaultFinder;
 import com.github.typesafe_query.ReusableModelHandler;
 import com.github.typesafe_query.ModelHandler;
 import javax.annotation.Generated;
-import com.github.typesafe_query.meta.IStringDBColumn;
+import com.github.typesafe_query.meta.StringDBColumn;
 
 @Generated("Meta Generator")
 public final class Role_{
 
-	public static final IDBTable TABLE = new DBTableImpl("role");
-	public static final IStringDBColumn UNIT_ID = new StringDBColumnImpl(TABLE,"unit_id");
-	public static final IStringDBColumn ROLE_ID = new StringDBColumnImpl(TABLE,"role_id");
-	public static final IStringDBColumn NAME = new StringDBColumnImpl(TABLE,"name");
+	public static final DBTable TABLE = new DBTableImpl("role");
+	public static final StringDBColumn UNIT_ID = new StringDBColumnImpl(TABLE,"unit_id");
+	public static final StringDBColumn ROLE_ID = new StringDBColumnImpl(TABLE,"role_id");
+	public static final StringDBColumn NAME = new StringDBColumnImpl(TABLE,"name");
 	private static final List<String> _FIELDS = Arrays.asList("id/unitId","id/roleId","name");
 	private static final ModelDescription _DESC = new ModelDescription(Role.class, _FIELDS);
 	private static final ModelHandler<Role> model = new ModelHandler<Role>(Role.class,TABLE,_DESC);

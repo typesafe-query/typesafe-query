@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import com.github.typesafe_query.meta.IDBTable;
+import com.github.typesafe_query.meta.DBTable;
 import com.github.typesafe_query.query.QueryExecutor;
 import com.github.typesafe_query.query.Exp;
 import com.github.typesafe_query.query.Order;
@@ -31,7 +31,7 @@ public class DefaultFinder<I,T> implements Finder<I, T>{
 	
 	private Class<T> modelClass;
 	
-	private IDBTable root;
+	private DBTable root;
 	
 	private ModelDescription modelDescription;
 	
@@ -41,7 +41,7 @@ public class DefaultFinder<I,T> implements Finder<I, T>{
 	 * @param table テーブル
 	 * @param modelDescription モデル詳細
 	 */
-	public DefaultFinder(Class<T> modelClass,IDBTable table,ModelDescription modelDescription) {
+	public DefaultFinder(Class<T> modelClass,DBTable table,ModelDescription modelDescription) {
 		this.modelClass = modelClass;
 		this.root = table;
 		this.modelDescription = modelDescription;

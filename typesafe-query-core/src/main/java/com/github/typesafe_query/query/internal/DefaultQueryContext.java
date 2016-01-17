@@ -7,8 +7,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import com.github.typesafe_query.meta.IDBColumn;
-import com.github.typesafe_query.meta.IDBTable;
+import com.github.typesafe_query.meta.DBColumn;
+import com.github.typesafe_query.meta.DBTable;
 import com.github.typesafe_query.query.InvalidQueryException;
 import com.github.typesafe_query.query.QueryContext;
 
@@ -20,25 +20,25 @@ public class DefaultQueryContext implements QueryContext {
 	
 	private static final String KEY_ALIAS_NONE = "ALIAS_NONE";
 	
-	private IDBTable root;
+	private DBTable root;
 	
-	private Map<String, Map<String,IDBTable>> fromMap;
+	private Map<String, Map<String,DBTable>> fromMap;
 	
-	public DefaultQueryContext(IDBTable root) {
+	public DefaultQueryContext(DBTable root) {
 		super();
-		fromMap = new HashMap<String, Map<String,IDBTable>>();
+		fromMap = new HashMap<String, Map<String,DBTable>>();
 		this.root = Objects.requireNonNull(root);
 		addFrom(root);
 	}
 
 	@Override
-	public IDBTable getRoot() {
+	public DBTable getRoot() {
 		return root;
 	}
 
 	@Override
-	public String getColumnPath(IDBColumn<?> column) {
-		IDBTable table = getFrom(column);
+	public String getColumnPath(DBColumn<?> column) {
+		DBTable table = getFrom(column);
 		String columnName;
 		if(table == null){
 			//サブクエリ
@@ -54,16 +54,16 @@ public class DefaultQueryContext implements QueryContext {
 	}
 
 	@Override
-	public IDBTable getFrom(IDBColumn<?> column) {
+	public DBTable getFrom(DBColumn<?> column) {
 		if(column == null){
 			throw new NullPointerException("column is null");
 		}
-		IDBTable table = column.getTable();
+		DBTable table = column.getTable();
 		if(table == null){
 			return null;
 		}
 		
-		Map<String,IDBTable> froms = fromMap.get(table.getName());
+		Map<String,DBTable> froms = fromMap.get(table.getName());
 		if(froms == null){
 			throw new InvalidQueryException(String.format("指定されたカラムが属するテーブルがfrom句、join句に含まれていません。[%s]",column.getName()));
 		}
@@ -73,7 +73,7 @@ public class DefaultQueryContext implements QueryContext {
 			key = KEY_ALIAS_NONE;
 		}
 		
-		IDBTable from = froms.get(key);
+		DBTable from = froms.get(key);
 		if(from == null){
 			throw new InvalidQueryException(String.format("指定されたカラムが属するエイリアス指定されたテーブルがfrom句、join句,サブクエリに含まれていません。[%s.%s]",key,column.getName()));
 		}
@@ -81,14 +81,14 @@ public class DefaultQueryContext implements QueryContext {
 	}
 	
 	@Override
-	public void addFrom(IDBTable table){
-		Map<String, IDBTable> froms = fromMap.get(table.getName());
+	public void addFrom(DBTable table){
+		Map<String, DBTable> froms = fromMap.get(table.getName());
 		if(froms == null){
-			froms = new HashMap<String, IDBTable>();
+			froms = new HashMap<String, DBTable>();
 			fromMap.put(table.getName(), froms);
 		}
 		String key = table.getAlias();
-		IDBTable dup = froms.get(key);
+		DBTable dup = froms.get(key);
 		if(dup != null){
 			throw new InvalidQueryException("already added key " + key);
 		}

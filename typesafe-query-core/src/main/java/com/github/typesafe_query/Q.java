@@ -11,10 +11,10 @@ import java.util.Set;
 
 import com.github.typesafe_query.helper.BatchQueryExecutorHelper;
 import com.github.typesafe_query.helper.ReusableQueryExecutorHelper;
-import com.github.typesafe_query.meta.IComparableDBColumn;
-import com.github.typesafe_query.meta.IDBColumn;
-import com.github.typesafe_query.meta.INumberDBColumn;
-import com.github.typesafe_query.meta.IStringDBColumn;
+import com.github.typesafe_query.meta.ComparableDBColumn;
+import com.github.typesafe_query.meta.DBColumn;
+import com.github.typesafe_query.meta.NumberDBColumn;
+import com.github.typesafe_query.meta.StringDBColumn;
 import com.github.typesafe_query.meta.impl.NumberDBColumnImpl;
 import com.github.typesafe_query.query.BatchQueryExecutor;
 import com.github.typesafe_query.query.Exp;
@@ -58,7 +58,7 @@ public final class Q {
 	 * @param columns select対象のカラム
 	 * @return {@link TypesafeQuery}
 	 */
-	public static TypesafeQuery select(IDBColumn<?>... columns){
+	public static TypesafeQuery select(DBColumn<?>... columns){
 		return TypesafeQueryFactory.get(columns);
 	}
 	
@@ -87,7 +87,7 @@ public final class Q {
 		return new DefaultSearchedCase();
 	}
 	
-	public static <T> SimpleCase<T> case_(IDBColumn<T> col){
+	public static <T> SimpleCase<T> case_(DBColumn<T> col){
 		return new DefaultSimpleCase<T>(col);
 	}
 
@@ -100,15 +100,15 @@ public final class Q {
 	}
 	
 	/**
-	 * エイリアス付きの{@link IDBColumn}を返します。
+	 * エイリアス付きの{@link DBColumn}を返します。
 	 * @param alias エイリアス
 	 * @param v DBカラム
 	 * @param <T> DBカラムの型
 	 * @param <V> DBカラム
-	 * @return {@link IDBColumn}
+	 * @return {@link DBColumn}
 	 */
 	
-	public static <T,V extends IDBColumn<T>> V $(String alias,V v){
+	public static <T,V extends DBColumn<T>> V $(String alias,V v){
 		return v.createFromTableAlias(alias);
 	}
 	
@@ -157,7 +157,7 @@ public final class Q {
 	 * @param <R> DBカラム
 	 * @return coalsesce
 	 */
-	public static <V extends Comparable<? super V>,R extends IComparableDBColumn<V>> R coalsesce(R r,V v){
+	public static <V extends Comparable<? super V>,R extends ComparableDBColumn<V>> R coalsesce(R r,V v){
 		return r.coalesce(v);
 	}
 	
@@ -169,7 +169,7 @@ public final class Q {
 	 * @param <R> DBカラム
 	 * @return coalsesce
 	 */
-	public static <V extends Comparable<? super V>,R extends IComparableDBColumn<V>> R coalsesce(R r,R v){
+	public static <V extends Comparable<? super V>,R extends ComparableDBColumn<V>> R coalsesce(R r,R v){
 		return r.coalesce(v);
 	}
 
@@ -178,8 +178,8 @@ public final class Q {
 	 * @param c 対象DBカラム
 	 * @return COUNT
 	 */
-	public static INumberDBColumn<Long> count(IComparableDBColumn<?> c){
-		INumberDBColumn<Long> nc = new NumberDBColumnImpl<>(c.getTable(), c.getName());
+	public static NumberDBColumn<Long> count(ComparableDBColumn<?> c){
+		NumberDBColumn<Long> nc = new NumberDBColumnImpl<Long>(c.getTable(), c.getName());
 		return nc.count();
 	}
 	 
@@ -190,7 +190,7 @@ public final class Q {
 	 * @param <T> DBカラムの型
 	 * @return MAX
 	 */
-	public static <T extends Number & Comparable<? super T>> INumberDBColumn<T> max(INumberDBColumn<T> c){
+	public static <T extends Number & Comparable<? super T>> NumberDBColumn<T> max(NumberDBColumn<T> c){
 		return c.max();
 	}
 	
@@ -200,7 +200,7 @@ public final class Q {
 	 * @param <T> DBカラムの型
 	 * @return MIN
 	 */
-	public static <T extends Number & Comparable<? super T>> INumberDBColumn<T> min(INumberDBColumn<T> c){
+	public static <T extends Number & Comparable<? super T>> NumberDBColumn<T> min(NumberDBColumn<T> c){
 		return c.min();
 	}
 	
@@ -210,7 +210,7 @@ public final class Q {
 	 * @param <T> DBカラムの型
 	 * @return ABS
 	 */
-	public static INumberDBColumn<BigDecimal> abs(INumberDBColumn<?> c){
+	public static NumberDBColumn<BigDecimal> abs(NumberDBColumn<?> c){
 		return c.abs();
 	}
 	
@@ -220,7 +220,7 @@ public final class Q {
 	 * @param <T> DBカラムの型
 	 * @return AVG
 	 */
-	public static INumberDBColumn<BigDecimal> avg(INumberDBColumn<?> c){
+	public static NumberDBColumn<BigDecimal> avg(NumberDBColumn<?> c){
 		return c.avg();
 	}
 	
@@ -230,7 +230,7 @@ public final class Q {
 	 * @param <T> DBカラムの型
 	 * @return SQRT
 	 */
-	public static INumberDBColumn<BigDecimal> sqrt(INumberDBColumn<?> c){
+	public static NumberDBColumn<BigDecimal> sqrt(NumberDBColumn<?> c){
 		return c.sqrt();
 	}
 	
@@ -240,7 +240,7 @@ public final class Q {
 	 * @param c 対象DBカラム
 	 * @return LOWER
 	 */
-	public static IStringDBColumn lower(IStringDBColumn c){
+	public static StringDBColumn lower(StringDBColumn c){
 		return c.lower();
 	}
 	
@@ -249,7 +249,7 @@ public final class Q {
 	 * @param c 対象DBカラム
 	 * @return UPPER
 	 */
-	public static IStringDBColumn upper(IStringDBColumn c){
+	public static StringDBColumn upper(StringDBColumn c){
 		return c.upper();
 	}
 	
@@ -258,7 +258,7 @@ public final class Q {
 	 * @param c 対象DBカラム
 	 * @return TRIM
 	 */
-	public static IStringDBColumn trim(IStringDBColumn c){
+	public static StringDBColumn trim(StringDBColumn c){
 		return c.trim();
 	}
 	
@@ -267,7 +267,7 @@ public final class Q {
 	 * @param c 対象DBカラム
 	 * @return LENGTH
 	 */
-	public static INumberDBColumn<Integer> length(IStringDBColumn c){
+	public static NumberDBColumn<Integer> length(StringDBColumn c){
 		return c.length();
 	}
 	
@@ -277,7 +277,7 @@ public final class Q {
 	 * @param s 結合対象カラム
 	 * @return CONCAT
 	 */
-	public static IStringDBColumn concat(IStringDBColumn c,IStringDBColumn s){
+	public static StringDBColumn concat(StringDBColumn c,StringDBColumn s){
 		return c.concat(s);
 	}
 	
@@ -287,7 +287,7 @@ public final class Q {
 	 * @param s 結合文字列
 	 * @return CONCAT
 	 */
-	public static IStringDBColumn concat(IStringDBColumn c,String s){
+	public static StringDBColumn concat(StringDBColumn c,String s){
 		return c.concat(s);
 	}
 	
@@ -296,7 +296,7 @@ public final class Q {
 	 * @param c 対象DBカラム
 	 * @return TO_NUMBER
 	 */
-	public static INumberDBColumn<Long> toNumber(IStringDBColumn c){
+	public static NumberDBColumn<Long> toNumber(StringDBColumn c){
 		return c.toNumber();
 	}
 	
@@ -306,7 +306,7 @@ public final class Q {
 	 * @param format フォーマット
 	 * @return TO_NUMBER
 	 */
-	public static INumberDBColumn<Long> toNumber(IStringDBColumn c,String format){
+	public static NumberDBColumn<Long> toNumber(StringDBColumn c,String format){
 		return c.toNumber(format);
 	}
 	
@@ -317,7 +317,7 @@ public final class Q {
 	 * @param <T> DBカラムの型
 	 * @return TO_NUMBER
 	 */
-	public static <T extends Number & Comparable<? super T>> INumberDBColumn<T> toNumber(IStringDBColumn c,Class<T> cls){
+	public static <T extends Number & Comparable<? super T>> NumberDBColumn<T> toNumber(StringDBColumn c,Class<T> cls){
 		return c.toNumber(cls);
 	}
 	
@@ -329,7 +329,7 @@ public final class Q {
 	 * @param <T> DBカラムの型
 	 * @return TO_NUMBER
 	 */
-	public static <T extends Number & Comparable<? super T>> INumberDBColumn<T> toNumber(IStringDBColumn c,Class<T> cls,String format){
+	public static <T extends Number & Comparable<? super T>> NumberDBColumn<T> toNumber(StringDBColumn c,Class<T> cls,String format){
 		return c.toNumber(cls,format);
 	}
 	
@@ -339,7 +339,7 @@ public final class Q {
 	 * @param from 開始位置
 	 * @return SUBSTR
 	 */
-	public static IStringDBColumn substr(IStringDBColumn c,int from){
+	public static StringDBColumn substr(StringDBColumn c,int from){
 		return c.substring(from);
 	}
 	
@@ -350,7 +350,7 @@ public final class Q {
 	 * @param to 終了位置
 	 * @return SUBSTR
 	 */
-	public static IStringDBColumn substr(IStringDBColumn c,int from,int to){
+	public static StringDBColumn substr(StringDBColumn c,int from,int to){
 		return c.substring(from, to);
 	}
 	
@@ -360,7 +360,7 @@ public final class Q {
 	 * @param from 開始位置
 	 * @return SUBSTR
 	 */
-	public static IStringDBColumn substr(IStringDBColumn c,INumberDBColumn<Integer> from){
+	public static StringDBColumn substr(StringDBColumn c,NumberDBColumn<Integer> from){
 		return c.substring(from);
 	}
 	
@@ -371,7 +371,7 @@ public final class Q {
 	 * @param to 終了位置
 	 * @return SUBSTR
 	 */
-	public static IStringDBColumn substr(IStringDBColumn c,INumberDBColumn<Integer> from,INumberDBColumn<Integer> to){
+	public static StringDBColumn substr(StringDBColumn c,NumberDBColumn<Integer> from,NumberDBColumn<Integer> to){
 		return c.substring(from, to);
 	}
 	
