@@ -34,8 +34,6 @@ public class DefaultFinder<I,T> implements Finder<I, T>{
 	
 	/**
 	 * モデルクラス、テーブル、モデル詳細を指定して新しいインスタンスを生成します。
-	 * @param modelClass モデルクラス
-	 * @param table テーブル
 	 * @param modelDescription モデル詳細
 	 */
 	public DefaultFinder(ModelDescription<T> modelDescription) {
@@ -114,7 +112,7 @@ public class DefaultFinder<I,T> implements Finder<I, T>{
 
 	/**
 	 * 条件を指定して件数を返します。
-	 * @param exp 検索条件
+	 * @param expressions 検索条件
 	 * @return 件数
 	 */
 	@Override
@@ -201,7 +199,7 @@ public class DefaultFinder<I,T> implements Finder<I, T>{
 	
 	/**
 	 * 条件を指定して1件取得します
-	 * @param expression 条件
+	 * @param expressions 条件
 	 * @return 1件の結果
 	 */
 	@Override
