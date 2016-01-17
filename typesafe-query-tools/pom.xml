@@ -3,7 +3,7 @@
   <parent>
     <groupId>com.github.typesafe-query</groupId>
     <artifactId>typesafe-query</artifactId>
-    <version>0.1.0</version>
+    <version>0.2.0</version>
   </parent>
   <artifactId>typesafe-query-tools</artifactId>
   <name>Typesafe Query Tools</name>
