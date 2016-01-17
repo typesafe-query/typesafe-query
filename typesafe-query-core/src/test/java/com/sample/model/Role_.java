@@ -1,6 +1,7 @@
 package com.sample.model;
 
 import com.github.typesafe_query.Bulk;
+import com.github.typesafe_query.DefaultBulk;
 import java.util.Arrays;
 import com.github.typesafe_query.meta.impl.DBTableImpl;
 import com.github.typesafe_query.meta.impl.StringDBColumnImpl;
@@ -25,7 +26,7 @@ public final class Role_{
 	private static final ModelDescription<Role> _DESC = new ModelDescription<>(Role.class,TABLE, _FIELDS);
 	private static final DefaultModelHandler<Role> model = new DefaultModelHandler<>(_DESC);
 	private static final Finder<RolePK,Role> find = new DefaultFinder<>(_DESC);
-	private static final Bulk bulk = new Bulk(TABLE);
+	private static final Bulk bulk = new DefaultBulk(TABLE);
 
 	private Role_(){
 	}

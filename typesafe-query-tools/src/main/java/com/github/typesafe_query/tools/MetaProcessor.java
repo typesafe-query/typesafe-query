@@ -275,8 +275,9 @@ public class MetaProcessor extends AbstractProcessor {
 		bf.setStatical(true);
 		bf.setFinal(true);
 		bf.setType(bulk);
-		bf.setInitializeString("new Bulk(TABLE)");
+		bf.setInitializeString("new DefaultBulk(TABLE)");
 		
+		metaClass.addImport(new JavaClass(PACKAGE_NAME + ".DefaultBulk"));
 		metaClass.addField(bf);
 		
 		Method bm = new Method("bulk");

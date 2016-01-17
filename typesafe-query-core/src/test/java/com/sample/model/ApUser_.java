@@ -1,6 +1,7 @@
 package com.sample.model;
 
 import com.github.typesafe_query.Bulk;
+import com.github.typesafe_query.DefaultBulk;
 import java.util.Arrays;
 import com.github.typesafe_query.meta.impl.DBTableImpl;
 import com.github.typesafe_query.meta.impl.DateDBColumnImpl;
@@ -33,7 +34,7 @@ public final class ApUser_{
 	private static final ModelDescription<ApUser> _DESC = new ModelDescription<>(ApUser.class,TABLE,_FIELDS);
 	private static final DefaultModelHandler<ApUser> model = new DefaultModelHandler<>(_DESC);
 	private static final Finder<String,ApUser> find = new DefaultFinder<>(_DESC);
-	private static final Bulk bulk = new Bulk(TABLE);
+	private static final Bulk bulk = new DefaultBulk(TABLE);
 
 	private ApUser_(){
 	}
