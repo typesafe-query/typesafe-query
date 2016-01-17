@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.util.Optional;
 
+import com.github.typesafe_query.ModelBase;
 import com.github.typesafe_query.annotation.Column;
 import com.github.typesafe_query.annotation.Id;
 import com.github.typesafe_query.annotation.Table;
@@ -14,7 +15,7 @@ import com.github.typesafe_query.annotation.Table;
  * 
  */ 
 @Table
-public class ApUser {
+public class ApUser extends ModelBase<ApUser>{
 	@Id
 	private String userId;
 
@@ -34,8 +35,9 @@ public class ApUser {
 	
 	@Column(name="unit_id")
 	private String unitId;
-
+	
 	public ApUser() {
+		super(ApUser_.description());
 	}
 
 	public String getUserId() {

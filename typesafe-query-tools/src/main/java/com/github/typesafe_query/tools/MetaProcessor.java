@@ -56,7 +56,7 @@ public class MetaProcessor extends AbstractProcessor {
 	
 	public static final JavaClass GENERATED_ANNOTATION = new JavaClass(ANOT_GENERATED);
 
-	public static final JavaClass IDBTABLE_CLASS = new JavaClass(PACKAGE_NAME + ".meta.IDBTable");
+	public static final JavaClass IDBTABLE_CLASS = new JavaClass(PACKAGE_NAME + ".meta.DBTable");
 
 	private JavaClass metaClass;
 
@@ -194,15 +194,24 @@ public class MetaProcessor extends AbstractProcessor {
 		metaClass.addField(_fld);
 
 		JavaClass _desc = new JavaClass(PACKAGE_NAME + ".ModelDescription");
+		_desc.setGenericTypes(new JavaClass[]{new JavaClass(te.getSimpleName().toString())});
 		
 		Field _dsc = new Field("_DESC");
 		_dsc.setQualifier(Qualifiers.PRIVATE);
 		_dsc.setStatical(true);
 		_dsc.setFinal(true);
 		_dsc.setType(_desc);
-		_dsc.setInitializeString("new ModelDescription("+ te.getSimpleName().toString() +".class, _FIELDS)");
+		_dsc.setInitializeString("new ModelDescription<>("+ te.getSimpleName().toString() +".class,TABLE,_FIELDS)");
 
 		metaClass.addField(_dsc);
+		
+		Method dm = new Method("description");
+		dm.setQualifier(Qualifiers.PUBLIC);
+		dm.setStatical(true);
+		dm.setReturnType(_desc);
+		dm.addBodyLine("return _DESC;");
+		
+		metaClass.addMethod(dm);
 		
 		//ModelHandler,Finder,Bulkを定義する。
 		JavaClass modelHandler = new JavaClass(PACKAGE_NAME + ".ModelHandler");
@@ -213,8 +222,9 @@ public class MetaProcessor extends AbstractProcessor {
 		mf.setStatical(true);
 		mf.setFinal(true);
 		mf.setType(modelHandler);
-		mf.setInitializeString("new ModelHandler<"+te.getSimpleName().toString()+">(" + te.getSimpleName().toString() +".class,TABLE,_DESC)");
-
+		mf.setInitializeString("new DefaultModelHandler<>(_DESC)");
+		
+		metaClass.addImport(new JavaClass(PACKAGE_NAME + ".DefaultModelHandler"));
 		metaClass.addField(mf);
 		
 		Method mm = new Method("model");
@@ -232,7 +242,7 @@ public class MetaProcessor extends AbstractProcessor {
 		mmr.setQualifier(Qualifiers.PUBLIC);
 		mmr.setStatical(true);
 		mmr.setReturnType(reusableModelHandler);
-		mmr.addBodyLine("return new ReusableModelHandler<>"+"(" + te.getSimpleName().toString() +".class,TABLE,_DESC);");
+		mmr.addBodyLine("return new ReusableModelHandler<>"+"(_DESC);");
 		
 		metaClass.addMethod(mmr);
 
@@ -244,7 +254,7 @@ public class MetaProcessor extends AbstractProcessor {
 		ff.setStatical(true);
 		ff.setFinal(true);
 		ff.setType(finder);
-		ff.setInitializeString("new DefaultFinder<"+idClass+","+te.getSimpleName().toString()+">(" + te.getSimpleName().toString() +".class,TABLE,_DESC)");
+		ff.setInitializeString("new DefaultFinder<>(_DESC)");
 
 		metaClass.addImport(new JavaClass(PACKAGE_NAME + ".DefaultFinder"));
 		
@@ -265,8 +275,9 @@ public class MetaProcessor extends AbstractProcessor {
 		bf.setStatical(true);
 		bf.setFinal(true);
 		bf.setType(bulk);
-		bf.setInitializeString("new Bulk(TABLE)");
+		bf.setInitializeString("new DefaultBulk(TABLE)");
 		
+		metaClass.addImport(new JavaClass(PACKAGE_NAME + ".DefaultBulk"));
 		metaClass.addField(bf);
 		
 		Method bm = new Method("bulk");
@@ -373,7 +384,7 @@ public class MetaProcessor extends AbstractProcessor {
 			}
 		}else if("java.lang.Short".equals(typeName) || "short".equals(typeName)){
 			//INumberDBColumn<java.lang.Short>
-			JavaClass jc = new JavaClass(PACKAGE_NAME + ".meta.INumberDBColumn");
+			JavaClass jc = new JavaClass(PACKAGE_NAME + ".meta.NumberDBColumn");
 			jc.setGenericTypes(new JavaClass[]{new JavaClass("Short")});
 
 			f.setType(jc);
@@ -383,7 +394,7 @@ public class MetaProcessor extends AbstractProcessor {
 			metaClass.addField(f);
 		}else if("java.lang.Integer".equals(typeName) || "int".equals(typeName)){
 			//INumberDBColumn<java.lang.Integer>
-			JavaClass jc = new JavaClass(PACKAGE_NAME + ".meta.INumberDBColumn");
+			JavaClass jc = new JavaClass(PACKAGE_NAME + ".meta.NumberDBColumn");
 			jc.setGenericTypes(new JavaClass[]{new JavaClass("Integer")});
 
 			f.setType(jc);
@@ -393,7 +404,7 @@ public class MetaProcessor extends AbstractProcessor {
 			metaClass.addField(f);
 		}else if("java.lang.Long".equals(typeName) || "long".equals(typeName)){
 			//INumberDBColumn<java.lang.Long>
-			JavaClass jc = new JavaClass(PACKAGE_NAME + ".meta.INumberDBColumn");
+			JavaClass jc = new JavaClass(PACKAGE_NAME + ".meta.NumberDBColumn");
 			jc.setGenericTypes(new JavaClass[]{new JavaClass("Long")});
 
 			f.setType(jc);
@@ -403,7 +414,7 @@ public class MetaProcessor extends AbstractProcessor {
 			metaClass.addField(f);
 		}else if("java.lang.Double".equals(typeName) || "double".equals(typeName)){
 			//INumberDBColumn<java.lang.Double>
-			JavaClass jc = new JavaClass(PACKAGE_NAME + ".meta.INumberDBColumn");
+			JavaClass jc = new JavaClass(PACKAGE_NAME + ".meta.NumberDBColumn");
 			jc.setGenericTypes(new JavaClass[]{new JavaClass("Double")});
 
 			f.setType(jc);
@@ -413,7 +424,7 @@ public class MetaProcessor extends AbstractProcessor {
 			metaClass.addField(f);
 		}else if("java.lang.Float".equals(typeName) || "float".equals(typeName)){
 			//INumberDBColumn<java.lang.Float>
-			JavaClass jc = new JavaClass(PACKAGE_NAME + ".meta.INumberDBColumn");
+			JavaClass jc = new JavaClass(PACKAGE_NAME + ".meta.NumberDBColumn");
 			jc.setGenericTypes(new JavaClass[]{new JavaClass("Float")});
 
 			f.setType(jc);
@@ -423,7 +434,7 @@ public class MetaProcessor extends AbstractProcessor {
 			metaClass.addField(f);
 		}else if("java.lang.Boolean".equals(typeName) || "boolean".equals(typeName)){
 			//IBooleanDBColumn
-			JavaClass jc = new JavaClass(PACKAGE_NAME + ".meta.IBooleanDBColumn");
+			JavaClass jc = new JavaClass(PACKAGE_NAME + ".meta.BooleanDBColumn");
 
 			f.setType(jc);
 			metaClass.addImport(new JavaClass(PACKAGE_NAME + ".meta.impl.BooleanDBColumnImpl"));
@@ -432,7 +443,7 @@ public class MetaProcessor extends AbstractProcessor {
 			metaClass.addField(f);
 		}else if("java.math.BigDecimal".equals(typeName)){
 			//INumberDBColumn<java.math.BigDecimal>
-			JavaClass jc = new JavaClass(PACKAGE_NAME + ".meta.INumberDBColumn");
+			JavaClass jc = new JavaClass(PACKAGE_NAME + ".meta.NumberDBColumn");
 			jc.setGenericTypes(new JavaClass[]{new JavaClass("BigDecimal")});
 
 			f.setType(jc);
@@ -441,7 +452,7 @@ public class MetaProcessor extends AbstractProcessor {
 			metaClass.addField(f);
 		}else if("java.lang.String".equals(typeName)){
 			//IStringDBColumn
-			JavaClass jc = new JavaClass(PACKAGE_NAME + ".meta.IStringDBColumn");
+			JavaClass jc = new JavaClass(PACKAGE_NAME + ".meta.StringDBColumn");
 
 			f.setType(jc);
 			metaClass.addImport(new JavaClass(PACKAGE_NAME + ".meta.impl.StringDBColumnImpl"));
@@ -450,7 +461,7 @@ public class MetaProcessor extends AbstractProcessor {
 			metaClass.addField(f);
 		}else if("java.time.LocalDate".equals(typeName)){
 			//IDateDBColumn<java.time.LocalDate>
-			JavaClass jc = new JavaClass(PACKAGE_NAME + ".meta.IDateDBColumn");
+			JavaClass jc = new JavaClass(PACKAGE_NAME + ".meta.DateDBColumn");
 			jc.setGenericTypes(new JavaClass[]{new JavaClass("java.time.LocalDate")});
 
 			f.setType(jc);
@@ -459,7 +470,7 @@ public class MetaProcessor extends AbstractProcessor {
 			metaClass.addField(f);
 		}else if("java.time.LocalTime".equals(typeName)){
 			//IDateDBColumn<java.time.LocalTime>
-			JavaClass jc = new JavaClass(PACKAGE_NAME + ".meta.IDateDBColumn");
+			JavaClass jc = new JavaClass(PACKAGE_NAME + ".meta.DateDBColumn");
 			jc.setGenericTypes(new JavaClass[]{new JavaClass("java.time.LocalTime")});
 
 			f.setType(jc);
@@ -468,7 +479,7 @@ public class MetaProcessor extends AbstractProcessor {
 			metaClass.addField(f);
 		}else if("java.time.LocalDateTime".equals(typeName)){
 			//IDateDBColumn<java.time.LocalDateTime>
-			JavaClass jc = new JavaClass(PACKAGE_NAME + ".meta.IDateDBColumn");
+			JavaClass jc = new JavaClass(PACKAGE_NAME + ".meta.DateDBColumn");
 			jc.setGenericTypes(new JavaClass[]{new JavaClass("java.time.LocalDateTime")});
 
 			f.setType(jc);
@@ -477,7 +488,7 @@ public class MetaProcessor extends AbstractProcessor {
 			metaClass.addField(f);
 		}else if("java.sql.Date".equals(typeName)){
 			//IDateDBColumn<java.sql.Date>
-			JavaClass jc = new JavaClass(PACKAGE_NAME + ".meta.IDateDBColumn");
+			JavaClass jc = new JavaClass(PACKAGE_NAME + ".meta.DateDBColumn");
 			jc.setGenericTypes(new JavaClass[]{new JavaClass("java.sql.Date")});
 
 			f.setType(jc);
@@ -486,7 +497,7 @@ public class MetaProcessor extends AbstractProcessor {
 			metaClass.addField(f);
 		}else if("java.sql.Time".equals(typeName)){
 			//IDateDBColumn<java.sql.Time>
-			JavaClass jc = new JavaClass(PACKAGE_NAME + ".meta.IDateDBColumn");
+			JavaClass jc = new JavaClass(PACKAGE_NAME + ".meta.DateDBColumn");
 			jc.setGenericTypes(new JavaClass[]{new JavaClass("java.sql.Time")});
 
 			f.setType(jc);
@@ -495,7 +506,7 @@ public class MetaProcessor extends AbstractProcessor {
 			metaClass.addField(f);
 		}else if("java.sql.Timestamp".equals(typeName)){
 			//IDateDBColumn<java.sql.Timestamp>
-			JavaClass jc = new JavaClass(PACKAGE_NAME + ".meta.IDateDBColumn");
+			JavaClass jc = new JavaClass(PACKAGE_NAME + ".meta.DateDBColumn");
 			jc.setGenericTypes(new JavaClass[]{new JavaClass("java.sql.Timestamp")});
 
 			f.setType(jc);

@@ -1,6 +1,6 @@
 package com.github.typesafe_query.query;
 
-import com.github.typesafe_query.meta.IDBTable;
+import com.github.typesafe_query.meta.DBTable;
 
 /**
  * JOINをあらわすインターフェースです。
@@ -20,7 +20,7 @@ public interface Join<T>{
 	 * JOIN対象テーブルを返します
 	 * @return JOIN対象テーブル
 	 */
-	IDBTable getTargetTable();
+	DBTable getTargetTable();
 	
 	/**
 	 * ON句を返します

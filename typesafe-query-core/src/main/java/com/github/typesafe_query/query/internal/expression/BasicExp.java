@@ -4,7 +4,7 @@
 package com.github.typesafe_query.query.internal.expression;
 
 
-import com.github.typesafe_query.meta.IDBColumn;
+import com.github.typesafe_query.meta.DBColumn;
 import com.github.typesafe_query.query.Exp;
 import com.github.typesafe_query.query.Param;
 import com.github.typesafe_query.query.QueryContext;
@@ -16,13 +16,13 @@ import com.github.typesafe_query.query.internal.QueryUtils;
  *
  */
 public abstract class BasicExp<T> implements Exp {
-	private IDBColumn<T> left;
-	private IDBColumn<T> right;
+	private DBColumn<T> left;
+	private DBColumn<T> right;
 	private T rightObject;
 	private Param param;
 	private TypesafeQuery subQuery;
 	
-	public BasicExp(IDBColumn<T> left,IDBColumn<T> right) {
+	public BasicExp(DBColumn<T> left,DBColumn<T> right) {
 		if(left == null || right == null){
 			throw new NullPointerException();
 		}
@@ -31,7 +31,7 @@ public abstract class BasicExp<T> implements Exp {
 		this.right = right;
 	}
 	
-	public BasicExp(IDBColumn<T> left, T right) {
+	public BasicExp(DBColumn<T> left, T right) {
 		if(left == null){
 			throw new NullPointerException();
 		}
@@ -40,7 +40,7 @@ public abstract class BasicExp<T> implements Exp {
 		this.rightObject = right;
 	}
 	
-	public BasicExp(IDBColumn<T> left, Param right) {
+	public BasicExp(DBColumn<T> left, Param right) {
 		if(left == null){
 			throw new NullPointerException();
 		}
@@ -49,7 +49,7 @@ public abstract class BasicExp<T> implements Exp {
 		this.param = right;
 	}
 	
-	public BasicExp(IDBColumn<T> left,TypesafeQuery right) {
+	public BasicExp(DBColumn<T> left,TypesafeQuery right) {
 		if(left == null){
 			throw new NullPointerException();
 		}

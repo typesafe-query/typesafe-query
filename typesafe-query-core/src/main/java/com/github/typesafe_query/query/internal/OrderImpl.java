@@ -4,7 +4,7 @@
 package com.github.typesafe_query.query.internal;
 
 
-import com.github.typesafe_query.meta.IDBColumn;
+import com.github.typesafe_query.meta.DBColumn;
 import com.github.typesafe_query.query.InvalidQueryException;
 import com.github.typesafe_query.query.Order;
 import com.github.typesafe_query.query.QueryContext;
@@ -14,10 +14,10 @@ import com.github.typesafe_query.query.QueryContext;
  *
  */
 public class OrderImpl implements Order{
-	private IDBColumn<?> c;
+	private DBColumn<?> c;
 	private Type type;
 	
-	public OrderImpl(IDBColumn<?> c,Type type) {
+	public OrderImpl(DBColumn<?> c,Type type) {
 		if(c == null){
 			throw new InvalidQueryException("join target is null.");
 		}
