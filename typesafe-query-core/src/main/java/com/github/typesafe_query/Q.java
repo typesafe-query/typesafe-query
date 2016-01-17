@@ -207,7 +207,6 @@ public final class Q {
 	/**
 	 * ABSを返します。
 	 * @param c 対象DBカラム
-	 * @param <T> DBカラムの型
 	 * @return ABS
 	 */
 	public static NumberDBColumn<BigDecimal> abs(NumberDBColumn<?> c){
@@ -217,7 +216,6 @@ public final class Q {
 	/**
 	 * AVGを返します。
 	 * @param c 対象DBカラム
-	 * @param <T> DBカラムの型
 	 * @return AVG
 	 */
 	public static NumberDBColumn<BigDecimal> avg(NumberDBColumn<?> c){
@@ -227,7 +225,6 @@ public final class Q {
 	/**
 	 * SQRTを返します。
 	 * @param c 対象DBカラム
-	 * @param <T> DBカラムの型
 	 * @return SQRT
 	 */
 	public static NumberDBColumn<BigDecimal> sqrt(NumberDBColumn<?> c){
