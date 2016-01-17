@@ -1,7 +1,7 @@
 package com.github.typesafe_query.query;
 
-import com.github.typesafe_query.meta.IDBTable;
+import com.github.typesafe_query.meta.DBTable;
 
 public interface SQLBuilder {
-	String createDeleteSQL(IDBTable root,Exp exp);
+	String createDeleteSQL(DBTable root,Exp exp);
 }

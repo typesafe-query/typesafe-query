@@ -1,6 +1,6 @@
 package com.github.typesafe_query.query.internal;
 
-import com.github.typesafe_query.meta.IDBColumn;
+import com.github.typesafe_query.meta.DBColumn;
 
 public class MySQLTypesafeQuery extends DefaultTypesafeQuery{
 
@@ -8,7 +8,7 @@ public class MySQLTypesafeQuery extends DefaultTypesafeQuery{
 		super();
 	}
 
-	public MySQLTypesafeQuery(IDBColumn<?>... columns) {
+	public MySQLTypesafeQuery(DBColumn<?>... columns) {
 		super(columns);
 	}
 

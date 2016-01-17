@@ -9,7 +9,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import com.github.typesafe_query.meta.IDBTable;
+import com.github.typesafe_query.meta.DBTable;
 import com.github.typesafe_query.meta.impl.DBTableImpl;
 import com.github.typesafe_query.meta.impl.NumberDBColumnImpl;
 import com.github.typesafe_query.meta.impl.StringDBColumnImpl;
@@ -25,7 +25,7 @@ public class AndExpTest {
 	
 	@Test
 	public void ok(){
-		IDBTable t = new DBTableImpl("table1");
+		DBTable t = new DBTableImpl("table1");
 		Exp[] exps = new Exp[3];
 		exps[0] = new LtExp<Integer>(new NumberDBColumnImpl<Integer>(t, "age"), 245);
 		exps[1] = new EqExp<String>(new StringDBColumnImpl(t, "name"), "piyo");
@@ -41,7 +41,7 @@ public class AndExpTest {
 	
 	@Test
 	public void ok_andInAnd(){
-		IDBTable t = new DBTableImpl("table1");
+		DBTable t = new DBTableImpl("table1");
 		
 		Exp[] inner = new Exp[3];
 		inner[0] = new LtExp<Integer>(new NumberDBColumnImpl<Integer>(t, "age"), 245);
@@ -69,7 +69,7 @@ public class AndExpTest {
 	
 	@Test
 	public void ok_exps_0(){
-		IDBTable t = new DBTableImpl("table1");
+		DBTable t = new DBTableImpl("table1");
 		Exp[] exps = new Exp[0];
 		Exp exp = new AndExp(exps);
 		
@@ -80,7 +80,7 @@ public class AndExpTest {
 	}
 	@Test
 	public void ok_exps_1(){
-		IDBTable t = new DBTableImpl("table1");
+		DBTable t = new DBTableImpl("table1");
 		Exp[] exps = new Exp[1];
 		exps[0] = new LtExp<Long>(new NumberDBColumnImpl<Long>(t, "age"), 245L);
 		Exp exp = new AndExp(exps);

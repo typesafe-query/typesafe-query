@@ -1,6 +1,6 @@
 package com.github.typesafe_query.query.internal;
 
-import com.github.typesafe_query.meta.IDBColumn;
+import com.github.typesafe_query.meta.DBColumn;
 
 public class DB2TypesafeQuery extends DefaultTypesafeQuery{
 
@@ -8,7 +8,7 @@ public class DB2TypesafeQuery extends DefaultTypesafeQuery{
 		super();
 	}
 
-	public DB2TypesafeQuery(IDBColumn<?>... columns) {
+	public DB2TypesafeQuery(DBColumn<?>... columns) {
 		super(columns);
 	}
 
