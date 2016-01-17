@@ -6,8 +6,8 @@ package com.github.typesafe_query.meta.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.github.typesafe_query.meta.IDBColumn;
-import com.github.typesafe_query.meta.IDBTable;
+import com.github.typesafe_query.meta.DBColumn;
+import com.github.typesafe_query.meta.DBTable;
 import com.github.typesafe_query.query.Case;
 import com.github.typesafe_query.query.Exp;
 import com.github.typesafe_query.query.Func;
@@ -21,13 +21,13 @@ import com.github.typesafe_query.query.internal.expression.NotEqExp;
  * @author Takahiko Sato(MOSA architect Inc.)
  *
  */
-public abstract class DBColumnImpl<T> implements IDBColumn<T> {
+public abstract class DBColumnImpl<T> implements DBColumn<T> {
 	
-	private IDBTable table;
+	private DBTable table;
 	private String name;
 	private String otherName;
 	
-	private IDBColumn<?> wrap;
+	private DBColumn<?> wrap;
 	
 	private TypesafeQuery query;
 	
@@ -35,7 +35,7 @@ public abstract class DBColumnImpl<T> implements IDBColumn<T> {
 
 	private List<Func> funcs;
 	
-	public DBColumnImpl(IDBTable table,String name) {
+	public DBColumnImpl(DBTable table,String name) {
 		this.table = table;
 		this.name = name;
 		this.funcs = new ArrayList<Func>();
@@ -49,7 +49,7 @@ public abstract class DBColumnImpl<T> implements IDBColumn<T> {
 		this.case_ = case_;
 	}
 	
-	protected DBColumnImpl(IDBColumn<?> wrap) {
+	protected DBColumnImpl(DBColumn<?> wrap) {
 		if(wrap == null){
 			throw new NullPointerException("wrap is null");
 		}
@@ -60,7 +60,7 @@ public abstract class DBColumnImpl<T> implements IDBColumn<T> {
 		this.wrap = wrap;
 	}
 	
-	protected DBColumnImpl(IDBColumn<?> wrap,String otherName) {
+	protected DBColumnImpl(DBColumn<?> wrap,String otherName) {
 		if(wrap == null){
 			throw new NullPointerException("wrap is null");
 		}
@@ -72,7 +72,7 @@ public abstract class DBColumnImpl<T> implements IDBColumn<T> {
 	}
 	
 	@Override
-	public Exp eq(IDBColumn<T> c) {
+	public Exp eq(DBColumn<T> c) {
 		return new EqExp<T>(this, c);
 	}
 
@@ -92,7 +92,7 @@ public abstract class DBColumnImpl<T> implements IDBColumn<T> {
 	}
 	
 	@Override
-	public Exp neq(IDBColumn<T> c) {
+	public Exp neq(DBColumn<T> c) {
 		return new NotEqExp<T>(this, c);
 	}
 
@@ -122,7 +122,7 @@ public abstract class DBColumnImpl<T> implements IDBColumn<T> {
 	}
 	
 	@Override
-	public IDBTable getTable() {
+	public DBTable getTable() {
 		return table;
 	}
 	/**

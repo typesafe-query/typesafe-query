@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import com.github.typesafe_query.meta.IDBTable;
+import com.github.typesafe_query.meta.DBTable;
 import com.github.typesafe_query.meta.impl.DBTableImpl;
 import com.github.typesafe_query.meta.impl.StringDBColumnImpl;
 import com.github.typesafe_query.query.internal.DefaultQueryContext;
@@ -14,7 +14,7 @@ public class ConcatFuncTest {
 	
 	@Test
 	public void ok_column(){
-		IDBTable t = new DBTableImpl("table1");
+		DBTable t = new DBTableImpl("table1");
 		ConcatFunc func = new ConcatFunc(new StringDBColumnImpl(t, "name"));
 		String actual = func.getSQL(new DefaultQueryContext(t), "table1.num");
 		
@@ -23,7 +23,7 @@ public class ConcatFuncTest {
 	
 	@Test
 	public void ok_column_null(){
-		IDBTable t = new DBTableImpl("table1");
+		DBTable t = new DBTableImpl("table1");
 		ConcatFunc func = new ConcatFunc(null);
 		String actual = func.getSQL(new DefaultQueryContext(t), "table1.num");
 		
@@ -33,7 +33,7 @@ public class ConcatFuncTest {
 	
 	@Test
 	public void ok_value(){
-		IDBTable t = new DBTableImpl("table1");
+		DBTable t = new DBTableImpl("table1");
 		ConcatFunc func = new ConcatFunc("name");
 		String actual = func.getSQL(new DefaultQueryContext(t), "table1.num");
 		
@@ -42,7 +42,7 @@ public class ConcatFuncTest {
 	
 	@Test
 	public void ok_value_null(){
-		IDBTable t = new DBTableImpl("table1");
+		DBTable t = new DBTableImpl("table1");
 		ConcatFunc func = new ConcatFunc(null);
 		String actual = func.getSQL(new DefaultQueryContext(t), "table1.num");
 		

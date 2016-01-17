@@ -3,7 +3,7 @@
  */
 package com.github.typesafe_query.query.internal.expression;
 
-import com.github.typesafe_query.meta.IDBColumn;
+import com.github.typesafe_query.meta.DBColumn;
 import com.github.typesafe_query.query.Param;
 import com.github.typesafe_query.query.TypesafeQuery;
 
@@ -13,15 +13,15 @@ import com.github.typesafe_query.query.TypesafeQuery;
  */
 public class LikeExp extends ComparableExp<String> {
 
-	public LikeExp(IDBColumn<String> left, String right) {
+	public LikeExp(DBColumn<String> left, String right) {
 		super(left, right);
 	}
 	
-	public LikeExp(IDBColumn<String> left, Param right) {
+	public LikeExp(DBColumn<String> left, Param right) {
 		super(left, right);
 	}
 
-	public LikeExp(IDBColumn<String> left, TypesafeQuery right) {
+	public LikeExp(DBColumn<String> left, TypesafeQuery right) {
 		super(left, right);
 	}
 

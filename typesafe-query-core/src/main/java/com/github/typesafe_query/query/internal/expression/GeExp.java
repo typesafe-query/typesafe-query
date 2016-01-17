@@ -3,7 +3,7 @@
  */
 package com.github.typesafe_query.query.internal.expression;
 
-import com.github.typesafe_query.meta.IDBColumn;
+import com.github.typesafe_query.meta.DBColumn;
 import com.github.typesafe_query.query.Param;
 import com.github.typesafe_query.query.TypesafeQuery;
 
@@ -13,19 +13,19 @@ import com.github.typesafe_query.query.TypesafeQuery;
  */
 public class GeExp<T extends Comparable<? super T>> extends ComparableExp<T> {
 
-	public GeExp(IDBColumn<T> left, IDBColumn<T> right) {
+	public GeExp(DBColumn<T> left, DBColumn<T> right) {
 		super(left, right);
 	}
 
-	public GeExp(IDBColumn<T> left, T right) {
+	public GeExp(DBColumn<T> left, T right) {
 		super(left, right);
 	}
 	
-	public GeExp(IDBColumn<T> left, Param right) {
+	public GeExp(DBColumn<T> left, Param right) {
 		super(left, right);
 	}
 
-	public GeExp(IDBColumn<T> left, TypesafeQuery right) {
+	public GeExp(DBColumn<T> left, TypesafeQuery right) {
 		super(left, right);
 	}
 

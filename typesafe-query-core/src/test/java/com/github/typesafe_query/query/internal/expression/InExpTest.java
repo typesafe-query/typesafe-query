@@ -10,8 +10,8 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import com.github.typesafe_query.Q;
-import com.github.typesafe_query.meta.IDBColumn;
-import com.github.typesafe_query.meta.IDBTable;
+import com.github.typesafe_query.meta.DBColumn;
+import com.github.typesafe_query.meta.DBTable;
 import com.github.typesafe_query.meta.impl.DBTableImpl;
 import com.github.typesafe_query.meta.impl.StringDBColumnImpl;
 import com.github.typesafe_query.query.Exp;
@@ -27,8 +27,8 @@ public class InExpTest {
 	
 	@Test
 	public void ok_constructors(){
-		IDBTable t = new DBTableImpl("table1");
-		IDBColumn<String> col1 = new StringDBColumnImpl(t,"col1");
+		DBTable t = new DBTableImpl("table1");
+		DBColumn<String> col1 = new StringDBColumnImpl(t,"col1");
 		
 		new InExp<String>(col1,new String[]{});
 		
@@ -58,7 +58,7 @@ public class InExpTest {
 	
 	@Test
 	public void ok_withObject(){
-		IDBTable t = new DBTableImpl("table1");
+		DBTable t = new DBTableImpl("table1");
 		String[] objs = new String[2];
 		objs[0] = "piyo1";
 		objs[1] = "piyo2";
@@ -73,7 +73,7 @@ public class InExpTest {
 	
 	@Test
 	public void ok_withObject_includeNull(){
-		IDBTable t = new DBTableImpl("table1");
+		DBTable t = new DBTableImpl("table1");
 		String[] objs = new String[2];
 		objs[0] = "piyo1";
 		objs[1] = null;
@@ -88,7 +88,7 @@ public class InExpTest {
 	
 	@Test
 	public void ok_ObjectsEmpty(){
-		IDBTable t = new DBTableImpl("table1");
+		DBTable t = new DBTableImpl("table1");
 		String[] objs = new String[0];
 		
 		Exp exp = new InExp<String>(new StringDBColumnImpl(t,"name"),objs);

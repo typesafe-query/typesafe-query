@@ -4,14 +4,14 @@ import static com.github.typesafe_query.Q.*;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.github.typesafe_query.meta.IDBTable;
+import com.github.typesafe_query.meta.DBTable;
 import com.github.typesafe_query.query.QueryExecutor;
 
 public class ReusableModelHandler<T> extends ModelHandler<T> implements AutoCloseable{
 
 	private Map<String, QueryExecutor> cache;
 	
-	public ReusableModelHandler(Class<T> modelClass, IDBTable table, ModelDescription description) {
+	public ReusableModelHandler(Class<T> modelClass, DBTable table, ModelDescription description) {
 		super(modelClass, table, description);
 		cache = new HashMap<>();
 	}

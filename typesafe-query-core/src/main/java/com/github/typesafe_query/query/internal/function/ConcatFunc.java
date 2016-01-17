@@ -3,7 +3,7 @@
  */
 package com.github.typesafe_query.query.internal.function;
 
-import com.github.typesafe_query.meta.IDBColumn;
+import com.github.typesafe_query.meta.DBColumn;
 import com.github.typesafe_query.query.Func;
 import com.github.typesafe_query.query.QueryContext;
 import com.github.typesafe_query.query.internal.QueryUtils;
@@ -14,10 +14,10 @@ import com.github.typesafe_query.query.internal.QueryUtils;
  */
 public class ConcatFunc implements Func {
 	
-	private IDBColumn<?> concatValue;
+	private DBColumn<?> concatValue;
 	private Object concatObject;
 	
-	public ConcatFunc(IDBColumn<?> concatValue) {
+	public ConcatFunc(DBColumn<?> concatValue) {
 		this.concatValue = concatValue;
 	}
 	

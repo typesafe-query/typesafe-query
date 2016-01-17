@@ -6,17 +6,17 @@ import static org.hamcrest.CoreMatchers.*;
 import org.junit.Test;
 
 import com.github.typesafe_query.Q;
-import com.github.typesafe_query.meta.IDBColumn;
-import com.github.typesafe_query.meta.IDBTable;
+import com.github.typesafe_query.meta.DBColumn;
+import com.github.typesafe_query.meta.DBTable;
 import com.github.typesafe_query.meta.impl.DBTableImpl;
 import com.github.typesafe_query.meta.impl.StringDBColumnImpl;
 
 public class LtExpTest {
 	@Test
 	public void ok_constructors(){
-		IDBTable t = new DBTableImpl("table1");
-		IDBColumn<String> left = new StringDBColumnImpl(t, "left");
-		IDBColumn<String> col1 = new StringDBColumnImpl(t, "col1");
+		DBTable t = new DBTableImpl("table1");
+		DBColumn<String> left = new StringDBColumnImpl(t, "left");
+		DBColumn<String> col1 = new StringDBColumnImpl(t, "col1");
 		
 		new LtExp<>(left, col1);
 		new LtExp<>(left, Q.param());
@@ -26,9 +26,9 @@ public class LtExpTest {
 	
 	@Test
 	public void ok_getSQL(){
-		IDBTable t = new DBTableImpl("table1");
-		IDBColumn<String> left = new StringDBColumnImpl(t, "left");
-		IDBColumn<String> col1 = new StringDBColumnImpl(t, "col1");
+		DBTable t = new DBTableImpl("table1");
+		DBColumn<String> left = new StringDBColumnImpl(t, "left");
+		DBColumn<String> col1 = new StringDBColumnImpl(t, "col1");
 		
 		String actual = new LtExp<>(left, col1).getSQL("'left'", "'right'");
 		assertThat(actual, notNullValue());
