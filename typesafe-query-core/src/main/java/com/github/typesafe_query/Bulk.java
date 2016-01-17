@@ -2,7 +2,7 @@ package com.github.typesafe_query;
 
 import java.util.Set;
 
-import com.github.typesafe_query.meta.IDBTable;
+import com.github.typesafe_query.meta.DBTable;
 import com.github.typesafe_query.query.Exp;
 import com.github.typesafe_query.query.InvalidQueryException;
 import com.github.typesafe_query.query.SQLQuery;
@@ -16,13 +16,13 @@ import com.github.typesafe_query.query.internal.DefaultQueryContext;
  */
 public class Bulk {
 	
-	private IDBTable root;
+	private DBTable root;
 	
 	/**
 	 * モデルクラス、テーブルを指定して新しいインスタンスを生成します。
 	 * @param table テーブル
 	 */
-	public Bulk(IDBTable table) {
+	public Bulk(DBTable table) {
 		this.root = table;
 	}
 	

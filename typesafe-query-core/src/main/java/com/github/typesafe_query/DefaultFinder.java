@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import com.github.typesafe_query.meta.IDBTable;
+import com.github.typesafe_query.meta.DBTable;
 import com.github.typesafe_query.query.QueryExecutor;
 import com.github.typesafe_query.query.Exp;
 import com.github.typesafe_query.query.Order;
@@ -28,7 +28,7 @@ public class DefaultFinder<I,T> implements Finder<I, T>{
 	
 	private Class<T> modelClass;
 	
-	private IDBTable root;
+	private DBTable root;
 	
 	private ModelDescription<T> modelDescription;
 	

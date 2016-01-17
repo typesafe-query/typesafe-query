@@ -5,20 +5,20 @@ import java.util.Arrays;
 import com.github.typesafe_query.meta.impl.DBTableImpl;
 import com.github.typesafe_query.meta.impl.StringDBColumnImpl;
 import com.github.typesafe_query.Finder;
-import com.github.typesafe_query.meta.IDBTable;
+import com.github.typesafe_query.meta.DBTable;
 import com.github.typesafe_query.ModelDescription;
 import java.util.List;
 import com.github.typesafe_query.DefaultFinder;
 import com.github.typesafe_query.ReusableModelHandler;
 import com.github.typesafe_query.DefaultModelHandler;
 import javax.annotation.Generated;
-import com.github.typesafe_query.meta.IStringDBColumn;
+import com.github.typesafe_query.meta.StringDBColumn;
 
 @Generated("Meta Generator")
 public final class UserInfo_{
 
-	public static final IDBTable TABLE = new DBTableImpl("user_info");
-	public static final IStringDBColumn USER_ID = new StringDBColumnImpl(TABLE,"user_id");
+	public static final DBTable TABLE = new DBTableImpl("user_info");
+	public static final StringDBColumn USER_ID = new StringDBColumnImpl(TABLE,"user_id");
 	private static final List<String> _FIELDS = Arrays.asList("userId");
 	private static final ModelDescription<UserInfo> _DESC = new ModelDescription<>(UserInfo.class,TABLE, _FIELDS);
 	private static final DefaultModelHandler<UserInfo> model = new DefaultModelHandler<>(_DESC);

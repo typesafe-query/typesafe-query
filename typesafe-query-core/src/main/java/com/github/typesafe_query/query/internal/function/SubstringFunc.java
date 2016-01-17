@@ -3,7 +3,7 @@
  */
 package com.github.typesafe_query.query.internal.function;
 
-import com.github.typesafe_query.meta.INumberDBColumn;
+import com.github.typesafe_query.meta.NumberDBColumn;
 import com.github.typesafe_query.query.Func;
 import com.github.typesafe_query.query.QueryContext;
 import com.github.typesafe_query.query.internal.QueryUtils;
@@ -14,18 +14,18 @@ import com.github.typesafe_query.query.internal.QueryUtils;
  */
 public class SubstringFunc implements Func {
 	
-	private INumberDBColumn<Integer> fromCol;
-	private INumberDBColumn<Integer> toCol;
+	private NumberDBColumn<Integer> fromCol;
+	private NumberDBColumn<Integer> toCol;
 	
 	private Integer from;
 	private Integer to;
 	
-	public SubstringFunc(INumberDBColumn<Integer> fromCol) {
+	public SubstringFunc(NumberDBColumn<Integer> fromCol) {
 		this.fromCol = fromCol;
 	}
 
-	public SubstringFunc(INumberDBColumn<Integer> fromCol,
-			INumberDBColumn<Integer> toCol) {
+	public SubstringFunc(NumberDBColumn<Integer> fromCol,
+			NumberDBColumn<Integer> toCol) {
 		super();
 		this.fromCol = fromCol;
 		this.toCol = toCol;

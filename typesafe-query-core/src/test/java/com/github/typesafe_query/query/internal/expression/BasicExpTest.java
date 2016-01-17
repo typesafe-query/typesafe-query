@@ -6,8 +6,8 @@ package com.github.typesafe_query.query.internal.expression;
 import org.junit.Test;
 
 import com.github.typesafe_query.Q;
-import com.github.typesafe_query.meta.IDBTable;
-import com.github.typesafe_query.meta.IDateDBColumn;
+import com.github.typesafe_query.meta.DBTable;
+import com.github.typesafe_query.meta.DateDBColumn;
 import com.github.typesafe_query.meta.impl.DBTableImpl;
 import com.github.typesafe_query.meta.impl.StringDBColumnImpl;
 import com.github.typesafe_query.query.internal.ParamImpl;
@@ -20,7 +20,7 @@ public class BasicExpTest {
 	
 	@Test(expected=NullPointerException.class)
 	public void ng_column_column_leftnull(){
-		IDBTable t = new DBTableImpl("table1");
+		DBTable t = new DBTableImpl("table1");
 		
 		new BasicExp<String>(null, new StringDBColumnImpl(t,"right")) {
 			@Override
@@ -32,9 +32,9 @@ public class BasicExpTest {
 	
 	@Test(expected=NullPointerException.class)
 	public void ng_column_column_rightnull(){
-		IDBTable t = new DBTableImpl("table1");
+		DBTable t = new DBTableImpl("table1");
 		
-		IDateDBColumn<String> c = null;
+		DateDBColumn<String> c = null;
 		new BasicExp<String>(new StringDBColumnImpl(t,"left"), c) {
 			@Override
 			protected String getSQL(String l, String r) {

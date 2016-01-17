@@ -8,7 +8,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.github.typesafe_query.meta.IDBTable;
+import com.github.typesafe_query.meta.DBTable;
 import com.github.typesafe_query.query.QueryExecutor;
 import com.github.typesafe_query.query.QueryException;
 import com.github.typesafe_query.query.internal.QueryUtils;
@@ -28,7 +28,7 @@ public class DefaultModelHandler<T> implements ModelHandler<T>{
 	private static final String SQL_DELETE = "DELETE FROM %s WHERE %s";
 	
 	private Class<T> modelClass;
-	private IDBTable root;
+	private DBTable root;
 	private ModelDescription<T> modelDescription;
 	
 	public DefaultModelHandler(ModelDescription<T> description) {

@@ -6,7 +6,7 @@ package com.github.typesafe_query.query.internal.expression;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.github.typesafe_query.meta.IDBColumn;
+import com.github.typesafe_query.meta.DBColumn;
 import com.github.typesafe_query.query.Exp;
 import com.github.typesafe_query.query.QueryContext;
 import com.github.typesafe_query.query.TypesafeQuery;
@@ -16,11 +16,11 @@ import com.github.typesafe_query.query.internal.QueryUtils;
  * @author Takahiko Sato(MOSA architect Inc.)
  */
 public class InExp<T extends Comparable<? super T>> implements Exp {
-	private IDBColumn<T> left;
+	private DBColumn<T> left;
 	private T[] objects;
 	private TypesafeQuery query;
 	
-	public InExp(IDBColumn<T> left,T[] objects) {
+	public InExp(DBColumn<T> left,T[] objects) {
 		if(left == null || objects == null){
 			throw new NullPointerException();
 		}
@@ -28,7 +28,7 @@ public class InExp<T extends Comparable<? super T>> implements Exp {
 		this.objects = objects;
 	}
 	
-	public InExp(IDBColumn<T> left,TypesafeQuery query) {
+	public InExp(DBColumn<T> left,TypesafeQuery query) {
 		if(left == null || query == null){
 			throw new NullPointerException();
 		}

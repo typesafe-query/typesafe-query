@@ -7,19 +7,19 @@ import java.util.List;
 import com.github.typesafe_query.annotation.Column;
 import com.github.typesafe_query.annotation.EmbeddedId;
 import com.github.typesafe_query.annotation.Id;
-import com.github.typesafe_query.meta.IDBTable;
+import com.github.typesafe_query.meta.DBTable;
 import com.github.typesafe_query.util.ClassUtils;
 import com.github.typesafe_query.util.Tuple;
 
 public class ModelDescription<T> {
 	private final Class<T> modelClass;
-	private final IDBTable table;
+	private final DBTable table;
 	
 	private final List<Tuple<String, String>> idNames;
 	private final List<Tuple<String, String>> allNames;
 	private final List<Tuple<String, String>> valueNames;
 	
-	public ModelDescription(Class<T> modelClass,IDBTable table,List<String> fieldNames) {
+	public ModelDescription(Class<T> modelClass,DBTable table,List<String> fieldNames) {
 		this.modelClass = modelClass;
 		this.table = table;
 		
@@ -89,7 +89,7 @@ public class ModelDescription<T> {
 		return modelClass;
 	}
 
-	public IDBTable getTable() {
+	public DBTable getTable() {
 		return table;
 	}
 

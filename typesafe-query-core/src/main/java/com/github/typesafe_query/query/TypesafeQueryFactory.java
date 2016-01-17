@@ -1,7 +1,7 @@
 package com.github.typesafe_query.query;
 
 import com.github.typesafe_query.Settings;
-import com.github.typesafe_query.meta.IDBColumn;
+import com.github.typesafe_query.meta.DBColumn;
 import com.github.typesafe_query.query.internal.DB2TypesafeQuery;
 import com.github.typesafe_query.query.internal.DefaultTypesafeQuery;
 import com.github.typesafe_query.query.internal.MySQLTypesafeQuery;
@@ -27,7 +27,7 @@ public final class TypesafeQueryFactory {
 		throw new RuntimeException("不正なDBタイプが指定されました " + dbType);
 	}
 	
-	public static TypesafeQuery get(IDBColumn<?>...columns){
+	public static TypesafeQuery get(DBColumn<?>...columns){
 		Settings settings = Settings.get();
 		String dbType = settings.getDbType();
 		if(dbType == null || dbType.isEmpty()){

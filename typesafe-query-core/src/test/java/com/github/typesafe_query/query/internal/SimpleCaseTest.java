@@ -1,6 +1,6 @@
 package com.github.typesafe_query.query.internal;
 
-import com.github.typesafe_query.meta.IDBColumn;
+import com.github.typesafe_query.meta.DBColumn;
 import com.github.typesafe_query.query.SimpleCase;
 import com.sample.model.ApUser_;
 
@@ -13,7 +13,7 @@ public class SimpleCaseTest {
 		.endAsStringColumn().as("VVB");
 	}
 	
-	static <T> SimpleCase<T> case_(IDBColumn<T> col){
+	static <T> SimpleCase<T> case_(DBColumn<T> col){
 		return null;
 	}
 }
