@@ -33,17 +33,17 @@ public class DefaultBulk implements Bulk{
 	 */
 	@Override
 	public int update(Set<Exp> sets){
-		return updateWhere(sets, null);
+		return updateWhere(sets);
 	}
 	
 	/**
 	 * 条件を指定して更新します
 	 * @param sets 更新項目
-	 * @param exp 条件
+	 * @param expressions 条件
 	 * @return 更新件数
 	 */
 	@Override
-	public int updateWhere(Set<Exp> sets,Exp exp){
+	public int updateWhere(Set<Exp> sets,Exp...expressions){
 		if(sets == null){
 			throw new NullPointerException();
 		}
@@ -69,9 +69,9 @@ public class DefaultBulk implements Bulk{
 			first = false;
 		}
 		
-		if(exp != null){
+		if(expressions != null){
 			sb.append(" WHERE ");
-			sb.append(exp.getSQL(context));
+			sb.append(Q.and(expressions).getSQL(context));
 		}
 		
 		String sql = sb.toString();
@@ -85,17 +85,17 @@ public class DefaultBulk implements Bulk{
 	 */
 	@Override
 	public int delete(){
-		return deleteWhere(null);
+		return deleteWhere();
 	}
 	
 	/**
 	 * 条件を指定して削除します
-	 * @param exp 条件
+	 * @param expressions 条件
 	 * @return 削除件数
 	 */
 	@Override
-	public int deleteWhere(Exp exp){
-		String sql = DBManager.getSQLBuilder().createDeleteSQL(root, exp);
+	public int deleteWhere(Exp... expressions){
+		String sql = DBManager.getSQLBuilder().createDeleteSQL(root, Q.and(expressions));
 		SQLQuery query = Q.stringQuery(sql);
 		return query.forOnce().executeUpdate();
 	}
