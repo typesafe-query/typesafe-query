@@ -81,7 +81,7 @@ public class DefaultTypesafeQuery extends AbstractSQLQuery implements TypesafeQu
 
 	@Override
 	public TypesafeQuery from(DBTable root, String alias) {
-		return from(new DBTableImpl(root.getName(), alias));
+		return from(new DBTableImpl(root.getSchema(), root.getSimpleName(), alias));
 	}
 
 	@Override
@@ -105,7 +105,7 @@ public class DefaultTypesafeQuery extends AbstractSQLQuery implements TypesafeQu
 	
 	@Override
 	public Join<TypesafeQuery> innerJoin(DBTable joinTable, String alias) {
-		return innerJoin(new DBTableImpl(joinTable.getName(), alias));
+		return innerJoin(new DBTableImpl(joinTable.getSchema(), joinTable.getSimpleName(), alias));
 	}
 
 	@Override
@@ -117,7 +117,7 @@ public class DefaultTypesafeQuery extends AbstractSQLQuery implements TypesafeQu
 
 	@Override
 	public Join<TypesafeQuery> outerJoin(DBTable joinTable, String alias) {
-		return outerJoin(new DBTableImpl(joinTable.getName(), alias));
+		return outerJoin(new DBTableImpl(joinTable.getSchema(),joinTable.getSimpleName(), alias));
 	}
 
 	@Override

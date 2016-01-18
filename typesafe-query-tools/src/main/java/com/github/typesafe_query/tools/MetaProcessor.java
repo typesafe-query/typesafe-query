@@ -119,13 +119,22 @@ public class MetaProcessor extends AbstractProcessor {
 		//クラスから@Tableを取得してメタクラス、IDBTableを定義する。
 		//デフォルトスネークケース
 		String tableName = camelToSnake(te.getSimpleName().toString());
+		String schemaName = null;
 		AnnotationMirror tAnot = Utils.getAnnotation(te, ANOT_TABLE);
 		if(tAnot !=null){
 			String tn = Utils.getAnnotationPropertyValue(tAnot, "name");
 			if(tn != null && !tn.isEmpty()){
 				tableName = tn;
 			}
+			
+			//スキーマ定義
+			String sc = Utils.getAnnotationPropertyValue(tAnot, "schema");
+			if(sc != null && !sc.isEmpty()){
+				schemaName = sc;
+			}
 		}
+		
+		
 
 		metaClass.addImport(new JavaClass(PACKAGE_NAME + ".meta.impl.DBTableImpl"));
 		
@@ -134,7 +143,11 @@ public class MetaProcessor extends AbstractProcessor {
 		table.setType(IDBTABLE_CLASS);
 		table.setFinal(true);
 		table.setStatical(true);
-		table.setInitializeString(String.format("new DBTableImpl(\"%s\")",tableName));
+		if(schemaName != null){
+			table.setInitializeString(String.format("new DBTableImpl(\"%s\",\"%s\")",schemaName,tableName));
+		}else{
+			table.setInitializeString(String.format("new DBTableImpl(\"%s\")",tableName));
+		}
 
 		metaClass.addField(table);
 

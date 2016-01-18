@@ -32,7 +32,7 @@ public class BooleanDBColumnImpl extends DBColumnImpl<Boolean> implements Boolea
 	@Override
 	public <V extends DBColumn<Boolean>> V createFromTableAlias(
 			String tableAlias) {
-		return (V)new BooleanDBColumnImpl(new DBTableImpl(getTable().getName(), tableAlias), getName());
+		return (V)new BooleanDBColumnImpl(new DBTableImpl(getTable().getSchema(),getTable().getSimpleName(), tableAlias), getName());
 	}
 
 	@Override

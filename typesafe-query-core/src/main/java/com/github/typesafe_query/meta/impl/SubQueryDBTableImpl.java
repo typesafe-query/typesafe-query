@@ -10,7 +10,7 @@ public class SubQueryDBTableImpl extends DBTableImpl{
 	private TypesafeQuery query;
 	
 	public SubQueryDBTableImpl(TypesafeQuery query,DBTable table) {
-		super(table.getName());
+		super(table.getSimpleName());
 		this.query = query;
 	}
 
