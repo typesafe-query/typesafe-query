@@ -69,9 +69,15 @@ public class DefaultBulk implements Bulk{
 			first = false;
 		}
 		
-		if(expressions != null){
+		if(expressions != null && expressions.length > 0){
 			sb.append(" WHERE ");
-			sb.append(Q.and(expressions).getSQL(context));
+			Exp exp;
+			if(expressions.length == 1){
+				exp = expressions[0];
+			}else{
+				exp = Q.and(expressions);
+			}
+			sb.append(exp.getSQL(context));
 		}
 		
 		String sql = sb.toString();
@@ -95,7 +101,13 @@ public class DefaultBulk implements Bulk{
 	 */
 	@Override
 	public int deleteWhere(Exp... expressions){
-		String sql = DBManager.getSQLBuilder().createDeleteSQL(root, Q.and(expressions));
+		Exp exp = null;
+		if(expressions.length == 1){
+			exp = expressions[0];
+		}else if(expressions.length > 1){
+			exp = Q.and(expressions);
+		}
+		String sql = DBManager.getSQLBuilder().createDeleteSQL(root, exp);
 		SQLQuery query = Q.stringQuery(sql);
 		return query.forOnce().executeUpdate();
 	}
