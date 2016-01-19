@@ -20,12 +20,13 @@ import com.github.typesafe_query.query.BatchQueryExecutor;
 import com.github.typesafe_query.query.Exp;
 import com.github.typesafe_query.query.NamedQuery;
 import com.github.typesafe_query.query.Param;
+import com.github.typesafe_query.query.ResourceQuery;
 import com.github.typesafe_query.query.SearchedCase;
 import com.github.typesafe_query.query.SimpleCase;
 import com.github.typesafe_query.query.StringQuery;
 import com.github.typesafe_query.query.TypesafeQuery;
 import com.github.typesafe_query.query.TypesafeQueryFactory;
-import com.github.typesafe_query.query.internal.DefaultNamedQuery;
+import com.github.typesafe_query.query.internal.DefaultResourceQuery;
 import com.github.typesafe_query.query.internal.DefaultSearchedCase;
 import com.github.typesafe_query.query.internal.DefaultSimpleCase;
 import com.github.typesafe_query.query.internal.DefaultStringQuery;
@@ -62,13 +63,19 @@ public final class Q {
 		return TypesafeQueryFactory.get(columns);
 	}
 	
+	public static StringQuery queryFrom(String name){
+		return new DefaultResourceQuery(name);
+	}
+	
 	/**
 	 * {@link NamedQuery}を返します。
 	 * @param name クエリ名
 	 * @return {@link NamedQuery}
+	 * @deprecated このメソッドはv1.0.0までに削除されます。{@link Q#queryFrom(String)}を使用して下さい。
 	 */
+	@Deprecated
 	public static NamedQuery namedQuery(String name){
-		return new DefaultNamedQuery(name);
+		return new DefaultResourceQuery(name);
 	}
 	
 	public static StringQuery stringQuery(String sql){
