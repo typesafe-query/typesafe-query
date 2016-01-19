@@ -11,16 +11,17 @@ import java.io.InputStreamReader;
 import com.github.typesafe_query.Settings;
 import com.github.typesafe_query.query.NamedQuery;
 import com.github.typesafe_query.query.QueryException;
+import com.github.typesafe_query.query.ResourceQuery;
 
 /**
  * @author Takahiko Sato(MOSA architect Inc.)
  *
  */
-public class DefaultNamedQuery extends DefaultStringQuery implements NamedQuery {
+public class DefaultResourceQuery extends DefaultStringQuery implements NamedQuery,ResourceQuery {
 	
 	private String name;
 	
-	public DefaultNamedQuery(String name) {
+	public DefaultResourceQuery(String name) {
 		super();
 		this.name = name;
 		
