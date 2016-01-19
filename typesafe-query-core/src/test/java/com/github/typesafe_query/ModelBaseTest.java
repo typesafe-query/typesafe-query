@@ -64,18 +64,12 @@ public class ModelBaseTest {
 		assertThat(created.get().getRoleId(), is("R2"));
 		
 		//キー重複
-		try {
-			user.create();
-			fail();
-		} catch (QueryException e) {
-		}
+		boolean result = user.create();
+		assertFalse(result);
 		
 		//NOT NULL項目
-		try {
-			new ApUser().create();
-			fail();
-		} catch (QueryException e) {
-		}
+		result = new ApUser().create();
+		assertFalse(result);
 	}
 	
 	@Test
@@ -103,6 +97,13 @@ public class ModelBaseTest {
 			fail();
 		} catch (QueryException e) {
 		}
+		
+		//NOT NULL項目
+		ApUser ap = new ApUser();
+		ap.setUserId("AA");
+		boolean result = ApUser_.model().save(ap);
+		assertFalse(result);
+
 	}
 	
 	@Test
