@@ -161,7 +161,12 @@ public class DefaultModelHandler<T> implements ModelHandler<T>{
 			q.addParam(o);
 		}
 		
-		return q.executeUpdate() != 0;
+		try {
+			return q.executeUpdate() != 0;
+		} catch (QueryException e) {
+			logger.warn("Create failed.",e);
+			return false;
+		}
 	}
 	
 	/**
@@ -247,7 +252,12 @@ public class DefaultModelHandler<T> implements ModelHandler<T>{
 			q.addParam(o);
 		}
 		
-		return q.executeUpdate() != 0;
+		try {
+			return q.executeUpdate() != 0;
+		} catch (QueryException e) {
+			logger.warn("Save failed.",e);
+			return false;
+		}
 	}
 	
 	/**
@@ -300,7 +310,12 @@ public class DefaultModelHandler<T> implements ModelHandler<T>{
 			q.addParam(o);
 		}
 		
-		return q.executeUpdate() != 0;
+		try {
+			return q.executeUpdate() != 0;
+		} catch (QueryException e) {
+			logger.warn("Delete failed.",e);
+			return false;
+		}
 	}
 	
 	protected QueryExecutor createExecutor(String sql){
