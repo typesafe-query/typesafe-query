@@ -24,6 +24,8 @@ import javax.lang.model.util.ElementFilter;
 import javax.lang.model.util.Types;
 import javax.tools.Diagnostic.Kind;
 
+import org.atteo.evo.inflector.English;
+
 import com.github.typesafe_query.tools.util.CodeUtils;
 import com.github.typesafe_query.tools.util.Field;
 import com.github.typesafe_query.tools.util.JavaClass;
@@ -73,40 +75,53 @@ public class MetaProcessor extends AbstractProcessor {
 		for (TypeElement annotation : annotations) {
 			Set<TypeElement> classes = ElementFilter.typesIn(roundEnv.getElementsAnnotatedWith(annotation));
 			for (TypeElement te : classes) {
-
-				try {
-
-					String metaClassName = te.getQualifiedName().toString() + META_CLASS_SUFFIX;
-					String metaClassSimpleName = te.getSimpleName().toString() + META_CLASS_SUFFIX;
-
-					idClass = null;
-					targetFields = new ArrayList<String>();
-					metaClass = new JavaClass(metaClassName);
-					metaClass.setFinal(true);
-					metaClass.addAnnotaion(GENERATED_ANNOTATION, GENERATED_VALUE);
-					Method m = new Method(metaClassSimpleName);
-					m.setConstractor(true);
-					m.setQualifier(Qualifiers.PRIVATE);
-					metaClass.addMethod(m);
-
-					processType(te);
-
-					//ファイルを作る
-					JavaFileObject jfo = f.createSourceFile(metaClassName);
-					PrintWriter writer = new PrintWriter(jfo.openOutputStream());
-					//ファイルに書き込む
-					writer.write(metaClass.toJavaCodeAll());
-					writer.close();
-				} catch (Exception e) {
-					StringWriter sw = new StringWriter();
-					PrintWriter pw = new PrintWriter(sw);
-					e.printStackTrace(pw);
-
-					messager.printMessage(Kind.ERROR, "メタクラスを作成できませんでした。\n" + sw.toString(),te);
-				}
+				//ひとまず2つ作ってアンスコ版は非推奨にする。設定にしたい。
+				//アンスコ版
+				String metaClassName = te.getQualifiedName().toString() + META_CLASS_SUFFIX;
+				String metaClassSimpleName = te.getSimpleName().toString() + META_CLASS_SUFFIX;
+				createMetaClass(true,te, metaClassName, metaClassSimpleName, messager, f);
+				
+				//複数形版
+				String pluralName = English.plural(te.getSimpleName().toString(),2);
+				metaClassName = te.getQualifiedName().toString();
+				metaClassName = metaClassName.replace(te.getSimpleName().toString(), pluralName);
+				metaClassSimpleName = pluralName;
+				createMetaClass(false,te, metaClassName, metaClassSimpleName, messager, f);
 			}
 		}
 		return true;
+	}
+	
+	private void createMetaClass(boolean deplicated,TypeElement te,String metaClassName,String metaClassSimpleName,Messager messager,Filer f){
+		try {
+			idClass = null;
+			targetFields = new ArrayList<String>();
+			metaClass = new JavaClass(metaClassName);
+			metaClass.setFinal(true);
+			metaClass.addAnnotaion(GENERATED_ANNOTATION, GENERATED_VALUE);
+			if(deplicated){
+				metaClass.addAnnotaion(new JavaClass("java.lang.Deprecated"), null);
+			}
+			Method m = new Method(metaClassSimpleName);
+			m.setConstractor(true);
+			m.setQualifier(Qualifiers.PRIVATE);
+			metaClass.addMethod(m);
+
+			processType(te);
+
+			//ファイルを作る
+			JavaFileObject jfo = f.createSourceFile(metaClassName);
+			PrintWriter writer = new PrintWriter(jfo.openOutputStream());
+			//ファイルに書き込む
+			writer.write(metaClass.toJavaCodeAll());
+			writer.close();
+		} catch (Exception e) {
+			StringWriter sw = new StringWriter();
+			PrintWriter pw = new PrintWriter(sw);
+			e.printStackTrace(pw);
+
+			messager.printMessage(Kind.ERROR, "メタクラスを作成できませんでした。\n" + sw.toString(),te);
+		}
 	}
 
 	private boolean isId(VariableElement ve){
