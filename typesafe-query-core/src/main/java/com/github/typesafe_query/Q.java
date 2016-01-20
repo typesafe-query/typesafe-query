@@ -179,7 +179,7 @@ public final class Q {
 	 * @return COUNT
 	 */
 	public static NumberDBColumn<Long> count(ComparableDBColumn<?> c){
-		NumberDBColumn<Long> nc = new NumberDBColumnImpl<Long>(c.getTable(), c.getName());
+		NumberDBColumn<Long> nc = new NumberDBColumnImpl<Long>("*".equals(c.getName()) ? null : c.getTable(), c.getName());
 		return nc.count();
 	}
 	 
