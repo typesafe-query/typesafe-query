@@ -98,7 +98,7 @@ public class NumberDBColumnImpl<T extends Number & Comparable<? super T>> extend
 	@SuppressWarnings("unchecked")
 	@Override
 	public <V extends DBColumn<T>> V createFromTableAlias(String tableAlias) {
-		return (V)new NumberDBColumnImpl<T>(new DBTableImpl(getTable().getName(), tableAlias), getName());
+		return (V)new NumberDBColumnImpl<T>(new DBTableImpl(getTable().getSchema(),getTable().getSimpleName(), tableAlias), getName());
 	}
 
 	@Override

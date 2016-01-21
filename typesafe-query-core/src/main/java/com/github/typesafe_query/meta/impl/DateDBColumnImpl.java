@@ -49,7 +49,7 @@ public class DateDBColumnImpl<T extends Comparable<? super T>> extends Comparabl
 	@SuppressWarnings("unchecked")
 	@Override
 	public <V extends DBColumn<T>> V createFromTableAlias(String tableAlias) {
-		return (V)new DateDBColumnImpl<T>(new DBTableImpl(getTable().getName(), tableAlias), getName());
+		return (V)new DateDBColumnImpl<T>(new DBTableImpl(getTable().getSchema(),getTable().getSimpleName(), tableAlias), getName());
 	}
 
 	@Override
