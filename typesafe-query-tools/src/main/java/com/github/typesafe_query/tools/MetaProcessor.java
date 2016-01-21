@@ -138,6 +138,18 @@ public class MetaProcessor extends AbstractProcessor {
 
 		metaClass.addField(table);
 
+		metaClass.addImport(new JavaClass(PACKAGE_NAME + ".meta.impl.StringDBColumnImpl"));
+		
+		Field asterisk = new Field("ASTERISK");
+		asterisk.setQualifier(Qualifiers.PUBLIC);
+		asterisk.setType(new JavaClass(PACKAGE_NAME + ".meta.StringDBColumn"));
+		asterisk.setFinal(true);
+		asterisk.setStatical(true);
+		asterisk.setInitializeString("new StringDBColumnImpl(TABLE, \"*\")");
+		
+		metaClass.addField(asterisk);
+		
+
 		//privateフィールドを取得して、IDBColumnを定義していく。
 		List<VariableElement> fields = ElementFilter.fieldsIn(te.getEnclosedElements());
 		for(VariableElement ve : fields){
