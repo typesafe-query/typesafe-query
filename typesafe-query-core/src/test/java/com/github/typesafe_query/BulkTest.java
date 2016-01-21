@@ -64,13 +64,19 @@ public class BulkTest {
 	public void updateWhere(){
 		int count = ApUser_.bulk().updateWhere(Q.set(
 			ApUser_.LOCK_FLG.eq("0")
-		),ApUser_.UNIT_ID.eq("U1"));
+		),ApUser_.UNIT_ID.eq("U1"),ApUser_.ROLE_ID.eq("R1"));
 		
 		assertThat(count, is(3));
 
 		count = ApUser_.bulk().updateWhere(Q.set(
 			ApUser_.LOCK_FLG.eq("0")
-		),null);
+		),ApUser_.UNIT_ID.eq("U2"),ApUser_.ROLE_ID.eq("R2"));
+			
+		assertThat(count, is(1));
+
+		count = ApUser_.bulk().updateWhere(Q.set(
+			ApUser_.LOCK_FLG.eq("0")
+		),new Exp[]{});
 		
 		assertThat(count, is(4));
 
@@ -99,9 +105,12 @@ public class BulkTest {
 	public void deleteWhere(){
 		int count = ApUser_.bulk().deleteWhere(ApUser_.UNIT_ID.eq("U1"));
 		assertThat(count, is(3));
-
-		count = ApUser_.bulk().deleteWhere(null);
+		
+		count = ApUser_.bulk().deleteWhere(ApUser_.UNIT_ID.eq("U2"),ApUser_.ROLE_ID.eq("R2"));
 		assertThat(count, is(1));
+
+		count = ApUser_.bulk().deleteWhere(new Exp[]{});
+		assertThat(count, is(0));
 	}
 
 }
