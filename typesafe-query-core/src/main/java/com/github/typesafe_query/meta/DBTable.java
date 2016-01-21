@@ -12,6 +12,8 @@ import com.github.typesafe_query.query.QueryContext;
  *
  */
 public interface DBTable {
+	String getSchema();
+	String getSimpleName();
 	String getName();
 	String getAlias();
 	String getQuery(QueryContext context);

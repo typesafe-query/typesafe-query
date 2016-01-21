@@ -173,7 +173,7 @@ public class StringDBColumnImpl extends ComparableDBColumnImpl<String> implement
 	@Override
 	public <V extends DBColumn<String>> V createFromTableAlias(
 			String tableAlias) {
-		return (V)new StringDBColumnImpl(new DBTableImpl(getTable().getName(), tableAlias), getName());
+		return (V)new StringDBColumnImpl(new DBTableImpl(getTable().getSchema(), getTable().getSimpleName(), tableAlias), getName());
 	}
 
 	@Override
