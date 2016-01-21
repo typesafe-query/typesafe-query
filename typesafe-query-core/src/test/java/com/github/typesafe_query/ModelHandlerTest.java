@@ -64,18 +64,11 @@ public class ModelHandlerTest {
 		assertThat(created.get().getRoleId(), is("R2"));
 		
 		//キー重複
-		try {
-			ApUser_.model().create(user);
-			fail();
-		} catch (QueryException e) {
-		}
+		boolean result = ApUser_.model().create(user);
+		assertFalse(result);
 		
 		//NOT NULL項目
-		try {
-			ApUser_.model().create(new ApUser());
-			fail();
-		} catch (QueryException e) {
-		}
+		result = ApUser_.model().create(new ApUser());
 		
 		try {
 			ApUser_.model().create(null);
@@ -109,6 +102,12 @@ public class ModelHandlerTest {
 			fail();
 		} catch (QueryException e) {
 		}
+		
+		//NOT NULL項目
+		ApUser ap = new ApUser();
+		ap.setUserId("AA");
+		boolean result = ApUser_.model().save(ap);
+		assertFalse(result);
 		
 		try {
 			ApUser_.model().save(null);
