@@ -7,6 +7,9 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -396,19 +399,34 @@ public final class Q {
 		Collections.addAll(set, eqExps);
 		return set;
 	}
-	
+
 	/**
 	 * 現在日を取得するCURRENT_DATE句
 	 */
-	public static final DateDBColumnImpl<Date> CURRENT_DATE = new DateDBColumnImpl<Date>(null, "CURRENT_DATE");
+	public static final DateDBColumnImpl<Date> CURRENT_DATE_SQL = new DateDBColumnImpl<Date>(null, "CURRENT_DATE");
 	
 	/**
 	 * 現在日時を取得するCURRENT_TIMESTAMP句
 	 */
-	public static final DateDBColumnImpl<Timestamp> CURRENT_TIMESTAMP = new DateDBColumnImpl<Timestamp>(null, "CURRENT_TIMESTAMP");
+	public static final DateDBColumnImpl<Timestamp> CURRENT_TIMESTAMP_SQL = new DateDBColumnImpl<Timestamp>(null, "CURRENT_TIMESTAMP");
 	
 	/**
 	 * 現在時刻を取得するCURRENT_TIME句
 	 */
-	public static final DateDBColumnImpl<Time> CURRENT_TIME = new DateDBColumnImpl<Time>(null, "CURRENT_TIME");
+	public static final DateDBColumnImpl<Time> CURRENT_TIME_SQL = new DateDBColumnImpl<Time>(null, "CURRENT_TIME");
+	
+	/**
+	 * 現在日を取得するCURRENT_DATE句
+	 */
+	public static final DateDBColumnImpl<LocalDate> CURRENT_DATE = new DateDBColumnImpl<LocalDate>(null, "CURRENT_DATE");
+	
+	/**
+	 * 現在日時を取得するCURRENT_TIMESTAMP句
+	 */
+	public static final DateDBColumnImpl<LocalDateTime> CURRENT_TIMESTAMP = new DateDBColumnImpl<LocalDateTime>(null, "CURRENT_TIMESTAMP");
+	
+	/**
+	 * 現在時刻を取得するCURRENT_TIME句
+	 */
+	public static final DateDBColumnImpl<LocalTime> CURRENT_TIME = new DateDBColumnImpl<LocalTime>(null, "CURRENT_TIME");
 }
