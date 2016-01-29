@@ -378,15 +378,33 @@ public final class Q {
 		return c.substring(from, to);
 	}
 	
-	public static <V extends Comparable<? super V>> ComparableDBColumn<V> any(ComparableDBColumn<V> c){
+	/**
+	 * ANYを返します。
+	 * @param c 対象DBカラム
+	 * @param compC 比較対象DBカラム
+	 * @return ANY
+	 */
+	public static <V extends Comparable<? super V>> ComparableDBColumn<V> any(ComparableDBColumn<V> c, ComparableDBColumn<V> compC){
 		return c.any();
 	}
-	
-	public static <V extends Comparable<? super V>> ComparableDBColumn<V> some(ComparableDBColumn<V> c){
+
+	/**
+	 * SOMEを返します。
+	 * @param c 対象DBカラム
+	 * @param compC 比較対象DBカラム
+	 * @return SOME
+	 */
+	public static <V extends Comparable<? super V>> ComparableDBColumn<V> some(ComparableDBColumn<V> c, ComparableDBColumn<V> compC){
 		return c.some();
 	}
-	
-	public static <V extends Comparable<? super V>> ComparableDBColumn<V> all(ComparableDBColumn<V> c){
+
+	/**
+	 * ALLを返します。
+	 * @param c 対象DBカラム
+	 * @param compC 比較対象DBカラム
+	 * @return ALL
+	 */
+	public static <V extends Comparable<? super V>> ComparableDBColumn<V> all(ComparableDBColumn<V> c, ComparableDBColumn<V> compC){
 		return c.all();
 	}
 	
