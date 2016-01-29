@@ -17,6 +17,8 @@ public interface StringDBColumn extends ComparableDBColumn<String>{
 	StringDBColumn lower();
 	StringDBColumn upper();
 	StringDBColumn trim();
+	StringDBColumn rtrim();
+	StringDBColumn ltrim();
 	StringDBColumn substring(NumberDBColumn<Integer> from);
 	StringDBColumn substring(NumberDBColumn<Integer> from,NumberDBColumn<Integer> to);
 	StringDBColumn substring(int from);
