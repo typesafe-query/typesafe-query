@@ -4,6 +4,9 @@
 package com.github.typesafe_query;
 
 import java.math.BigDecimal;
+import java.sql.Date;
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -13,14 +16,15 @@ import com.github.typesafe_query.helper.BatchQueryExecutorHelper;
 import com.github.typesafe_query.helper.ReusableQueryExecutorHelper;
 import com.github.typesafe_query.meta.ComparableDBColumn;
 import com.github.typesafe_query.meta.DBColumn;
+import com.github.typesafe_query.meta.DateDBColumn;
 import com.github.typesafe_query.meta.NumberDBColumn;
 import com.github.typesafe_query.meta.StringDBColumn;
+import com.github.typesafe_query.meta.impl.DateDBColumnImpl;
 import com.github.typesafe_query.meta.impl.NumberDBColumnImpl;
 import com.github.typesafe_query.query.BatchQueryExecutor;
 import com.github.typesafe_query.query.Exp;
 import com.github.typesafe_query.query.NamedQuery;
 import com.github.typesafe_query.query.Param;
-import com.github.typesafe_query.query.ResourceQuery;
 import com.github.typesafe_query.query.SearchedCase;
 import com.github.typesafe_query.query.SimpleCase;
 import com.github.typesafe_query.query.StringQuery;
@@ -391,5 +395,29 @@ public final class Q {
 		Set<Exp> set = new LinkedHashSet<Exp>();
 		Collections.addAll(set, eqExps);
 		return set;
+	}
+	
+	/**
+	 * 現在日を取得するCURRENT_DATE句を返します。
+	 * @return CURRENT_DATE
+	 */
+	public static DateDBColumn<Date> currentDate(){
+		return new DateDBColumnImpl<Date>(null, "CURRENT_DATE");
+	}
+	
+	/**
+	 * 現在時刻を取得するCURRENT_TIME句を返します。
+	 * @return CURRENT_TIME
+	 */
+	public static DateDBColumn<Time> currentTime(){
+		return new DateDBColumnImpl<Time>(null, "CURRENT_TIME");
+	}
+	
+	/**
+	 * 現在日時を取得するCURRENT_TIMESTAMP句を返します。
+	 * @return CURRENT_TIMESTAMP
+	 */
+	public static DateDBColumn<Timestamp> currentTimestamp(){
+		return new DateDBColumnImpl<Timestamp>(null, "CURRENT_TIMESTAMP");
 	}
 }
