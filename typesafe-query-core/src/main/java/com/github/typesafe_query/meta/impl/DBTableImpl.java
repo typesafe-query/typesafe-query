@@ -72,9 +72,9 @@ public class DBTableImpl implements DBTable {
 	}
 	
 	@Override
-	public String getQuery(QueryContext context) {
+	public String getSQL(QueryContext context) {
 		if(wrap != null){
-			return String.format("%s %s", wrap.getQuery(context),getAlias());
+			return String.format("%s %s", wrap.getSQL(context),getAlias());
 		}
 		return String.format("%s %s", getName(),getAlias());
 	}

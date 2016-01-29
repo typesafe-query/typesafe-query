@@ -253,7 +253,7 @@ public class DefaultTypesafeQuery extends AbstractSQLQuery implements TypesafeQu
 		
 		sb
 			.append("FROM ")
-			.append(from.getQuery(context))
+			.append(from.getSQL(context))
 			.append(" ");
 		
 		if(!joins.isEmpty()){
@@ -323,7 +323,7 @@ public class DefaultTypesafeQuery extends AbstractSQLQuery implements TypesafeQu
 				sb.append("INNER JOIN ");
 			}
 			DBTable jt = j.getTargetTable();
-			sb.append(String.format("%s ON %s ", jt.getQuery(context),j.getOn().getSQL(context)));
+			sb.append(String.format("%s ON %s ", jt.getSQL(context),j.getOn().getSQL(context)));
 			list.add(sb.toString());
 		}
 		

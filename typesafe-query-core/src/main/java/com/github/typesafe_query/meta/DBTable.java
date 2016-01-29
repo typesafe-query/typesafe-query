@@ -16,5 +16,5 @@ public interface DBTable {
 	String getSimpleName();
 	String getName();
 	String getAlias();
-	String getQuery(QueryContext context);
+	String getSQL(QueryContext context);
 }
