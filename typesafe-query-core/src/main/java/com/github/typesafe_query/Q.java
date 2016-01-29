@@ -267,6 +267,24 @@ public final class Q {
 	}
 	
 	/**
+	 * RTRIMを返します。
+	 * @param c 対象DBカラム
+	 * @return RTRIM
+	 */
+	public static StringDBColumn rtrim(StringDBColumn c){
+		return c.rtrim();
+	}
+	
+	/**
+	 * LTRIMを返します。
+	 * @param c 対象DBカラム
+	 * @return LTRIM
+	 */
+	public static StringDBColumn ltrim(StringDBColumn c){
+		return c.ltrim();
+	}
+	
+	/**
 	 * LENGTHを返します。
 	 * @param c 対象DBカラム
 	 * @return LENGTH
