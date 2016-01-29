@@ -20,7 +20,6 @@ import com.github.typesafe_query.query.BatchQueryExecutor;
 import com.github.typesafe_query.query.Exp;
 import com.github.typesafe_query.query.NamedQuery;
 import com.github.typesafe_query.query.Param;
-import com.github.typesafe_query.query.ResourceQuery;
 import com.github.typesafe_query.query.SearchedCase;
 import com.github.typesafe_query.query.SimpleCase;
 import com.github.typesafe_query.query.StringQuery;
@@ -377,6 +376,18 @@ public final class Q {
 	 */
 	public static StringDBColumn substr(StringDBColumn c,NumberDBColumn<Integer> from,NumberDBColumn<Integer> to){
 		return c.substring(from, to);
+	}
+	
+	public static <V extends Comparable<? super V>> ComparableDBColumn<V> any(ComparableDBColumn<V> c){
+		return c.any();
+	}
+	
+	public static <V extends Comparable<? super V>> ComparableDBColumn<V> some(ComparableDBColumn<V> c){
+		return c.some();
+	}
+	
+	public static <V extends Comparable<? super V>> ComparableDBColumn<V> all(ComparableDBColumn<V> c){
+		return c.all();
 	}
 	
 	/**

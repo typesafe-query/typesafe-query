@@ -15,9 +15,12 @@ import com.github.typesafe_query.query.Param;
 import com.github.typesafe_query.query.TypesafeQuery;
 import com.github.typesafe_query.query.internal.expression.LikeExp;
 import com.github.typesafe_query.query.internal.expression.NotLikeExp;
+import com.github.typesafe_query.query.internal.function.AllFunc;
+import com.github.typesafe_query.query.internal.function.AnyFunc;
 import com.github.typesafe_query.query.internal.function.ConcatFunc;
 import com.github.typesafe_query.query.internal.function.LengthFunc;
 import com.github.typesafe_query.query.internal.function.LowerFunc;
+import com.github.typesafe_query.query.internal.function.SomeFunc;
 import com.github.typesafe_query.query.internal.function.SubstringFunc;
 import com.github.typesafe_query.query.internal.function.ToNumberFunc;
 import com.github.typesafe_query.query.internal.function.TrimFunc;
@@ -179,5 +182,20 @@ public class StringDBColumnImpl extends ComparableDBColumnImpl<String> implement
 	@Override
 	public DBColumn<String> as(String otherName) {
 		return new StringDBColumnImpl(this, otherName);
+	}
+
+	@Override
+	public StringDBColumn any(){
+		return addFunc(new AnyFunc());
+	}
+
+	@Override
+	public StringDBColumn some(){
+		return addFunc(new SomeFunc());
+	}
+
+	@Override
+	public StringDBColumn all(){
+		return addFunc(new AllFunc());
 	}
 }

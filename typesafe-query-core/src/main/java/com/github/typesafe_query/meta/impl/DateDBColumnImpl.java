@@ -10,6 +10,9 @@ import com.github.typesafe_query.meta.DateDBColumn;
 import com.github.typesafe_query.query.Case;
 import com.github.typesafe_query.query.Func;
 import com.github.typesafe_query.query.TypesafeQuery;
+import com.github.typesafe_query.query.internal.function.AllFunc;
+import com.github.typesafe_query.query.internal.function.AnyFunc;
+import com.github.typesafe_query.query.internal.function.SomeFunc;
 
 /**
  * @author Takahiko Sato(MOSA architect Inc.)
@@ -55,5 +58,19 @@ public class DateDBColumnImpl<T extends Comparable<? super T>> extends Comparabl
 	@Override
 	public DBColumn<T> as(String otherName) {
 		return new DateDBColumnImpl<T>(this, otherName);
+	}
+	@Override
+	public DateDBColumnImpl<T> any(){
+		return addFunc(new AnyFunc());
+	}
+
+	@Override
+	public DateDBColumnImpl<T> some(){
+		return addFunc(new SomeFunc());
+	}
+
+	@Override
+	public DateDBColumnImpl<T> all(){
+		return addFunc(new AllFunc());
 	}
 }
