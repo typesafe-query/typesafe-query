@@ -398,26 +398,17 @@ public final class Q {
 	}
 	
 	/**
-	 * 現在日を取得するCURRENT_DATE句を返します。
-	 * @return CURRENT_DATE
+	 * 現在日を取得するCURRENT_DATE句
 	 */
-	public static DateDBColumn<Date> currentDate(){
-		return new DateDBColumnImpl<Date>(null, "CURRENT_DATE");
-	}
+	public static final DateDBColumnImpl<Date> CURRENT_DATE = new DateDBColumnImpl<Date>(null, "CURRENT_DATE");
 	
 	/**
-	 * 現在時刻を取得するCURRENT_TIME句を返します。
-	 * @return CURRENT_TIME
+	 * 現在日時を取得するCURRENT_TIMESTAMP句
 	 */
-	public static DateDBColumn<Time> currentTime(){
-		return new DateDBColumnImpl<Time>(null, "CURRENT_TIME");
-	}
+	public static final DateDBColumnImpl<Timestamp> CURRENT_TIMESTAMP = new DateDBColumnImpl<Timestamp>(null, "CURRENT_TIMESTAMP");
 	
 	/**
-	 * 現在日時を取得するCURRENT_TIMESTAMP句を返します。
-	 * @return CURRENT_TIMESTAMP
+	 * 現在時刻を取得するCURRENT_TIME句
 	 */
-	public static DateDBColumn<Timestamp> currentTimestamp(){
-		return new DateDBColumnImpl<Timestamp>(null, "CURRENT_TIMESTAMP");
-	}
+	public static final DateDBColumnImpl<Time> CURRENT_TIME = new DateDBColumnImpl<Time>(null, "CURRENT_TIME");
 }
