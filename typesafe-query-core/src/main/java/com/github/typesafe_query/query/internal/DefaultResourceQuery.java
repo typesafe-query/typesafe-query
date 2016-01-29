@@ -33,7 +33,7 @@ public class DefaultResourceQuery extends DefaultStringQuery implements NamedQue
 		StringBuilder sb = new StringBuilder();
 		BufferedReader br = null;
 		try{
-			br = new BufferedReader(new InputStreamReader(in,Settings.get().getNamedQueryCharset()));
+			br = new BufferedReader(new InputStreamReader(in,Settings.get().getResourceQueryCharset()));
 			String line;
 			while((line = br.readLine()) != null){
 				line = line.trim();

@@ -15,7 +15,7 @@ public class SubQueryDBTableImpl extends DBTableImpl{
 	}
 
 	@Override
-	public String getQuery(QueryContext context) {
+	public String getSQL(QueryContext context) {
 		return String.format("(%s)", query.getSQL(context).trim());
 	}
 }

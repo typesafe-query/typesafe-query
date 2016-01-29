@@ -23,7 +23,7 @@ public final class Role_{
 	public static final StringDBColumn ROLE_ID = new StringDBColumnImpl(TABLE,"role_id");
 	public static final StringDBColumn NAME = new StringDBColumnImpl(TABLE,"name");
 	private static final List<String> _FIELDS = Arrays.asList("id/unitId","id/roleId","name");
-	private static final ModelDescription<Role> _DESC = new ModelDescription<>(Role.class,TABLE, _FIELDS);
+	private static final ModelDescription<Role> _DESC = new ModelDescription<>(Role.class,TABLE,false,_FIELDS);
 	private static final DefaultModelHandler<Role> model = new DefaultModelHandler<>(_DESC);
 	private static final Finder<RolePK,Role> find = new DefaultFinder<>(_DESC);
 	private static final Bulk bulk = new DefaultBulk(TABLE);

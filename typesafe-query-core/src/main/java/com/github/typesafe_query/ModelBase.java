@@ -18,6 +18,11 @@ public abstract class ModelBase<T extends ModelBase<T>> {
 		);
 	}
 	
+	/**
+	 * This method is going to be deleted soon.Use create method!
+	 * @return
+	 */
+	@Deprecated
 	public Long createByGeneratedKey(){
 		//TODO castが気に食わない
 		//TODO generate対象だったら自動的に呼び分けてセットするほうがいい。呼び分けさせるのは気に食わない

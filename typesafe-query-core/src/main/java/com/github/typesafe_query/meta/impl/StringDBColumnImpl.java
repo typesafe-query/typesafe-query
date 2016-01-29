@@ -20,6 +20,8 @@ import com.github.typesafe_query.query.internal.function.AnyFunc;
 import com.github.typesafe_query.query.internal.function.ConcatFunc;
 import com.github.typesafe_query.query.internal.function.LengthFunc;
 import com.github.typesafe_query.query.internal.function.LowerFunc;
+import com.github.typesafe_query.query.internal.function.LtrimFunc;
+import com.github.typesafe_query.query.internal.function.RtrimFunc;
 import com.github.typesafe_query.query.internal.function.SomeFunc;
 import com.github.typesafe_query.query.internal.function.SubstringFunc;
 import com.github.typesafe_query.query.internal.function.ToNumberFunc;
@@ -79,6 +81,16 @@ public class StringDBColumnImpl extends ComparableDBColumnImpl<String> implement
 	@Override
 	public StringDBColumn trim() {
 		return addFunc(new TrimFunc());
+	}
+
+	@Override
+	public StringDBColumn rtrim() {
+		return addFunc(new RtrimFunc());
+	}
+
+	@Override
+	public StringDBColumn ltrim() {
+		return addFunc(new LtrimFunc());
 	}
 
 	@Override
