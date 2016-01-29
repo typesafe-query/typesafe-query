@@ -3,7 +3,7 @@
   <parent>
     <groupId>com.github.typesafe-query</groupId>
     <artifactId>typesafe-query</artifactId>
-    <version>0.3.0</version>
+    <version>0.4.0</version>
   </parent>
   <artifactId>typesafe-query-core</artifactId>
   <name>Typesafe Query Core</name>
@@ -11,6 +11,11 @@
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.esotericsoftware.yamlbeans</groupId>
+      <artifactId>yamlbeans</artifactId>
+      <version>1.09</version>
     </dependency>
     <dependency>
       <groupId>com.h2database</groupId>
