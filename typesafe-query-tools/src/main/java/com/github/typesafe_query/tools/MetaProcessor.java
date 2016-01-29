@@ -53,6 +53,7 @@ public class MetaProcessor extends AbstractProcessor {
 	public static final String ANOT_TABLE = "com.github.typesafe_query.annotation.Table";
 	public static final String ANOT_COLUMN = "com.github.typesafe_query.annotation.Column";
 	public static final String ANOT_TRANSIENT = "com.github.typesafe_query.annotation.Transient";
+	public static final String ANOT_AUTO_INCREMENT = "com.github.typesafe_query.annotation.AutoIncrement";
 
 	public static final String PACKAGE_NAME = "com.github.typesafe_query";
 	
@@ -178,6 +179,7 @@ public class MetaProcessor extends AbstractProcessor {
 		metaClass.addField(asterisk);
 		
 
+		boolean idGenerated = false;
 		//privateフィールドを取得して、IDBColumnを定義していく。
 		List<VariableElement> fields = ElementFilter.fieldsIn(te.getEnclosedElements());
 		for(VariableElement ve : fields){
@@ -199,6 +201,7 @@ public class MetaProcessor extends AbstractProcessor {
 					continue;
 				}
 				idClass = typeElement.getQualifiedName().toString();
+				idGenerated = Utils.hasAnnotation(ve, ANOT_AUTO_INCREMENT);
 			}
 
 			writeIDBColumn(ve,null);
@@ -241,7 +244,7 @@ public class MetaProcessor extends AbstractProcessor {
 		_dsc.setStatical(true);
 		_dsc.setFinal(true);
 		_dsc.setType(_desc);
-		_dsc.setInitializeString("new ModelDescription<>("+ te.getSimpleName().toString() +".class,TABLE,_FIELDS)");
+		_dsc.setInitializeString("new ModelDescription<>("+ te.getSimpleName().toString() +".class,TABLE," + idGenerated + ",_FIELDS)");
 
 		metaClass.addField(_dsc);
 		

@@ -21,7 +21,7 @@ public final class UserInfo_{
 	public static final DBTable TABLE = new DBTableImpl("user_info");
 	public static final StringDBColumn USER_ID = new StringDBColumnImpl(TABLE,"user_id");
 	private static final List<String> _FIELDS = Arrays.asList("userId");
-	private static final ModelDescription<UserInfo> _DESC = new ModelDescription<>(UserInfo.class,TABLE, _FIELDS);
+	private static final ModelDescription<UserInfo> _DESC = new ModelDescription<>(UserInfo.class,TABLE, false,_FIELDS);
 	private static final DefaultModelHandler<UserInfo> model = new DefaultModelHandler<>(_DESC);
 	private static final Finder<String,UserInfo> find = new DefaultFinder<>(_DESC);
 	private static final Bulk bulk = new DefaultBulk(TABLE);

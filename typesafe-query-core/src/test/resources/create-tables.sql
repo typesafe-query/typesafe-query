@@ -67,6 +67,13 @@ CREATE TABLE typemodel
 	timestamp1 timestamp
 );
 
+CREATE TABLE generated_id_table
+(
+  id bigint NOT NULL auto_increment,
+  name character varying(32) NOT NULL,
+  PRIMARY KEY (id)
+);
+
 INSERT INTO typemodel values('もじ','1','1','1','1',1,2,3,4,5,6,0.1,0.2,0.3,0.4,7,0.8,'hogehogehogeohgeohgeohgeoh','1013','1','2015-07-01','12:00:00','2015-07-01 12:00:00.555');
 
 INSERT INTO ap_user (user_id,name,lock_flg,valid_from,valid_to,unit_id,role_id) VALUES ('A1','ゆーざー1','1','2015-01-10',null,'U1','R1');
@@ -82,4 +89,6 @@ INSERT INTO role (unit_id,role_id,name) VALUES ('U2','R2','ろーる2');
 INSERT INTO unit (unit_id,name) VALUES ('U1','ゆにっと1');
 INSERT INTO unit (unit_id,name) VALUES ('U2','ゆにっと2');
 INSERT INTO unit (unit_id,name) VALUES ('U3','ゆにっと3');
+
+INSERT INTO generated_id_table (name) VALUES ('自動生成');
 
