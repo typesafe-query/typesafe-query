@@ -1,7 +1,15 @@
 package com.github.typesafe_query;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
+import com.esotericsoftware.yamlbeans.YamlConfig;
+import com.esotericsoftware.yamlbeans.YamlReader;
+
 public class Settings {
 	
+	private static final String SETTING_FILE_PATH = "/META-INF/typesafe-query.yml";
 	private static Settings instance;
 	
 	public Settings() {
@@ -9,27 +17,34 @@ public class Settings {
 	
 	public static Settings get(){
 		if(instance == null){
-			instance = new Settings();
+			InputStream in = Settings.class.getResourceAsStream(SETTING_FILE_PATH);
+			if(in == null){
+				instance = new Settings();
+			}else{
+				YamlConfig config = new YamlConfig();
+				config.setPrivateFields(true);
+				
+				try {
+					YamlReader reader = new YamlReader(new InputStreamReader(in, "UTF-8"),config);
+					instance = reader.read(Settings.class);
+					reader.close();
+				} catch (IOException e) {
+					//FIXME 例外をちゃんと決める
+					throw new RuntimeException("Failed read settings.",e);
+				}
+			}
 		}
 		return instance;
 	}
 	
 	private String dbType;
-	private String namedQueryCharset = "UTF-8";
+	private String resourceQueryCharset = "UTF-8";
 
 	public String getDbType() {
 		return dbType;
 	}
 
-	public void setDbType(String dbType) {
-		this.dbType = dbType;
-	}
-
-	public String getNamedQueryCharset() {
-		return namedQueryCharset;
-	}
-
-	public void setNamedQueryCharset(String namedQueryCharset) {
-		this.namedQueryCharset = namedQueryCharset;
+	public String getResourceQueryCharset() {
+		return resourceQueryCharset;
 	}
 }
