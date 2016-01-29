@@ -15,13 +15,16 @@ public class ModelDescription<T> {
 	private final Class<T> modelClass;
 	private final DBTable table;
 	
+	private final boolean idGenerated;
+	
 	private final List<Tuple<String, String>> idNames;
 	private final List<Tuple<String, String>> allNames;
 	private final List<Tuple<String, String>> valueNames;
 	
-	public ModelDescription(Class<T> modelClass,DBTable table,List<String> fieldNames) {
+	public ModelDescription(Class<T> modelClass,DBTable table,boolean idGenerated,List<String> fieldNames) {
 		this.modelClass = modelClass;
 		this.table = table;
+		this.idGenerated = idGenerated;
 		
 		this.idNames = new ArrayList<Tuple<String, String>>();
 		this.allNames = new ArrayList<Tuple<String, String>>();
@@ -91,6 +94,10 @@ public class ModelDescription<T> {
 
 	public DBTable getTable() {
 		return table;
+	}
+
+	public boolean isIdGenerated() {
+		return idGenerated;
 	}
 
 	public List<Tuple<String, String>> getIdNames(){

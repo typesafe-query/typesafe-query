@@ -108,7 +108,11 @@ public class DefaultSQLRunner implements SQLRunner{
 			createStatement(Statement.RETURN_GENERATED_KEYS);
 			logger.info("SQL={} PARAM={} QUERY_RUNNER={} PREPARED_STATEMENT={} CONNECTION={}",sql,params,this,ps,con);
 			prepareParams(ps, params);
-			ps.executeUpdate();
+			int updated = ps.executeUpdate();
+			if(updated < 1){
+				//TODO 例外の使い分け問題
+				throw new QueryException("insert failed.");
+			}
 			ResultSet rs = ps.getGeneratedKeys();
 			if(!rs.next()){
 				throw new QueryException("Did not return a Generated key...");

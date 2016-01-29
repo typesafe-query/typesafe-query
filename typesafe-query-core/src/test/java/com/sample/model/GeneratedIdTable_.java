@@ -16,36 +16,36 @@ import javax.annotation.Generated;
 import com.github.typesafe_query.meta.StringDBColumn;
 
 @Generated("Meta Generator")
-public final class Unit_{
+public final class GeneratedIdTable_{
 
-	public static final DBTable TABLE = new DBTableImpl("unit");
-	public static final StringDBColumn UNIT_ID = new StringDBColumnImpl(TABLE,"unit_id");
+	public static final DBTable TABLE = new DBTableImpl("generated_id_table");
+	public static final StringDBColumn ID = new StringDBColumnImpl(TABLE,"id");
 	public static final StringDBColumn NAME = new StringDBColumnImpl(TABLE,"name");
-	private static final List<String> _FIELDS = Arrays.asList("unitId","name");
-	private static final ModelDescription<Unit> _DESC = new ModelDescription<>(Unit.class,TABLE, false,_FIELDS);
-	private static final DefaultModelHandler<Unit> model = new DefaultModelHandler<>(_DESC);
-	private static final Finder<String,Unit> find = new DefaultFinder<>(_DESC);
+	private static final List<String> _FIELDS = Arrays.asList("id","name");
+	private static final ModelDescription<GeneratedIdTable> _DESC = new ModelDescription<>(GeneratedIdTable.class,TABLE, true,_FIELDS);
+	private static final DefaultModelHandler<GeneratedIdTable> model = new DefaultModelHandler<>(_DESC);
+	private static final Finder<String,GeneratedIdTable> find = new DefaultFinder<>(_DESC);
 	private static final Bulk bulk = new DefaultBulk(TABLE);
 
-	private Unit_(){
+	private GeneratedIdTable_(){
 	}
 
-	public static DefaultModelHandler<Unit> model(){
+	public static DefaultModelHandler<GeneratedIdTable> model(){
 		return model;
 	}
 
-	public static ReusableModelHandler<Unit> modelForReuse(){
+	public static ReusableModelHandler<GeneratedIdTable> modelForReuse(){
 		return new ReusableModelHandler<>(_DESC);
 	}
 
-	public static Finder<String,Unit> find(){
+	public static Finder<String,GeneratedIdTable> find(){
 		return find;
 	}
 
 	public static Bulk bulk(){
 		return bulk;
 	}
-	public static ModelDescription<Unit> description(){
+	public static ModelDescription<GeneratedIdTable> description(){
 		return _DESC;
 	}
 }

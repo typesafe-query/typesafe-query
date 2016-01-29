@@ -1,10 +1,7 @@
 package com.github.typesafe_query;
 
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.*;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -19,6 +16,8 @@ import com.github.typesafe_query.query.QueryException;
 import com.github.typesafe_query.util.SQLUtils;
 import com.sample.model.ApUser;
 import com.sample.model.ApUser_;
+import com.sample.model.GeneratedIdTable;
+import com.sample.model.GeneratedIdTable_;
 
 public class ModelHandlerTest {
 	
@@ -51,7 +50,8 @@ public class ModelHandlerTest {
 		user.setUnitId("U2");
 		user.setRoleId("R2");
 		
-		ApUser_.model().create(user);
+		boolean result = ApUser_.model().create(user);
+		assertTrue(result);
 		
 		Optional<ApUser> created = ApUser_.find().byId("A5");
 		assertTrue(created.isPresent());
@@ -64,7 +64,7 @@ public class ModelHandlerTest {
 		assertThat(created.get().getRoleId(), is("R2"));
 		
 		//キー重複
-		boolean result = ApUser_.model().create(user);
+		result = ApUser_.model().create(user);
 		assertFalse(result);
 		
 		//NOT NULL項目
@@ -72,6 +72,34 @@ public class ModelHandlerTest {
 		
 		try {
 			ApUser_.model().create(null);
+			fail();
+		} catch (NullPointerException e) {
+		}
+	}
+	
+	@Test
+	public void create_with_generated(){
+		GeneratedIdTable g = new GeneratedIdTable();
+		g.setName("ゆーざー５");
+		
+		boolean result = GeneratedIdTable_.model().create(g);
+		assertTrue(result);
+		Long fistTime = g.getId();
+		assertNotNull(fistTime);
+		
+		//キー重複
+		result = GeneratedIdTable_.model().create(g);
+		assertTrue(result);
+		assertNotNull(g.getId());
+		
+		assertThat(fistTime, is(not(g.getId())));
+		
+		//NOT NULL項目
+		result = GeneratedIdTable_.model().create(new GeneratedIdTable());
+		assertFalse(result);
+		
+		try {
+			GeneratedIdTable_.model().create(null);
 			fail();
 		} catch (NullPointerException e) {
 		}

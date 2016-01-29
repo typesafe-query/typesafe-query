@@ -42,6 +42,7 @@ public class DefaultModelHandler<T> implements ModelHandler<T>{
 	 * @param model モデル
 	 * @return 作成したキー
 	 */
+	@Deprecated
 	public Long createByGeneratedKey(T model){
 		if(model == null){
 			throw new NullPointerException("対象オブジェクトがnullです");
@@ -106,6 +107,75 @@ public class DefaultModelHandler<T> implements ModelHandler<T>{
 		return r;
 	}
 	
+	private boolean createWithGeneratedKey(T model){
+		if(model == null){
+			throw new NullPointerException("対象オブジェクトがnullです");
+		}
+		
+		List<String> sets = new ArrayList<String>();
+		List<String> values = new ArrayList<String>();
+		List<Object> params = new ArrayList<Object>();
+		
+		List<Tuple<String, String>> all = modelDescription.getValueNames();
+		for(Tuple<String, String> t : all){
+			Field f;
+			Object targetModel;
+			if(t._2.contains("/")){
+				String[] subNames = t._2.split("/");
+				if(subNames.length != 2){
+					throw new RuntimeException(String.format("フィールド名%sが不正です", t._2));
+				}
+				f = ClassUtils.getField(subNames[0], modelClass);
+				if(f == null){
+					throw new RuntimeException(String.format("%sクラスのフィールド%sが見つかりません", modelClass.getSimpleName(),subNames[0]));
+				}
+				targetModel = ClassUtils.callGetter(f, model);
+				if(targetModel == null){
+					//targetModelがnullの場合、インスタンスを生成してあげる
+					logger.debug("Creating new instance. targetModel is null.");
+					targetModel = ClassUtils.newInstance(f.getType());
+				}
+				Class<?> emb = f.getType();
+				f = ClassUtils.getField(subNames[1], emb);
+			}else{
+				f = ClassUtils.getField(t._2, modelClass);
+				targetModel = model;
+			}
+			
+			if(f == null){
+				throw new RuntimeException(String.format("%sクラスのフィールド%sが見つかりません", modelClass.getSimpleName(),t._2));
+			}
+			sets.add(t._1);
+			values.add("?");
+			params.add(convertParamType(f, targetModel));
+		}
+		
+		String sql = String.format(SQL_INSERT,root.getName() ,QueryUtils.joinWith(",", sets),QueryUtils.joinWith(",", values));
+		
+		QueryExecutor q = createExecutor(sql);
+		for(Object o : params){
+			q.addParam(o);
+		}
+		
+		try {
+			Long r = q.insert();
+			
+			//生成キーがー複数のことはありえる？
+			List<Tuple<String, String>> ids = modelDescription.getIdNames();
+			if(ids.size() > 1){
+				throw new QueryException("複合キーは自動生成に対応していません");
+			}
+			Tuple<String, String> id = ids.get(0);
+			Field f = ClassUtils.getField(id._2, modelClass);
+			ClassUtils.callSetter(f, Long.class, model, r);
+			
+			return true;
+		} catch (QueryException e) {
+			logger.warn("Exception thrown!!",e);
+			return false;
+		}
+	}
+	
 	private Object convertParamType(Field f,Object targetModel){
 		//Optional判定はExecutableQuery#addParamでやるため不要
 		Object o = ClassUtils.callGetter(f, targetModel);
@@ -119,6 +189,10 @@ public class DefaultModelHandler<T> implements ModelHandler<T>{
 	public boolean create(T model){
 		if(model == null){
 			throw new NullPointerException("対象オブジェクトがnullです");
+		}
+		
+		if(modelDescription.isIdGenerated()){
+			return createWithGeneratedKey(model);
 		}
 		
 		List<String> sets = new ArrayList<String>();
