@@ -15,7 +15,10 @@ import org.junit.Test;
 import com.github.typesafe_query.query.Exp;
 import com.github.typesafe_query.query.InvalidQueryException;
 import com.github.typesafe_query.util.SQLUtils;
+import com.sample.model.ApUser2_;
 import com.sample.model.ApUser_;
+import com.sample.model.Role_;
+import com.sample.model.Unit_;
 
 public class BulkTest {
 	
@@ -35,6 +38,43 @@ public class BulkTest {
 	public void after()throws Exception{
 		ConnectionHolder.getInstance().set(null);
 		con.close();
+	}
+	
+	@Test
+	public void insert(){
+		int count = ApUser2_.bulk().insert(
+				Q.select(
+				ApUser_.USER_ID,
+				ApUser_.NAME,
+				ApUser_.LOCK_FLG,
+				ApUser_.VALID_FROM,
+				ApUser_.VALID_TO,
+				ApUser_.UNIT_ID,
+				ApUser_.ROLE_ID)
+				.from(ApUser_.TABLE)
+				.where(ApUser_.USER_ID.neq("A1")));
+		
+		assertThat(count, is(3));
+		
+		int count2 = Unit_.bulk().insert(
+				new Into(Unit_.UNIT_ID, Unit_.NAME),
+				Q.select(Role_.ROLE_ID, Role_.NAME).from(Role_.TABLE));
+		
+		assertThat(count2, is(2));
+		
+		try {
+			ApUser_.bulk().insert(null);
+			fail();
+		} catch (NullPointerException e) {
+			
+		}
+
+		try {
+			ApUser_.bulk().insert(Q.into(ApUser_.USER_ID), null);
+			fail();
+		} catch (NullPointerException e) {
+			
+		}
 	}
 	
 	@Test
