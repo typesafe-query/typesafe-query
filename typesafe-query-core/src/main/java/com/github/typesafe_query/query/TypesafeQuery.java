@@ -3,6 +3,8 @@
  */
 package com.github.typesafe_query.query;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
@@ -55,5 +57,14 @@ public interface TypesafeQuery extends SQLQuery{
 	DateDBColumn<Timestamp> asTimestampColumn();
 	DateDBColumn<Time> asTimeColumn();
 	BooleanDBColumn asBooleanColumn();
+	
+	//Number系カラム
 	<N extends Number & Comparable<? super N>> NumberDBColumn<N> asNumberColumn();
+	NumberDBColumn<Short> asShortColumn();
+	NumberDBColumn<Integer> asIntegerColumn();
+	NumberDBColumn<Long> asLongColumn();
+	NumberDBColumn<BigInteger> asBigIntegerColumn();
+	NumberDBColumn<Float> asFloatColumn();
+	NumberDBColumn<Double> asDoubleColumn();
+	NumberDBColumn<BigDecimal> asBigDecimalColumn();
 }
