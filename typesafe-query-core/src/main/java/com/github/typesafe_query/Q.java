@@ -19,7 +19,6 @@ import com.github.typesafe_query.helper.BatchQueryExecutorHelper;
 import com.github.typesafe_query.helper.ReusableQueryExecutorHelper;
 import com.github.typesafe_query.meta.ComparableDBColumn;
 import com.github.typesafe_query.meta.DBColumn;
-import com.github.typesafe_query.meta.DateDBColumn;
 import com.github.typesafe_query.meta.NumberDBColumn;
 import com.github.typesafe_query.meta.StringDBColumn;
 import com.github.typesafe_query.meta.impl.DateDBColumnImpl;
@@ -416,6 +415,15 @@ public final class Q {
 		Set<Exp> set = new LinkedHashSet<Exp>();
 		Collections.addAll(set, eqExps);
 		return set;
+	}
+	
+	/**
+	 * INSERT文のinto句を返します。
+	 * @param columns 列のリスト
+	 * @return INTO
+	 */
+	public static Into into(DBColumn<?>... columns){
+		return new Into(columns);
 	}
 
 	/**

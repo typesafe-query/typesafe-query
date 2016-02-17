@@ -1,11 +1,16 @@
 package com.github.typesafe_query;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
+import com.github.typesafe_query.meta.DBColumn;
 import com.github.typesafe_query.meta.DBTable;
 import com.github.typesafe_query.query.Exp;
 import com.github.typesafe_query.query.InvalidQueryException;
 import com.github.typesafe_query.query.SQLQuery;
+import com.github.typesafe_query.query.TypesafeQuery;
 import com.github.typesafe_query.query.internal.DefaultQueryContext;
 
 /**
@@ -26,6 +31,49 @@ public class DefaultBulk implements Bulk{
 		this.root = table;
 	}
 	
+	/**
+	 * サブクエリの結果を新規行として追加します
+	 * @param subQuery サブクエリ
+	 * @return 更新件数
+	 */
+	@Override
+	public int insert(TypesafeQuery subQuery) {
+		return insert(new Into(), subQuery);
+	}
+
+	/**
+	 * 列を指定してサブクエリの結果を新規行として追加します
+	 * @param into 指定列情報
+	 * @param subQuery サブクエリ
+	 * @return 更新件数
+	 */
+	@Override
+	public int insert(Into into, TypesafeQuery subQuery){
+		if(subQuery == null){
+			throw new NullPointerException();
+		}
+		
+		DefaultQueryContext context = new DefaultQueryContext(root);
+		
+		StringBuilder sb = new StringBuilder();
+		sb
+			.append("INSERT INTO ")
+			.append(root.getName())
+			.append(" ");
+		
+		List<DBColumn<?>> columns = into != null ? into.getColumnList() : new ArrayList<>();
+		
+		if(columns.size() > 0){
+			sb.append(String.format("(%s) ", String.join(", ", columns.stream().map(v -> v.getName()).collect(Collectors.toList()))));
+		}
+		
+		sb.append(subQuery.getSQL(context));
+		
+		String sql = sb.toString();
+		SQLQuery query = Q.stringQuery(sql);
+		return query.forOnce().executeUpdate();
+	}
+
 	/**
 	 * 全件更新します
 	 * @param sets 更新項目
