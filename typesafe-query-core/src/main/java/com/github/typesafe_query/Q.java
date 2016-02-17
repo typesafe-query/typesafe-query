@@ -19,7 +19,6 @@ import com.github.typesafe_query.helper.BatchQueryExecutorHelper;
 import com.github.typesafe_query.helper.ReusableQueryExecutorHelper;
 import com.github.typesafe_query.meta.ComparableDBColumn;
 import com.github.typesafe_query.meta.DBColumn;
-import com.github.typesafe_query.meta.DateDBColumn;
 import com.github.typesafe_query.meta.NumberDBColumn;
 import com.github.typesafe_query.meta.StringDBColumn;
 import com.github.typesafe_query.meta.impl.DateDBColumnImpl;
@@ -403,7 +402,34 @@ public final class Q {
 	public static StringDBColumn substr(StringDBColumn c,NumberDBColumn<Integer> from,NumberDBColumn<Integer> to){
 		return c.substring(from, to);
 	}
-	
+
+	/**
+	 * ANYを返します。
+	 * @param c 対象DBカラム
+	 * @return ANY
+	 */
+	public static <V extends Comparable<? super V>> ComparableDBColumn<V> any(ComparableDBColumn<V> c){
+		return c.any();
+	}
+
+	/**
+	 * SOMEを返します。
+	 * @param c 対象DBカラム
+	 * @return SOME
+	 */
+	public static <V extends Comparable<? super V>> ComparableDBColumn<V> some(ComparableDBColumn<V> c){
+		return c.some();
+	}
+
+	/**
+	 * ALLを返します。
+	 * @param c 対象DBカラム
+	 * @return ALL
+	 */
+	public static <V extends Comparable<? super V>> ComparableDBColumn<V> all(ComparableDBColumn<V> c){
+		return c.all();
+	}
+
 	/**
 	 * UPDATE文のset句を返します。
 	 * @param eqExps セットする値
@@ -416,6 +442,15 @@ public final class Q {
 		Set<Exp> set = new LinkedHashSet<Exp>();
 		Collections.addAll(set, eqExps);
 		return set;
+	}
+	
+	/**
+	 * INSERT文のinto句を返します。
+	 * @param columns 列のリスト
+	 * @return INTO
+	 */
+	public static Into into(DBColumn<?>... columns){
+		return new Into(columns);
 	}
 
 	/**

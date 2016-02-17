@@ -36,7 +36,7 @@ Maven
   <dependency>
     <groupId>com.github.typesafe-query</groupId>
     <artifactId>typesafe-query-core</artifactId>
-    <version>0.4.0</version>
+    <version>0.5.0</version>
   </dependency>
 </dependencies>
 ```

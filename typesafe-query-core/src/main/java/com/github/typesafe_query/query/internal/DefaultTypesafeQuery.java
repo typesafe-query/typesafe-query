@@ -3,6 +3,8 @@
  */
 package com.github.typesafe_query.query.internal;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
@@ -216,6 +218,41 @@ public class DefaultTypesafeQuery extends AbstractSQLQuery implements TypesafeQu
 	@Override
 	public <N extends Number & Comparable<? super N>> NumberDBColumn<N> asNumberColumn() {
 		return new NumberDBColumnImpl<N>(this);
+	}
+
+	@Override
+	public NumberDBColumn<Short> asShortColumn() {
+		return new NumberDBColumnImpl<Short>(this);
+	}
+
+	@Override
+	public NumberDBColumn<Integer> asIntegerColumn() {
+		return new NumberDBColumnImpl<Integer>(this);
+	}
+
+	@Override
+	public NumberDBColumn<Long> asLongColumn() {
+		return new NumberDBColumnImpl<Long>(this);
+	}
+
+	@Override
+	public NumberDBColumn<BigInteger> asBigIntegerColumn() {
+		return new NumberDBColumnImpl<BigInteger>(this);
+	}
+
+	@Override
+	public NumberDBColumn<Float> asFloatColumn() {
+		return new NumberDBColumnImpl<Float>(this);
+	}
+
+	@Override
+	public NumberDBColumn<Double> asDoubleColumn() {
+		return new NumberDBColumnImpl<Double>(this);
+	}
+
+	@Override
+	public NumberDBColumn<BigDecimal> asBigDecimalColumn() {
+		return new NumberDBColumnImpl<BigDecimal>(this);
 	}
 
 	@Override

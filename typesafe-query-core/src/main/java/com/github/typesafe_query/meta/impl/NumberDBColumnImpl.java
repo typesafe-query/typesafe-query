@@ -13,10 +13,13 @@ import com.github.typesafe_query.query.Case;
 import com.github.typesafe_query.query.Func;
 import com.github.typesafe_query.query.TypesafeQuery;
 import com.github.typesafe_query.query.internal.function.AbsFunc;
+import com.github.typesafe_query.query.internal.function.AllFunc;
+import com.github.typesafe_query.query.internal.function.AnyFunc;
 import com.github.typesafe_query.query.internal.function.AvgFunc;
 import com.github.typesafe_query.query.internal.function.CountFunc;
 import com.github.typesafe_query.query.internal.function.MaxFunc;
 import com.github.typesafe_query.query.internal.function.MinFunc;
+import com.github.typesafe_query.query.internal.function.SomeFunc;
 import com.github.typesafe_query.query.internal.function.SqrtFunc;
 
 /**
@@ -104,5 +107,20 @@ public class NumberDBColumnImpl<T extends Number & Comparable<? super T>> extend
 	@Override
 	public DBColumn<T> as(String otherName) {
 		return new NumberDBColumnImpl<T>(this,otherName);
+	}
+
+	@Override
+	public NumberDBColumn<T> any(){
+		return addFunc(new AnyFunc());
+	}
+
+	@Override
+	public NumberDBColumn<T> some(){
+		return addFunc(new SomeFunc());
+	}
+
+	@Override
+	public NumberDBColumn<T> all(){
+		return addFunc(new AllFunc());
 	}
 }
