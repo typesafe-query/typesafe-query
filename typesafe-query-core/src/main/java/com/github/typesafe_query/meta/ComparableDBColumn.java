@@ -64,4 +64,8 @@ public interface ComparableDBColumn<T extends Comparable<? super T>> extends DBC
 	//---->orders
 	Order asc();
 	Order desc();
+	
+	ComparableDBColumn<T> any();
+	ComparableDBColumn<T> some();
+	ComparableDBColumn<T> all();
 }

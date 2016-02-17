@@ -402,7 +402,34 @@ public final class Q {
 	public static StringDBColumn substr(StringDBColumn c,NumberDBColumn<Integer> from,NumberDBColumn<Integer> to){
 		return c.substring(from, to);
 	}
-	
+
+	/**
+	 * ANYを返します。
+	 * @param c 対象DBカラム
+	 * @return ANY
+	 */
+	public static <V extends Comparable<? super V>> ComparableDBColumn<V> any(ComparableDBColumn<V> c){
+		return c.any();
+	}
+
+	/**
+	 * SOMEを返します。
+	 * @param c 対象DBカラム
+	 * @return SOME
+	 */
+	public static <V extends Comparable<? super V>> ComparableDBColumn<V> some(ComparableDBColumn<V> c){
+		return c.some();
+	}
+
+	/**
+	 * ALLを返します。
+	 * @param c 対象DBカラム
+	 * @return ALL
+	 */
+	public static <V extends Comparable<? super V>> ComparableDBColumn<V> all(ComparableDBColumn<V> c){
+		return c.all();
+	}
+
 	/**
 	 * UPDATE文のset句を返します。
 	 * @param eqExps セットする値
