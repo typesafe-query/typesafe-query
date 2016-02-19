@@ -19,6 +19,7 @@ import com.github.typesafe_query.query.internal.function.AvgFunc;
 import com.github.typesafe_query.query.internal.function.CountFunc;
 import com.github.typesafe_query.query.internal.function.MaxFunc;
 import com.github.typesafe_query.query.internal.function.MinFunc;
+import com.github.typesafe_query.query.internal.function.AddFunc;
 import com.github.typesafe_query.query.internal.function.SomeFunc;
 import com.github.typesafe_query.query.internal.function.SqrtFunc;
 
@@ -122,5 +123,63 @@ public class NumberDBColumnImpl<T extends Number & Comparable<? super T>> extend
 	@Override
 	public NumberDBColumn<T> all(){
 		return addFunc(new AllFunc());
+	}
+	
+	@Override
+	public NumberDBColumn<T> add(T t){
+		return addFunc(new AddFunc(t));
+	}
+
+	@Override
+	public NumberDBColumn<T> add(NumberDBColumn<?> c) {
+		return addFunc(new AddFunc(c));
+	}
+
+	@Override
+	public NumberDBColumn<T> subtract(T t) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public NumberDBColumn<T> subtract(NumberDBColumn<?> c) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public NumberDBColumn<T> multiply(T t) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public NumberDBColumn<T> multiply(NumberDBColumn<?> c) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public NumberDBColumn<T> divide(T t) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public NumberDBColumn<T> divide(NumberDBColumn<?> c) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public NumberDBColumn<T> mod(T t) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public NumberDBColumn<T> mod(NumberDBColumn<?> c) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
