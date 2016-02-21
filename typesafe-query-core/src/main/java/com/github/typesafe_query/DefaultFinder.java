@@ -7,6 +7,8 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
+import com.github.typesafe_query.annotation.Converter;
+import com.github.typesafe_query.convert.TypeConverter;
 import com.github.typesafe_query.meta.DBTable;
 import com.github.typesafe_query.query.QueryExecutor;
 import com.github.typesafe_query.query.SQLQuery;
@@ -16,7 +18,7 @@ import com.github.typesafe_query.query.internal.DefaultQueryContext;
 import com.github.typesafe_query.query.internal.QueryUtils;
 import com.github.typesafe_query.query.internal.SimpleQueryExecutor;
 import com.github.typesafe_query.util.ClassUtils;
-import com.github.typesafe_query.util.Tuple;
+import com.github.typesafe_query.util.Pair;
 
 /**
  * モデルの検索を行います。
@@ -63,11 +65,11 @@ public class DefaultFinder<I,T> implements Finder<I, T>{
 			throw new NullPointerException("IDがnullです");
 		}
 		
-		List<Object> params = new ArrayList<Object>();
-		List<String> where = new ArrayList<String>();
+		List<Pair<Object,TypeConverter>> params = new ArrayList<>();
+		List<String> where = new ArrayList<>();
 		
-		List<Tuple<String, String>> ids = modelDescription.getIdNames();
-		for(Tuple<String, String> t : ids){
+		List<Pair<String, String>> ids = modelDescription.getIdNames();
+		for(Pair<String, String> t : ids){
 			if(t._2.contains("/")){
 				String[] subNames = t._2.split("/");
 				if(subNames.length != 2){
@@ -79,13 +81,18 @@ public class DefaultFinder<I,T> implements Finder<I, T>{
 				}
 				Class<?> emb = embField.getType();
 				Field f = ClassUtils.getField(subNames[1], emb);
-				params.add(ClassUtils.callGetter(f, id));
+				if(f.isAnnotationPresent(Converter.class)){
+					Converter c = f.getAnnotation(Converter.class);
+					params.add(new Pair<>(ClassUtils.callGetter(f, id),ClassUtils.newInstance(c.value())));
+				}else{
+					params.add(new Pair<>(ClassUtils.callGetter(f, id),null));
+				}
 			}else{
 				Field f = ClassUtils.getField(t._2, modelClass);
 				if(f == null){
 					throw new RuntimeException(String.format("%sクラスのフィールド%sが見つかりません", modelClass.getSimpleName(),t._2));
 				}
-				params.add(id);
+				params.add(new Pair<>(id,null));
 			}
 			
 			where.add(t._1 + "=?");
@@ -93,11 +100,8 @@ public class DefaultFinder<I,T> implements Finder<I, T>{
 		
 		String sql = String.format(SQL_TEMPLATE_BY_ID,root.getName() ,QueryUtils.joinWith(" and ", where));
 		
-		QueryExecutor q = createExecutor(Q.stringQuery(sql));
-		
-		for(Object o : params){
-			q.addParam(o);
-		}
+		QueryExecutor q = Q.stringQuery(sql).forOnce();
+		params.forEach(p -> q.addParam(p._1,p._2));
 		
 		return q.getResult(modelClass);
 	}

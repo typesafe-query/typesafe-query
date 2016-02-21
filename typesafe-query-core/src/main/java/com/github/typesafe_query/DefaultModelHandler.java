@@ -7,13 +7,15 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.github.typesafe_query.annotation.Converter;
+import com.github.typesafe_query.convert.TypeConverter;
 import com.github.typesafe_query.meta.DBTable;
 import com.github.typesafe_query.query.QueryException;
 import com.github.typesafe_query.query.QueryExecutor;
 import com.github.typesafe_query.query.internal.QueryUtils;
 import com.github.typesafe_query.query.internal.SimpleQueryExecutor;
 import com.github.typesafe_query.util.ClassUtils;
-import com.github.typesafe_query.util.Tuple;
+import com.github.typesafe_query.util.Pair;
 
 /**
  * TODO v0.x.x バッチ用インスタンスを作成するファクトリメソッドを追加する？ #23
@@ -52,8 +54,8 @@ public class DefaultModelHandler<T> implements ModelHandler<T>{
 		List<String> values = new ArrayList<String>();
 		List<Object> params = new ArrayList<Object>();
 		
-		List<Tuple<String, String>> all = modelDescription.getValueNames();
-		for(Tuple<String, String> t : all){
+		List<Pair<String, String>> all = modelDescription.getValueNames();
+		for(Pair<String, String> t : all){
 			Field f;
 			Object targetModel;
 			if(t._2.contains("/")){
@@ -89,6 +91,7 @@ public class DefaultModelHandler<T> implements ModelHandler<T>{
 		String sql = String.format(SQL_INSERT,root.getName() ,QueryUtils.joinWith(",", sets),QueryUtils.joinWith(",", values));
 		
 		QueryExecutor q = createExecutor(sql);
+		//TODO converter対応 どうせ消しちゃうメソッドだから無視
 		for(Object o : params){
 			q.addParam(o);
 		}
@@ -96,11 +99,11 @@ public class DefaultModelHandler<T> implements ModelHandler<T>{
 		Long r = q.insert();
 		
 		//生成キーがー複数のことはありえる？
-		List<Tuple<String, String>> ids = modelDescription.getIdNames();
+		List<Pair<String, String>> ids = modelDescription.getIdNames();
 		if(ids.size() > 1){
 			throw new QueryException("複合キーは自動生成に対応していません");
 		}
-		Tuple<String, String> id = ids.get(0);
+		Pair<String, String> id = ids.get(0);
 		Field f = ClassUtils.getField(id._2, modelClass);
 		ClassUtils.callSetter(f, Long.class, modelClass, r);
 		
@@ -114,10 +117,10 @@ public class DefaultModelHandler<T> implements ModelHandler<T>{
 		
 		List<String> sets = new ArrayList<String>();
 		List<String> values = new ArrayList<String>();
-		List<Object> params = new ArrayList<Object>();
+		List<Pair<Object, TypeConverter>> params = new ArrayList<>();
 		
-		List<Tuple<String, String>> all = modelDescription.getValueNames();
-		for(Tuple<String, String> t : all){
+		List<Pair<String, String>> all = modelDescription.getValueNames();
+		for(Pair<String, String> t : all){
 			Field f;
 			Object targetModel;
 			if(t._2.contains("/")){
@@ -147,25 +150,28 @@ public class DefaultModelHandler<T> implements ModelHandler<T>{
 			}
 			sets.add(t._1);
 			values.add("?");
-			params.add(convertParamType(f, targetModel));
+			if(f.isAnnotationPresent(Converter.class)){
+				Converter c = f.getAnnotation(Converter.class);
+				params.add(new Pair<>(ClassUtils.callGetter(f, targetModel),ClassUtils.newInstance(c.value())));
+			}else{
+				params.add(new Pair<>(ClassUtils.callGetter(f, targetModel),null));
+			}
 		}
 		
 		String sql = String.format(SQL_INSERT,root.getName() ,QueryUtils.joinWith(",", sets),QueryUtils.joinWith(",", values));
 		
 		QueryExecutor q = createExecutor(sql);
-		for(Object o : params){
-			q.addParam(o);
-		}
+		params.forEach(p -> q.addParam(p._1, p._2));
 		
 		try {
 			Long r = q.insert();
 			
 			//生成キーがー複数のことはありえる？
-			List<Tuple<String, String>> ids = modelDescription.getIdNames();
+			List<Pair<String, String>> ids = modelDescription.getIdNames();
 			if(ids.size() > 1){
 				throw new QueryException("複合キーは自動生成に対応していません");
 			}
-			Tuple<String, String> id = ids.get(0);
+			Pair<String, String> id = ids.get(0);
 			Field f = ClassUtils.getField(id._2, modelClass);
 			ClassUtils.callSetter(f, Long.class, model, r);
 			
@@ -197,10 +203,10 @@ public class DefaultModelHandler<T> implements ModelHandler<T>{
 		
 		List<String> sets = new ArrayList<String>();
 		List<String> values = new ArrayList<String>();
-		List<Object> params = new ArrayList<Object>();
+		List<Pair<Object,TypeConverter>> params = new ArrayList<>();
 		
-		List<Tuple<String, String>> all = modelDescription.getAllNames();
-		for(Tuple<String, String> t : all){
+		List<Pair<String, String>> all = modelDescription.getAllNames();
+		for(Pair<String, String> t : all){
 			Field f;
 			Object targetModel;
 			if(t._2.contains("/")){
@@ -225,15 +231,18 @@ public class DefaultModelHandler<T> implements ModelHandler<T>{
 			}
 			sets.add(t._1);
 			values.add("?");
-			params.add(convertParamType(f, targetModel));
+			if(f.isAnnotationPresent(Converter.class)){
+				Converter c = f.getAnnotation(Converter.class);
+				params.add(new Pair<>(ClassUtils.callGetter(f, targetModel),ClassUtils.newInstance(c.value())));
+			}else{
+				params.add(new Pair<>(ClassUtils.callGetter(f, targetModel),null));
+			}
 		}
 		
 		String sql = String.format(SQL_INSERT,root.getName() ,QueryUtils.joinWith(",", sets),QueryUtils.joinWith(",", values));
 		
 		QueryExecutor q = createExecutor(sql);
-		for(Object o : params){
-			q.addParam(o);
-		}
+		params.forEach(p -> q.addParam(p._1,p._2));
 		
 		try {
 			return q.executeUpdate() != 0;
@@ -254,10 +263,10 @@ public class DefaultModelHandler<T> implements ModelHandler<T>{
 		}
 		
 		List<String> sets = new ArrayList<String>();
-		List<Object> params = new ArrayList<Object>();
+		List<Pair<Object,TypeConverter>> params = new ArrayList<>();
 		
-		List<Tuple<String, String>> values = modelDescription.getValueNames();
-		for(Tuple<String, String> t : values){
+		List<Pair<String, String>> values = modelDescription.getValueNames();
+		for(Pair<String, String> t : values){
 			if(t._2.contains("/")){
 				String[] subNames = t._2.split("/");
 				if(subNames.length != 2){
@@ -274,20 +283,30 @@ public class DefaultModelHandler<T> implements ModelHandler<T>{
 					throw new RuntimeException(String.format("%sクラスのフィールド%sが見つかりません", modelClass.getSimpleName(),t._2));
 				}
 				sets.add(t._1 + "=?");
-				params.add(convertParamType(f, targetModel));
+				if(f.isAnnotationPresent(Converter.class)){
+					Converter c = f.getAnnotation(Converter.class);
+					params.add(new Pair<>(ClassUtils.callGetter(f, targetModel),ClassUtils.newInstance(c.value())));
+				}else{
+					params.add(new Pair<>(ClassUtils.callGetter(f, targetModel),null));
+				}
 			}else{
 				Field f = ClassUtils.getField(t._2, modelClass);
 				if(f == null){
 					throw new RuntimeException(String.format("%sクラスのフィールド%sが見つかりません", modelClass.getSimpleName(),t._2));
 				}
 				sets.add(t._1 + "=?");
-				params.add(convertParamType(f, model));
+				if(f.isAnnotationPresent(Converter.class)){
+					Converter c = f.getAnnotation(Converter.class);
+					params.add(new Pair<>(ClassUtils.callGetter(f, model),ClassUtils.newInstance(c.value())));
+				}else{
+					params.add(new Pair<>(ClassUtils.callGetter(f, model),null));
+				}
 			}
 		}
 		
 		List<String> where = new ArrayList<String>();
-		List<Tuple<String, String>> ids = modelDescription.getIdNames();
-		for(Tuple<String, String> t : ids){
+		List<Pair<String, String>> ids = modelDescription.getIdNames();
+		for(Pair<String, String> t : ids){
 			Field f;
 			Object targetModel;
 			if(t._2.contains("/")){
@@ -316,15 +335,18 @@ public class DefaultModelHandler<T> implements ModelHandler<T>{
 			if(key == null){
 				throw new QueryException("条件のプライマリーキー項目がnullです " + f.getName());
 			}
-			params.add(key);
+			if(f.isAnnotationPresent(Converter.class)){
+				Converter c = f.getAnnotation(Converter.class);
+				params.add(new Pair<>(key,ClassUtils.newInstance(c.value())));
+			}else{
+				params.add(new Pair<>(key,null));
+			}
 		}
 		
 		String sql = String.format(SQL_UPDATE,root.getName() ,QueryUtils.joinWith(",", sets), QueryUtils.joinWith(" and ", where));
 		
 		QueryExecutor q = createExecutor(sql);
-		for(Object o : params){
-			q.addParam(o);
-		}
+		params.forEach(p -> q.addParam(p._1,p._2));
 		
 		try {
 			return q.executeUpdate() != 0;
@@ -343,10 +365,10 @@ public class DefaultModelHandler<T> implements ModelHandler<T>{
 			throw new NullPointerException("対象オブジェクトがnullです");
 		}
 		
-		List<Object> params = new ArrayList<Object>();
+		List<Pair<Object, TypeConverter>> params = new ArrayList<>();
 		List<String> where = new ArrayList<String>();
-		List<Tuple<String, String>> ids = modelDescription.getIdNames();
-		for(Tuple<String, String> t : ids){
+		List<Pair<String, String>> ids = modelDescription.getIdNames();
+		for(Pair<String, String> t : ids){
 			Field f;
 			Object targetModel;
 			if(t._2.contains("/")){
@@ -374,15 +396,18 @@ public class DefaultModelHandler<T> implements ModelHandler<T>{
 			if(key == null){
 				throw new QueryException("条件のプライマリーキー項目がnullです " + f.getName());
 			}
-			params.add(key);
+			if(f.isAnnotationPresent(Converter.class)){
+				Converter c = f.getAnnotation(Converter.class);
+				params.add(new Pair<>(key,ClassUtils.newInstance(c.value())));
+			}else{
+				params.add(new Pair<>(key,null));
+			}
 		}
 		
 		String sql = String.format(SQL_DELETE,root.getName(),QueryUtils.joinWith(" and ", where));
 		
 		QueryExecutor q = createExecutor(sql);
-		for(Object o : params){
-			q.addParam(o);
-		}
+		params.forEach(p -> q.addParam(p._1,p._2));
 		
 		try {
 			return q.executeUpdate() != 0;

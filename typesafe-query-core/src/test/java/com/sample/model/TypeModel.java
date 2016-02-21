@@ -6,8 +6,10 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
+import com.github.typesafe_query.annotation.Converter;
 import com.github.typesafe_query.annotation.Embedded;
 import com.github.typesafe_query.annotation.Transient;
+import com.github.typesafe_query.convert.extra.Char1ToBooleanTypeConverter;
 
 
 public class TypeModel {
@@ -16,7 +18,9 @@ public class TypeModel {
 	}
 	
 	private String string;
+	@Converter(Char1ToBooleanTypeConverter.class)
 	private boolean boolean1;
+	@Converter(Char1ToBooleanTypeConverter.class)
 	private Boolean boolean2;
 	@Transient
 	private byte byte1;

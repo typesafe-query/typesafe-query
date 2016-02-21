@@ -8,6 +8,8 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import com.github.typesafe_query.DBManager;
+import com.github.typesafe_query.convert.TypeConverter;
+import com.github.typesafe_query.jdbc.JDBCTypeObject;
 import com.github.typesafe_query.jdbc.mapper.ResultMapper;
 import com.github.typesafe_query.query.BatchQueryExecutor;
 import com.github.typesafe_query.query.QueryExecutor;
@@ -19,11 +21,11 @@ import com.github.typesafe_query.query.SQLQuery;
  */
 public class DefaultBatchQueryExecutor extends AbstractQueryExecutor implements BatchQueryExecutor{
 	
-	private final List<Object> params;
+	private final List<JDBCTypeObject> params;
 	
 	public DefaultBatchQueryExecutor(SQLQuery sqlQuery) {
 		super(sqlQuery);
-		params = new ArrayList<Object>();
+		params = new ArrayList<>();
 	}
 	
 	@Override
@@ -34,10 +36,16 @@ public class DefaultBatchQueryExecutor extends AbstractQueryExecutor implements 
 
 	@Override
 	public QueryExecutor addParam(Object value) {
-		params.add(DBManager.getJdbcValueConverter().toJdbcObject(value));
+		params.add(DBManager.getDialectTranslator().toJdbcTypeObject(value));
 		return this;
 	}
-	
+
+	@Override
+	public QueryExecutor addParam(Object value,TypeConverter converter) {
+		params.add(DBManager.getDialectTranslator().toJdbcTypeObject(value,converter));
+		return this;
+	}
+
 	@Override
 	public QueryExecutor setParams(List<Object> values) {
 		clearParam();
