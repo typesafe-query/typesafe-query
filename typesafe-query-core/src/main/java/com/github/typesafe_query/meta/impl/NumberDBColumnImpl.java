@@ -13,15 +13,19 @@ import com.github.typesafe_query.query.Case;
 import com.github.typesafe_query.query.Func;
 import com.github.typesafe_query.query.TypesafeQuery;
 import com.github.typesafe_query.query.internal.function.AbsFunc;
+import com.github.typesafe_query.query.internal.function.AddFunc;
 import com.github.typesafe_query.query.internal.function.AllFunc;
 import com.github.typesafe_query.query.internal.function.AnyFunc;
 import com.github.typesafe_query.query.internal.function.AvgFunc;
 import com.github.typesafe_query.query.internal.function.CountFunc;
+import com.github.typesafe_query.query.internal.function.DivideFunc;
 import com.github.typesafe_query.query.internal.function.MaxFunc;
 import com.github.typesafe_query.query.internal.function.MinFunc;
-import com.github.typesafe_query.query.internal.function.AddFunc;
+import com.github.typesafe_query.query.internal.function.ModFunc;
+import com.github.typesafe_query.query.internal.function.MultiplyFunc;
 import com.github.typesafe_query.query.internal.function.SomeFunc;
 import com.github.typesafe_query.query.internal.function.SqrtFunc;
+import com.github.typesafe_query.query.internal.function.SubtractFunc;
 
 /**
  * @author Takahiko Sato(MOSA architect Inc.)
@@ -126,60 +130,52 @@ public class NumberDBColumnImpl<T extends Number & Comparable<? super T>> extend
 	}
 	
 	@Override
-	public NumberDBColumn<T> add(T t){
-		return addFunc(new AddFunc(t));
+	public NumberDBColumn<T> add(T expr){
+		return addFunc(new AddFunc(expr));
 	}
 
 	@Override
-	public NumberDBColumn<T> add(NumberDBColumn<?> c) {
-		return addFunc(new AddFunc(c));
+	public NumberDBColumn<T> add(NumberDBColumn<?> column) {
+		return addFunc(new AddFunc(column));
 	}
 
 	@Override
-	public NumberDBColumn<T> subtract(T t) {
-		// TODO Auto-generated method stub
-		return null;
+	public NumberDBColumn<T> subtract(T expr) {
+		return addFunc(new SubtractFunc(expr));
 	}
 
 	@Override
-	public NumberDBColumn<T> subtract(NumberDBColumn<?> c) {
-		// TODO Auto-generated method stub
-		return null;
+	public NumberDBColumn<T> subtract(NumberDBColumn<?> column) {
+		return addFunc(new SubtractFunc(column));
 	}
 
 	@Override
-	public NumberDBColumn<T> multiply(T t) {
-		// TODO Auto-generated method stub
-		return null;
+	public NumberDBColumn<T> multiply(T expr) {
+		return addFunc(new MultiplyFunc(expr));
 	}
 
 	@Override
-	public NumberDBColumn<T> multiply(NumberDBColumn<?> c) {
-		// TODO Auto-generated method stub
-		return null;
+	public NumberDBColumn<T> multiply(NumberDBColumn<?> column) {
+		return addFunc(new MultiplyFunc(column));
 	}
 
 	@Override
-	public NumberDBColumn<T> divide(T t) {
-		// TODO Auto-generated method stub
-		return null;
+	public NumberDBColumn<T> divide(T expr) {
+		return addFunc(new DivideFunc(expr));
 	}
 
 	@Override
-	public NumberDBColumn<T> divide(NumberDBColumn<?> c) {
-		// TODO Auto-generated method stub
-		return null;
+	public NumberDBColumn<T> divide(NumberDBColumn<?> column) {
+		return addFunc(new DivideFunc(column));
 	}
 
 	@Override
-	public NumberDBColumn<T> mod(T t) {
-		// TODO Auto-generated method stub
-		return null;
+	public NumberDBColumn<T> mod(T expr) {
+		return addFunc(new ModFunc(expr));
 	}
 
 	@Override
-	public NumberDBColumn<T> mod(NumberDBColumn<?> c) {
-		// TODO Auto-generated method stub
-		return null;
+	public NumberDBColumn<T> mod(NumberDBColumn<?> column) {
+		return addFunc(new ModFunc(column));
 	}
 }

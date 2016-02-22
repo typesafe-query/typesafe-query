@@ -7,12 +7,15 @@ import com.github.typesafe_query.meta.ComparableDBColumn;
 import com.github.typesafe_query.meta.DBColumn;
 import com.github.typesafe_query.meta.DBTable;
 import com.github.typesafe_query.meta.DateDBColumn;
+import com.github.typesafe_query.meta.NumberDBColumn;
 import com.github.typesafe_query.query.Case;
 import com.github.typesafe_query.query.Func;
 import com.github.typesafe_query.query.TypesafeQuery;
+import com.github.typesafe_query.query.internal.function.AddFunc;
 import com.github.typesafe_query.query.internal.function.AllFunc;
 import com.github.typesafe_query.query.internal.function.AnyFunc;
 import com.github.typesafe_query.query.internal.function.SomeFunc;
+import com.github.typesafe_query.query.internal.function.SubtractFunc;
 
 /**
  * @author Takahiko Sato(MOSA architect Inc.)
@@ -46,7 +49,7 @@ public class DateDBColumnImpl<T extends Comparable<? super T>> extends Comparabl
 	protected <C extends ComparableDBColumn<T>> C addFunc(Func func) {
 		DateDBColumnImpl<T> wrap = new DateDBColumnImpl<T>(this);
 		wrap.add(func);
-		return (C)func;
+		return (C)wrap;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -72,5 +75,25 @@ public class DateDBColumnImpl<T extends Comparable<? super T>> extends Comparabl
 	@Override
 	public DateDBColumnImpl<T> all(){
 		return addFunc(new AllFunc());
+	}
+	
+	@Override
+	public DateDBColumnImpl<T> add(Integer expr, String unit){
+		return addFunc(new AddFunc(expr, unit));
+	}
+
+	@Override
+	public DateDBColumnImpl<T> add(NumberDBColumn<?> column, String unit){
+		return addFunc(new AddFunc(column, unit));
+	}
+	
+	@Override
+	public DateDBColumnImpl<T> subtract(Integer expr, String unit){
+		return addFunc(new SubtractFunc(expr, unit));
+	}
+
+	@Override
+	public DateDBColumnImpl<T> subtract(NumberDBColumn<?> column, String unit){
+		return addFunc(new SubtractFunc(column, unit));
 	}
 }

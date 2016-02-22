@@ -31,7 +31,8 @@ public class DivideFuncTest {
 	
 	@Test(expected=NullPointerException.class)
 	public void ng_null(){
-		DivideFunc func = new DivideFunc(null);
+		Integer i = null;
+		DivideFunc func = new DivideFunc(i);
 		func.getSQL(new DefaultQueryContext(new DBTableImpl("table1")), null);
 	}
 }

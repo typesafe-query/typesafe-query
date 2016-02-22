@@ -31,7 +31,8 @@ public class MultiplyFuncTest {
 	
 	@Test(expected=NullPointerException.class)
 	public void ng_null(){
-		MultiplyFunc func = new MultiplyFunc(null);
+		Integer i = null;
+		MultiplyFunc func = new MultiplyFunc(i);
 		func.getSQL(new DefaultQueryContext(new DBTableImpl("table1")), null);
 	}
 }

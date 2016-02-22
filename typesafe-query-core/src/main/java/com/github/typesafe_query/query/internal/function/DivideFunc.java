@@ -8,11 +8,11 @@ import com.github.typesafe_query.query.QueryContext;
 
 public class DivideFunc implements Func {
 	
-	private Object value;
+	private Number expr;
 	private DBColumn<?> column;
 	
-	public DivideFunc(Object value){
-		this.value = value;
+	public DivideFunc(Number expr){
+		this.expr = expr;
 	}
 	
 	public DivideFunc(DBColumn<?> column){
@@ -22,8 +22,8 @@ public class DivideFunc implements Func {
 	@Override
 	public String getSQL(QueryContext context, 
 			String expression) {
-		if(this.value != null){
-			return String.format("%s / %s", Objects.requireNonNull(expression), this.value);
+		if(this.expr != null){
+			return String.format("%s / %s", Objects.requireNonNull(expression), this.expr);
 		}
 		else if(this.column != null){
 			return String.format("%s / %s", Objects.requireNonNull(expression), context.getColumnPath(this.column));

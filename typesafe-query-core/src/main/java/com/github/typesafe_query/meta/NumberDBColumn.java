@@ -17,14 +17,14 @@ public interface NumberDBColumn<T extends Number & Comparable<? super T>> extend
 	NumberDBColumn<BigDecimal> avg();
 	NumberDBColumn<BigDecimal> sqrt();
 	NumberDBColumn<Long> count();
-	NumberDBColumn<T> add(T t);
-	NumberDBColumn<T> add(NumberDBColumn<?> c);
-	NumberDBColumn<T> subtract(T t);
-	NumberDBColumn<T> subtract(NumberDBColumn<?> c);
-	NumberDBColumn<T> multiply(T t);
-	NumberDBColumn<T> multiply(NumberDBColumn<?> c);
-	NumberDBColumn<T> divide(T t);
-	NumberDBColumn<T> divide(NumberDBColumn<?> c);
-	NumberDBColumn<T> mod(T t);
-	NumberDBColumn<T> mod(NumberDBColumn<?> c);
+	NumberDBColumn<T> add(T expr);
+	NumberDBColumn<T> add(NumberDBColumn<?> column);
+	NumberDBColumn<T> subtract(T expr);
+	NumberDBColumn<T> subtract(NumberDBColumn<?> column);
+	NumberDBColumn<T> multiply(T expr);
+	NumberDBColumn<T> multiply(NumberDBColumn<?> column);
+	NumberDBColumn<T> divide(T expr);
+	NumberDBColumn<T> divide(NumberDBColumn<?> column);
+	NumberDBColumn<T> mod(T expr);
+	NumberDBColumn<T> mod(NumberDBColumn<?> column);
 }
