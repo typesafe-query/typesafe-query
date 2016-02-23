@@ -108,7 +108,8 @@ public class DefaultDialectTranslator implements DialectTranslator{
 		propType = ClassUtils.primitiveToWrapperClass(propType);
 
 		//propTypeとクラスが同じならリターン
-		if(result.getClass().equals(propType)){
+		logger.trace("proptype={} resultType={}",propType,result.getClass());
+		if(propType.isAssignableFrom(result.getClass())){
 			return result;
 		}
 		
@@ -117,7 +118,7 @@ public class DefaultDialectTranslator implements DialectTranslator{
 		if(converter != null){
 			return converter.convertToEntityAttribute(result.getClass().cast(result));
 		}
-		throw new RuntimeException("Typesafe Queryで対応していない型です " + propType.getName());
+		throw new RuntimeException("Typesafe Queryで対応していない型です " + propType.getName() + " expect=" + result.getClass());
 	}
 
 	@Override
