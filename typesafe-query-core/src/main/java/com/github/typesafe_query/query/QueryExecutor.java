@@ -2,6 +2,8 @@ package com.github.typesafe_query.query;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 import com.github.typesafe_query.jdbc.mapper.ResultMapper;
 
@@ -16,6 +18,10 @@ public interface QueryExecutor extends AutoCloseable{
 	<R> Optional<R> getResult(ResultMapper<R> mapper);
 	<R> List<R> getResultList(Class<R> modelClass);
 	<R> List<R> getResultList(ResultMapper<R> mapper);
+	<R> void fetch(Class<R> modelClass,Predicate<R> p);
+	<R> void fetch(ResultMapper<R> mapper,Predicate<R> p);
+	<R> void fetch(Class<R> modelClass,Consumer<R> p);
+	<R> void fetch(ResultMapper<R> mapper,Consumer<R> p);
 	
 	QueryExecutor clearParam();
 	QueryExecutor addParam(Object value);

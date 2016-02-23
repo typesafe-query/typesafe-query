@@ -2,6 +2,7 @@ package com.github.typesafe_query.jdbc;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
 
 import com.github.typesafe_query.jdbc.mapper.ResultMapper;
 
@@ -14,6 +15,8 @@ public interface SQLRunner extends AutoCloseable{
 	<T> Optional<T> get(List<Object> params,ResultMapper<T> mapper);
 
 	<T> List<T> getList(List<Object> params,ResultMapper<T> mapper);
+	
+	<T> void fetch(List<Object> params,ResultMapper<T> mapper,Predicate<T> p);
 
 	int executeUpdate(List<Object> params);
 

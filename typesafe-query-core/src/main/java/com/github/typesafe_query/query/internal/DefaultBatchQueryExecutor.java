@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 import com.github.typesafe_query.DBManager;
 import com.github.typesafe_query.jdbc.mapper.ResultMapper;
@@ -83,6 +85,26 @@ public class DefaultBatchQueryExecutor extends AbstractQueryExecutor implements 
 
 	@Override
 	public <R> List<R> getResultList(ResultMapper<R> mapper) {
+		throw new UnsupportedOperationException("Unsupported when batch execution mode.");
+	}
+
+	@Override
+	public <R> void fetch(Class<R> modelClass, Predicate<R> p) {
+		throw new UnsupportedOperationException("Unsupported when batch execution mode.");
+	}
+
+	@Override
+	public <R> void fetch(ResultMapper<R> mapper, Predicate<R> p) {
+		throw new UnsupportedOperationException("Unsupported when batch execution mode.");
+	}
+
+	@Override
+	public <R> void fetch(Class<R> modelClass, Consumer<R> p) {
+		throw new UnsupportedOperationException("Unsupported when batch execution mode.");
+	}
+
+	@Override
+	public <R> void fetch(ResultMapper<R> mapper, Consumer<R> p) {
 		throw new UnsupportedOperationException("Unsupported when batch execution mode.");
 	}
 
