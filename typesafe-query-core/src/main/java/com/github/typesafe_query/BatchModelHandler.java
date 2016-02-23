@@ -1,10 +1,9 @@
 package com.github.typesafe_query;
 
-import static com.github.typesafe_query.Q.*;
 import com.github.typesafe_query.query.BatchQueryExecutor;
 import com.github.typesafe_query.query.QueryExecutor;
+import com.github.typesafe_query.query.internal.DefaultBatchQueryExecutor;
 
-@Beta
 public class BatchModelHandler<T> extends ReusableModelHandler<T>{
 
 	public BatchModelHandler(ModelDescription<T> description) {
@@ -13,7 +12,7 @@ public class BatchModelHandler<T> extends ReusableModelHandler<T>{
 
 	@Override
 	protected QueryExecutor newExecutor(String sql) {
-		return stringQuery(sql).forBatch();
+		return new DefaultBatchQueryExecutor(Q.stringQuery(sql));
 	}
 	
 	public void executeBatch(){

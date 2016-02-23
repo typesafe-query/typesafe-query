@@ -1,21 +1,26 @@
-package com.github.typesafe_query.helper;
+package com.github.typesafe_query.query.handler;
 
 import java.util.Objects;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
-import com.github.typesafe_query.Beta;
 import com.github.typesafe_query.query.BatchQueryExecutor;
 
-@Beta
-public class BatchQueryExecutorHelper {
+public class BatchQueryHandler {
 	private final BatchQueryExecutor executor;
 	
-	public BatchQueryExecutorHelper(BatchQueryExecutor executor) {
+	public BatchQueryHandler(BatchQueryExecutor executor) {
 		this.executor = Objects.requireNonNull(executor);
 	}
 	
 	public void execute(Consumer<BatchQueryExecutor> consumer){
 		Objects.requireNonNull(consumer).accept(executor);
 		executor.executeBatch();
+	}
+	
+	public <R> R execute(Function<BatchQueryExecutor,R> consumer){
+		R r = Objects.requireNonNull(consumer).apply(executor);
+		executor.executeBatch();
+		return r;
 	}
 }

@@ -11,6 +11,7 @@ import com.github.typesafe_query.DBManager;
 import com.github.typesafe_query.jdbc.mapper.ResultMapper;
 import com.github.typesafe_query.query.BatchQueryExecutor;
 import com.github.typesafe_query.query.QueryExecutor;
+import com.github.typesafe_query.query.SQLQuery;
 
 /**
  * @author Takahiko Sato(MOSA Architect Inc.)
@@ -20,8 +21,8 @@ public class DefaultBatchQueryExecutor extends AbstractQueryExecutor implements 
 	
 	private final List<Object> params;
 	
-	DefaultBatchQueryExecutor(String sql) {
-		super(sql);
+	public DefaultBatchQueryExecutor(SQLQuery sqlQuery) {
+		super(sqlQuery);
 		params = new ArrayList<Object>();
 	}
 	

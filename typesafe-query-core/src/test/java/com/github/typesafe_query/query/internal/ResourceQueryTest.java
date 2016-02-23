@@ -8,6 +8,7 @@ import static org.junit.Assert.assertThat;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.After;
@@ -15,8 +16,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.github.typesafe_query.ConnectionHolder;
+import com.github.typesafe_query.Q;
 import com.github.typesafe_query.query.StringQuery;
-import com.github.typesafe_query.query.QueryExecutor;
 import com.github.typesafe_query.util.SQLUtils;
 import com.sample.model.ApUser;
 
@@ -52,22 +53,22 @@ public class ResourceQueryTest {
 	
 	@Test
 	public void named_param(){
-		QueryExecutor nq = queryFrom("/NamedQueryTest.named_param.sql").forReuse();
-		List<ApUser> result = nq.addParam("%1%").getResultList(ApUser.class);
+		List<ApUser> result = 
+			Q.reuse(queryFrom("/NamedQueryTest.named_param.sql"))
+			.execute(e -> {
+				List<ApUser> r = new ArrayList<>();
+				r.addAll(e.addParam("%1%").getResultList(ApUser.class));
+				r.addAll(e.clearParam().addParam("%2%").getResultList(ApUser.class));
+				return r;
+			});
+		
 		
 		assertNotNull(result);
-		assertThat(result.size(), is(1));
+		assertThat(result.size(), is(2));
 		assertThat(result.get(0).getUserId(), is("A1"));
 		assertNull(result.get(0).getName());
-
-		result = nq.clearParam().addParam("%2%").getResultList(ApUser.class);
-		
-		assertNotNull(result);
-		assertThat(result.size(), is(1));
-		assertThat(result.get(0).getUserId(), is("A2"));
-		assertNull(result.get(0).getName());
-		
-		nq.close();
+		assertThat(result.get(1).getUserId(), is("A2"));
+		assertNull(result.get(1).getName());
 	}
 	
 	@Test

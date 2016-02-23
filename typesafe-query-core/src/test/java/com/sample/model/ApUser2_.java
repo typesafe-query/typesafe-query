@@ -16,11 +16,13 @@ import com.github.typesafe_query.DefaultFinder;
 import com.github.typesafe_query.ReusableModelHandler;
 import com.github.typesafe_query.DefaultModelHandler;
 import com.github.typesafe_query.meta.DateDBColumn;
+import com.github.typesafe_query.meta.MetaClass;
+
 import javax.annotation.Generated;
 import com.github.typesafe_query.meta.StringDBColumn;
 
 @Generated("Meta Generator")
-public final class ApUser2_{
+public final class ApUser2_ implements MetaClass{
 
 	public static final DBTable TABLE = new DBTableImpl("other","ap_user2");
 	public static final StringDBColumn USER_ID = new StringDBColumnImpl(TABLE,"user_id");

@@ -9,10 +9,12 @@ import java.util.function.Predicate;
 
 import com.github.typesafe_query.meta.DBTable;
 import com.github.typesafe_query.query.QueryExecutor;
+import com.github.typesafe_query.query.SQLQuery;
 import com.github.typesafe_query.query.Exp;
 import com.github.typesafe_query.query.Order;
 import com.github.typesafe_query.query.internal.DefaultQueryContext;
 import com.github.typesafe_query.query.internal.QueryUtils;
+import com.github.typesafe_query.query.internal.SimpleQueryExecutor;
 import com.github.typesafe_query.util.ClassUtils;
 import com.github.typesafe_query.util.Tuple;
 
@@ -91,7 +93,7 @@ public class DefaultFinder<I,T> implements Finder<I, T>{
 		
 		String sql = String.format(SQL_TEMPLATE_BY_ID,root.getName() ,QueryUtils.joinWith(" and ", where));
 		
-		QueryExecutor q = Q.stringQuery(sql).forOnce();
+		QueryExecutor q = createExecutor(Q.stringQuery(sql));
 		
 		for(Object o : params){
 			q.addParam(o);
@@ -433,5 +435,8 @@ public class DefaultFinder<I,T> implements Finder<I, T>{
 			.offset(offset)
 			.forOnce()
 			.fetch(modelClass, p);
+	}
+	protected QueryExecutor createExecutor(SQLQuery sqlQuery){
+		return new SimpleQueryExecutor(sqlQuery);
 	}
 }

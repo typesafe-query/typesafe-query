@@ -1,6 +1,5 @@
 package com.github.typesafe_query;
 
-import static com.github.typesafe_query.Q.*;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,9 +8,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.typesafe_query.meta.DBTable;
-import com.github.typesafe_query.query.QueryExecutor;
 import com.github.typesafe_query.query.QueryException;
+import com.github.typesafe_query.query.QueryExecutor;
 import com.github.typesafe_query.query.internal.QueryUtils;
+import com.github.typesafe_query.query.internal.SimpleQueryExecutor;
 import com.github.typesafe_query.util.ClassUtils;
 import com.github.typesafe_query.util.Tuple;
 
@@ -393,6 +393,6 @@ public class DefaultModelHandler<T> implements ModelHandler<T>{
 	}
 	
 	protected QueryExecutor createExecutor(String sql){
-		return stringQuery(sql).forOnce();
+		return new SimpleQueryExecutor(Q.stringQuery(sql));
 	}
 }
