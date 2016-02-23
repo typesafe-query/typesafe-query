@@ -1,9 +1,9 @@
-package com.github.typesafe_query.convert.basic;
+package com.github.typesafe_query.jdbc.convert.basic;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
-import com.github.typesafe_query.convert.TypeConverter;
+import com.github.typesafe_query.jdbc.convert.TypeConverter;
 import com.github.typesafe_query.query.InvalidQueryException;
 
 public class TimestampToLocalDateTimeTypeConverter implements TypeConverter{

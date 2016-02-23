@@ -8,7 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.typesafe_query.annotation.Converter;
-import com.github.typesafe_query.convert.TypeConverter;
+import com.github.typesafe_query.jdbc.convert.TypeConverter;
 import com.github.typesafe_query.meta.DBTable;
 import com.github.typesafe_query.query.QueryException;
 import com.github.typesafe_query.query.QueryExecutor;

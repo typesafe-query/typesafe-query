@@ -5,7 +5,7 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
-import com.github.typesafe_query.convert.TypeConverter;
+import com.github.typesafe_query.jdbc.convert.TypeConverter;
 import com.github.typesafe_query.jdbc.mapper.ResultMapper;
 
 public interface QueryExecutor extends AutoCloseable{

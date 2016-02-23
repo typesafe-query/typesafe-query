@@ -22,13 +22,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.typesafe_query.annotation.Converter;
-import com.github.typesafe_query.convert.TypeConverter;
-import com.github.typesafe_query.convert.basic.BigDecimalToDoubleConverter;
-import com.github.typesafe_query.convert.basic.BigDecimalToFloatConverter;
-import com.github.typesafe_query.convert.basic.DateToLocalDateTypeConverter;
-import com.github.typesafe_query.convert.basic.TimeToLocalTimeTypeConverter;
-import com.github.typesafe_query.convert.basic.TimestampToLocalDateTimeTypeConverter;
 import com.github.typesafe_query.jdbc.JDBCTypeObject;
+import com.github.typesafe_query.jdbc.convert.TypeConverter;
+import com.github.typesafe_query.jdbc.convert.basic.BigDecimalToDoubleConverter;
+import com.github.typesafe_query.jdbc.convert.basic.BigDecimalToFloatConverter;
+import com.github.typesafe_query.jdbc.convert.basic.DateToLocalDateTypeConverter;
+import com.github.typesafe_query.jdbc.convert.basic.TimeToLocalTimeTypeConverter;
+import com.github.typesafe_query.jdbc.convert.basic.TimestampToLocalDateTimeTypeConverter;
 import com.github.typesafe_query.util.ClassUtils;
 import com.github.typesafe_query.util.Pair;
 

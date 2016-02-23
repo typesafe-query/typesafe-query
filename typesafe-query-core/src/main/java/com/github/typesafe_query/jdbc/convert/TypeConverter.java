@@ -1,4 +1,4 @@
-package com.github.typesafe_query.convert;
+package com.github.typesafe_query.jdbc.convert;
 
 public interface TypeConverter {
 	Object convertToDatabaseColumn(Object attribute);

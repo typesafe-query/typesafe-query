@@ -9,7 +9,7 @@ import java.time.LocalTime;
 import com.github.typesafe_query.annotation.Converter;
 import com.github.typesafe_query.annotation.Embedded;
 import com.github.typesafe_query.annotation.Transient;
-import com.github.typesafe_query.convert.extra.Char1ToBooleanTypeConverter;
+import com.github.typesafe_query.jdbc.convert.extra.Char1ToBooleanTypeConverter;
 
 
 public class TypeModel {

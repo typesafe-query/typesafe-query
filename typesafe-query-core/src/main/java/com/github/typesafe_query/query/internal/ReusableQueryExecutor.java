@@ -8,8 +8,8 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import com.github.typesafe_query.DBManager;
-import com.github.typesafe_query.convert.TypeConverter;
 import com.github.typesafe_query.jdbc.JDBCTypeObject;
+import com.github.typesafe_query.jdbc.convert.TypeConverter;
 import com.github.typesafe_query.jdbc.mapper.BeanResultMapper;
 import com.github.typesafe_query.jdbc.mapper.ResultMapper;
 import com.github.typesafe_query.query.QueryExecutor;

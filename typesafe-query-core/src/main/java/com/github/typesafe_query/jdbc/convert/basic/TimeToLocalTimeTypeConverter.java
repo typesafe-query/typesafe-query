@@ -1,9 +1,9 @@
-package com.github.typesafe_query.convert.basic;
+package com.github.typesafe_query.jdbc.convert.basic;
 
 import java.sql.Time;
 import java.time.LocalTime;
 
-import com.github.typesafe_query.convert.TypeConverter;
+import com.github.typesafe_query.jdbc.convert.TypeConverter;
 import com.github.typesafe_query.query.InvalidQueryException;
 
 public class TimeToLocalTimeTypeConverter implements TypeConverter{

@@ -1,8 +1,8 @@
-package com.github.typesafe_query.convert.basic;
+package com.github.typesafe_query.jdbc.convert.basic;
 
 import java.math.BigDecimal;
 
-import com.github.typesafe_query.convert.TypeConverter;
+import com.github.typesafe_query.jdbc.convert.TypeConverter;
 import com.github.typesafe_query.query.InvalidQueryException;
 
 public class BigDecimalToFloatConverter implements TypeConverter{

@@ -1,6 +1,6 @@
-package com.github.typesafe_query.convert.extra;
+package com.github.typesafe_query.jdbc.convert.extra;
 
-import com.github.typesafe_query.convert.TypeConverter;
+import com.github.typesafe_query.jdbc.convert.TypeConverter;
 import com.github.typesafe_query.query.InvalidQueryException;
 import com.github.typesafe_query.query.QueryException;
 

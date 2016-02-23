@@ -4,8 +4,8 @@ import java.lang.reflect.Field;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.github.typesafe_query.convert.TypeConverter;
 import com.github.typesafe_query.jdbc.JDBCTypeObject;
+import com.github.typesafe_query.jdbc.convert.TypeConverter;
 
 public interface DialectTranslator {
 	Object getValue(ResultSet rs, int index, Class<?> columnJavaType, Field f) throws SQLException;
