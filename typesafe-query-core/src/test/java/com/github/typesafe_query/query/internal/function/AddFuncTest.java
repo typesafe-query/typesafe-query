@@ -11,7 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.github.typesafe_query.ConnectionHolder;
-import com.github.typesafe_query.Q.INTERVAL_UNIT;
+import com.github.typesafe_query.enums.IntervalUnit;
 import com.github.typesafe_query.meta.DBTable;
 import com.github.typesafe_query.meta.impl.DBTableImpl;
 import com.github.typesafe_query.meta.impl.NumberDBColumnImpl;
@@ -56,7 +56,7 @@ public class AddFuncTest {
 	
 	@Test
 	public void ok_date_value(){
-		AddFunc func = new AddFunc(1, INTERVAL_UNIT.DAY);
+		AddFunc func = new AddFunc(1, IntervalUnit.DAY);
 		String actual = func.getSQL(new DefaultQueryContext(new DBTableImpl("table1")), "table1.date");
 		
 		assertThat(actual, is("table1.date + INTERVAL 1 DAY"));
@@ -65,7 +65,7 @@ public class AddFuncTest {
 	@Test
 	public void ok_date_column(){
 		DBTable t = new DBTableImpl("table1");
-		AddFunc func = new AddFunc(new NumberDBColumnImpl<Long>(t, "num"), INTERVAL_UNIT.DAY);
+		AddFunc func = new AddFunc(new NumberDBColumnImpl<Long>(t, "num"), IntervalUnit.DAY);
 		String actual = func.getSQL(new DefaultQueryContext(new DBTableImpl("table1")), "table1.date");
 		
 		assertThat(actual, is("table1.date + INTERVAL table1.num DAY"));

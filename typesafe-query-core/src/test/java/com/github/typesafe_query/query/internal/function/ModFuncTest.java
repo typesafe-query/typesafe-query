@@ -31,7 +31,8 @@ public class ModFuncTest {
 	
 	@Test(expected=NullPointerException.class)
 	public void ng_null(){
-		ModFunc func = new ModFunc(null);
+		Integer i = null;
+		ModFunc func = new ModFunc(i);
 		func.getSQL(new DefaultQueryContext(new DBTableImpl("table1")), null);
 	}
 }
