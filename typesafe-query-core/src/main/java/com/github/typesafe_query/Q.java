@@ -504,19 +504,4 @@ public final class Q {
 	 * 現在時刻を取得するCURRENT_TIME句
 	 */
 	public static final DateDBColumnImpl<LocalTime> CURRENT_TIME = new DateDBColumnImpl<LocalTime>(null, "CURRENT_TIME");
-	
-	/**
-	 * 日付加加減時に指定可能な単位
-	 */
-	public static class INTERVAL_UNIT {
-		public static final String YEAR = "YEAR";
-		public static final String QUARTER = "QUARTER";
-		public static final String MONTH = "MONTH";
-		public static final String WEEK = "WEEK";
-		public static final String DAY = "DAY";
-		public static final String HOUR = "HOUR";
-		public static final String MINUTE = "MINUTE";
-		public static final String SECOND = "SECOND";
-		public static final String MICROSECOND = "MICROSECOND";
-	}
 }

@@ -3,6 +3,7 @@
  */
 package com.github.typesafe_query.meta.impl;
 
+import com.github.typesafe_query.enums.IntervalUnit;
 import com.github.typesafe_query.meta.ComparableDBColumn;
 import com.github.typesafe_query.meta.DBColumn;
 import com.github.typesafe_query.meta.DBTable;
@@ -78,22 +79,22 @@ public class DateDBColumnImpl<T extends Comparable<? super T>> extends Comparabl
 	}
 	
 	@Override
-	public DateDBColumnImpl<T> add(Integer expr, String unit){
+	public DateDBColumnImpl<T> add(Integer expr, IntervalUnit unit){
 		return addFunc(new AddFunc(expr, unit));
 	}
 
 	@Override
-	public DateDBColumnImpl<T> add(NumberDBColumn<?> column, String unit){
+	public DateDBColumnImpl<T> add(NumberDBColumn<?> column, IntervalUnit unit){
 		return addFunc(new AddFunc(column, unit));
 	}
 	
 	@Override
-	public DateDBColumnImpl<T> subtract(Integer expr, String unit){
+	public DateDBColumnImpl<T> subtract(Integer expr, IntervalUnit unit){
 		return addFunc(new SubtractFunc(expr, unit));
 	}
 
 	@Override
-	public DateDBColumnImpl<T> subtract(NumberDBColumn<?> column, String unit){
+	public DateDBColumnImpl<T> subtract(NumberDBColumn<?> column, IntervalUnit unit){
 		return addFunc(new SubtractFunc(column, unit));
 	}
 }
