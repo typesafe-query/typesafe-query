@@ -2,12 +2,14 @@ package com.github.typesafe_query;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.github.typesafe_query.annotation.Column;
 import com.github.typesafe_query.annotation.EmbeddedId;
 import com.github.typesafe_query.annotation.Id;
 import com.github.typesafe_query.meta.DBTable;
+import com.github.typesafe_query.query.Exp;
 import com.github.typesafe_query.util.ClassUtils;
 import com.github.typesafe_query.util.Pair;
 
@@ -20,8 +22,9 @@ public class ModelDescription<T> {
 	private final List<Pair<String, String>> idNames;
 	private final List<Pair<String, String>> allNames;
 	private final List<Pair<String, String>> valueNames;
+	private final List<Exp> defaultExps;
 	
-	public ModelDescription(Class<T> modelClass,DBTable table,boolean idGenerated,List<String> fieldNames) {
+	public ModelDescription(Class<T> modelClass,DBTable table,boolean idGenerated,List<String> fieldNames, Exp...defaultExps) {
 		this.modelClass = modelClass;
 		this.table = table;
 		this.idGenerated = idGenerated;
@@ -29,6 +32,7 @@ public class ModelDescription<T> {
 		this.idNames = new ArrayList<Pair<String, String>>();
 		this.allNames = new ArrayList<Pair<String, String>>();
 		this.valueNames = new ArrayList<Pair<String, String>>();
+		this.defaultExps = defaultExps != null ? Arrays.asList(defaultExps) : new ArrayList<>();
 		
 		for(String fieldName : fieldNames){
 			if(fieldName.contains("/")){
@@ -111,4 +115,9 @@ public class ModelDescription<T> {
 	public List<Pair<String, String>> getValueNames(){
 		return new ArrayList<Pair<String, String>>(valueNames);
 	}
+
+	public List<Exp> getDefaultExps() {
+		return new ArrayList<>(defaultExps);
+	}
+
 }

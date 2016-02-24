@@ -2,6 +2,7 @@ package com.github.typesafe_query;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
@@ -10,10 +11,10 @@ import java.util.function.Predicate;
 import com.github.typesafe_query.annotation.Converter;
 import com.github.typesafe_query.jdbc.convert.TypeConverter;
 import com.github.typesafe_query.meta.DBTable;
-import com.github.typesafe_query.query.QueryExecutor;
-import com.github.typesafe_query.query.SQLQuery;
 import com.github.typesafe_query.query.Exp;
 import com.github.typesafe_query.query.Order;
+import com.github.typesafe_query.query.QueryExecutor;
+import com.github.typesafe_query.query.SQLQuery;
 import com.github.typesafe_query.query.internal.DefaultQueryContext;
 import com.github.typesafe_query.query.internal.QueryUtils;
 import com.github.typesafe_query.query.internal.SimpleQueryExecutor;
@@ -99,6 +100,11 @@ public class DefaultFinder<I,T> implements Finder<I, T>{
 		}
 		
 		String sql = String.format(SQL_TEMPLATE_BY_ID,root.getName() ,QueryUtils.joinWith(" and ", where));
+		Exp[] exps = getExps();
+		if(exps != null && exps.length > 0){
+			DefaultQueryContext context = new DefaultQueryContext(root);
+			sql += " and " + Q.and(exps).getSQL(context);
+		}
 		
 		QueryExecutor q = Q.stringQuery(sql).forOnce();
 		params.forEach(p -> q.addParam(p._1,p._2));
@@ -112,7 +118,14 @@ public class DefaultFinder<I,T> implements Finder<I, T>{
 	 */
 	@Override
 	public long count(){
-		Optional<Object> count = Q.stringQuery(String.format(SQL_TEMPLATE_COUNT, root.getName()))
+		Exp[] exps = getExps();
+		String where = null;
+		if(exps != null && exps.length > 0){
+			DefaultQueryContext context = new DefaultQueryContext(root);
+			where = Q.and(exps).getSQL(context);
+		}
+		String w = where != null && !where.isEmpty() ? String.format(" WHERE %s", where) : "";
+		Optional<Object> count = Q.stringQuery(String.format(SQL_TEMPLATE_COUNT, root.getName()) + w)
 			.forOnce()
 			.getResult((rs) -> rs.getObject("CNT"));
 		//JDBCによってcountの戻りの型が違う
@@ -137,7 +150,7 @@ public class DefaultFinder<I,T> implements Finder<I, T>{
 		}else{
 			exp = Q.and(expressions);
 		}
-		
+		exp = Q.and(getExps(exp));
 		DefaultQueryContext context = new DefaultQueryContext(root);
 		String p = exp.getSQL(context);
 		if(p != null && !p.isEmpty()){
@@ -155,7 +168,7 @@ public class DefaultFinder<I,T> implements Finder<I, T>{
 	 */
 	@Override
 	public List<T> list(Order...orders){
-		return Q.select().from(root).orderBy(orders).forOnce().getResultList(modelClass);
+		return Q.select().from(root).where(getExps()).orderBy(orders).forOnce().getResultList(modelClass);
 	}
 	
 	/**
@@ -170,6 +183,7 @@ public class DefaultFinder<I,T> implements Finder<I, T>{
 		}
 		return Q.select()
 			.from(root)
+			.where(getExps())
 			.orderBy(orders)
 			.limit(limit)
 			.forOnce()
@@ -194,6 +208,7 @@ public class DefaultFinder<I,T> implements Finder<I, T>{
 		
 		return Q.select()
 				.from(root)
+				.where(getExps())
 				.limit(limit)
 				.orderBy(orders)
 				.offset(offset)
@@ -215,7 +230,7 @@ public class DefaultFinder<I,T> implements Finder<I, T>{
 	public Optional<T> where(Exp... expressions){
 		return Q.select()
 				.from(root)
-				.where(expressions)
+				.where(getExps(expressions))
 				.forOnce()
 				.getResult(modelClass);
 	}
@@ -229,7 +244,7 @@ public class DefaultFinder<I,T> implements Finder<I, T>{
 	public List<T> listWhere(Exp expression,Order...orders){
 		return Q.select()
 				.from(root)
-				.where(expression)
+				.where(getExps(expression))
 				.orderBy(orders)
 				.forOnce()
 				.getResultList(modelClass);
@@ -248,7 +263,7 @@ public class DefaultFinder<I,T> implements Finder<I, T>{
 		}
 		return Q.select()
 				.from(root)
-				.where(expression)
+				.where(getExps(expression))
 				.orderBy(orders)
 				.limit(limit)
 				.forOnce()
@@ -273,7 +288,7 @@ public class DefaultFinder<I,T> implements Finder<I, T>{
 		}
 		return Q.select()
 				.from(root)
-				.where(expression)
+				.where(getExps(expression))
 				.orderBy(orders)
 				.limit(limit)
 				.offset(offset)
@@ -442,5 +457,19 @@ public class DefaultFinder<I,T> implements Finder<I, T>{
 	}
 	protected QueryExecutor createExecutor(SQLQuery sqlQuery){
 		return new SimpleQueryExecutor(sqlQuery);
+	}
+	
+	private Exp[] getExps(Exp... expressions){
+		List<Exp> defaultExps = modelDescription.getDefaultExps();
+		if(defaultExps != null && defaultExps.size() > 0){
+			defaultExps.addAll(Arrays.asList(expressions));
+			Exp[] exps = new Exp[defaultExps.size()];
+			defaultExps.toArray(exps);
+			
+			return exps;
+		}
+		else{
+			return expressions;
+		}
 	}
 }
