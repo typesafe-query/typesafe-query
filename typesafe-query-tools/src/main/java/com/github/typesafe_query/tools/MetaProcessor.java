@@ -98,6 +98,7 @@ public class MetaProcessor extends AbstractProcessor {
 			idClass = null;
 			targetFields = new ArrayList<String>();
 			metaClass = new JavaClass(metaClassName);
+			metaClass.addInterface(new JavaClass(PACKAGE_NAME + ".meta.MetaClass"));
 			metaClass.setFinal(true);
 			metaClass.addAnnotaion(GENERATED_ANNOTATION, GENERATED_VALUE);
 			if(deplicated){

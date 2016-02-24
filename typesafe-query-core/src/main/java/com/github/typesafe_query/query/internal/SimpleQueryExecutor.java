@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.github.typesafe_query.jdbc.mapper.ResultMapper;
+import com.github.typesafe_query.query.SQLQuery;
 
 /**
  * QueryRunner自体はすぐに作成し、何かしら実行後に必ずクローズ。再び使おうとしたらエラーを投げる。
@@ -12,8 +13,8 @@ import com.github.typesafe_query.jdbc.mapper.ResultMapper;
  */
 public class SimpleQueryExecutor extends ReusableQueryExecutor{
 
-	SimpleQueryExecutor(String sql) {
-		super(sql);
+	public SimpleQueryExecutor(SQLQuery sqlQuery) {
+		super(sqlQuery);
 	}
 
 	@Override

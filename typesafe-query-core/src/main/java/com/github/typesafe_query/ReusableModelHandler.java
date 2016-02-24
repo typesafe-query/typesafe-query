@@ -1,10 +1,10 @@
 package com.github.typesafe_query;
 
-import static com.github.typesafe_query.Q.*;
 import java.util.HashMap;
 import java.util.Map;
 
 import com.github.typesafe_query.query.QueryExecutor;
+import com.github.typesafe_query.query.internal.ReusableQueryExecutor;
 
 public class ReusableModelHandler<T> extends DefaultModelHandler<T> implements AutoCloseable{
 
@@ -26,7 +26,7 @@ public class ReusableModelHandler<T> extends DefaultModelHandler<T> implements A
 	}
 	
 	protected QueryExecutor newExecutor(String sql){
-		return stringQuery(sql).forReuse();
+		return new ReusableQueryExecutor(Q.stringQuery(sql));
 	}
 	
 	protected Map<String, QueryExecutor> getCache(){

@@ -9,9 +9,10 @@ import com.github.typesafe_query.meta.DBColumn;
 import com.github.typesafe_query.meta.DBTable;
 import com.github.typesafe_query.query.Exp;
 import com.github.typesafe_query.query.InvalidQueryException;
-import com.github.typesafe_query.query.SQLQuery;
+import com.github.typesafe_query.query.QueryExecutor;
 import com.github.typesafe_query.query.TypesafeQuery;
 import com.github.typesafe_query.query.internal.DefaultQueryContext;
+import com.github.typesafe_query.query.internal.SimpleQueryExecutor;
 
 /**
  * 一括更新、一括削除をするためのクラスです。
@@ -70,8 +71,7 @@ public class DefaultBulk implements Bulk{
 		sb.append(subQuery.getSQL(context));
 		
 		String sql = sb.toString();
-		SQLQuery query = Q.stringQuery(sql);
-		return query.forOnce().executeUpdate();
+		return createExecutor(sql).executeUpdate();
 	}
 
 	/**
@@ -129,8 +129,7 @@ public class DefaultBulk implements Bulk{
 		}
 		
 		String sql = sb.toString();
-		SQLQuery query = Q.stringQuery(sql);
-		return query.forOnce().executeUpdate();
+		return createExecutor(sql).executeUpdate();
 	}
 	
 	/**
@@ -156,7 +155,10 @@ public class DefaultBulk implements Bulk{
 			exp = Q.and(expressions);
 		}
 		String sql = DBManager.getSQLBuilder().createDeleteSQL(root, exp);
-		SQLQuery query = Q.stringQuery(sql);
-		return query.forOnce().executeUpdate();
+		return createExecutor(sql).executeUpdate();
+	}
+	
+	protected QueryExecutor createExecutor(String sql){
+		return new SimpleQueryExecutor(Q.stringQuery(sql));
 	}
 }

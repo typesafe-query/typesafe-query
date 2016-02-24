@@ -7,6 +7,7 @@ import com.github.typesafe_query.meta.impl.DBTableImpl;
 import com.github.typesafe_query.meta.impl.StringDBColumnImpl;
 import com.github.typesafe_query.Finder;
 import com.github.typesafe_query.meta.DBTable;
+import com.github.typesafe_query.meta.MetaClass;
 import com.github.typesafe_query.ModelDescription;
 import java.util.List;
 import com.github.typesafe_query.DefaultFinder;
@@ -16,7 +17,7 @@ import javax.annotation.Generated;
 import com.github.typesafe_query.meta.StringDBColumn;
 
 @Generated("Meta Generator")
-public final class Role_{
+public final class Role_ implements MetaClass{
 
 	public static final DBTable TABLE = new DBTableImpl("role");
 	public static final StringDBColumn UNIT_ID = new StringDBColumnImpl(TABLE,"unit_id");

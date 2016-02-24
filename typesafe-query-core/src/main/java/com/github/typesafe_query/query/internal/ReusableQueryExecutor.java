@@ -11,6 +11,7 @@ import com.github.typesafe_query.DBManager;
 import com.github.typesafe_query.jdbc.mapper.BeanResultMapper;
 import com.github.typesafe_query.jdbc.mapper.ResultMapper;
 import com.github.typesafe_query.query.QueryExecutor;
+import com.github.typesafe_query.query.SQLQuery;
 
 /**
  * FIXME v0.x.x TypesafeもstringもModelも全部再利用できるやーつ。ほしい。 #23
@@ -38,8 +39,8 @@ public class ReusableQueryExecutor extends AbstractQueryExecutor implements Quer
 	
 	private final List<Object> params;
 	
-	ReusableQueryExecutor(String sql) {
-		super(sql);
+	public ReusableQueryExecutor(SQLQuery sqlQuery) {
+		super(sqlQuery);
 		params = new ArrayList<Object>();
 	}
 	
