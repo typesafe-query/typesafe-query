@@ -3,6 +3,8 @@ package com.github.typesafe_query;
 import java.io.Closeable;
 import java.sql.Connection;
 
+import com.github.typesafe_query.query.QueryException;
+
 /**
  * FIXME v0.x.x これもっといい方法ないものか #32
  * Play!Frameworkを参考にした。あれはThreadLocalで管理してたはず。1系だけど。
@@ -28,7 +30,11 @@ public final class ConnectionHolder implements Closeable{
 	}
 	
 	public Connection get(){
-		return HOLDER.get();
+		Connection con = HOLDER.get();
+		if(con == null){
+			throw new QueryException("Connection is null. Did you call ConnectionHolder#set method?");
+		}
+		return con;
 	}
 	
 	@Override
