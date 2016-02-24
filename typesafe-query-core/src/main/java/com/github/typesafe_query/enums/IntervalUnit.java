@@ -1,18 +1,18 @@
 package com.github.typesafe_query.enums;
 
 /**
- * 日付加加減時に指定可能な単位
+ * 日付加減時に指定可能な単位
  */
 public enum IntervalUnit {
-	MICROSECOND("MICROSECOND"),
-	SECOND("SECOND"),
-	MINUTE("MINUTE"),
-	HOUR("HOUR"),
-	DAY("DAY"),
-	WEEK("WEEK"),
-	MONTH("MONTH"),
+	YEAR("YEAR"),
 	QUARTER("QUARTER"),
-	YEAR("YEAR"),;
+	MONTH("MONTH"),
+	WEEK("WEEK"),
+	DAY("DAY"),
+	HOUR("HOUR"),
+	MINUTE("MINUTE"),
+	SECOND("SECOND"),
+	MICROSECOND("MICROSECOND"),;
 	
 	private final String unit;
 
