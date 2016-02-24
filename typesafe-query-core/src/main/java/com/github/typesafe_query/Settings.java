@@ -39,6 +39,7 @@ public class Settings {
 	
 	private String dbType;
 	private String resourceQueryCharset = "UTF-8";
+	private String externalFileRoot = "/";
 
 	public String getDbType() {
 		return dbType;
@@ -46,5 +47,9 @@ public class Settings {
 
 	public String getResourceQueryCharset() {
 		return resourceQueryCharset;
+	}
+
+	public String getExternalFileRoot() {
+		return externalFileRoot;
 	}
 }
