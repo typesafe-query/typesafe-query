@@ -2,14 +2,19 @@ package com.github.typesafe_query;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.github.typesafe_query.annotation.Converter;
 import com.github.typesafe_query.jdbc.convert.TypeConverter;
+import com.github.typesafe_query.meta.DBColumn;
 import com.github.typesafe_query.meta.DBTable;
+import com.github.typesafe_query.query.InvalidQueryException;
 import com.github.typesafe_query.query.QueryException;
 import com.github.typesafe_query.query.QueryExecutor;
 import com.github.typesafe_query.query.internal.QueryUtils;
@@ -356,6 +361,126 @@ public class DefaultModelHandler<T> implements ModelHandler<T>{
 		}
 	}
 	
+	@Override
+	public boolean save(T model, DBColumn<?>... columns) {
+		if(model == null){
+			throw new NullPointerException("対象オブジェクトがnullです");
+		}
+		
+		if(columns == null ||
+				columns.length == 0 ||
+				Arrays.stream(columns).anyMatch(c -> "*".equals(c.getName()))){
+			return save(model);
+		}
+		
+		if(Arrays.stream(columns)
+				.anyMatch(c -> !c.getTable().getSimpleName().equals(root.getSimpleName()))){
+			throw new InvalidQueryException("Argument `columns` is not included by table " + root.getSimpleName());
+		}
+		
+		Set<String> names = Arrays.stream(columns).map(c -> c.getName()).collect(Collectors.toSet());
+		
+		List<String> sets = new ArrayList<>();
+		List<Pair<Object,TypeConverter>> params = new ArrayList<>();
+		
+		List<Pair<String, String>> values = modelDescription.getValueNames();
+		for(Pair<String, String> t : values){
+			if(!names.contains(t._1)){
+				continue;
+			}
+			if(t._2.contains("/")){
+				String[] subNames = t._2.split("/");
+				if(subNames.length != 2){
+					throw new RuntimeException(String.format("フィールド名%sが不正です", t._2));
+				}
+				Field f = ClassUtils.getField(subNames[0], modelClass);
+				Object targetModel = ClassUtils.callGetter(f, model);
+				if(f == null){
+					throw new RuntimeException(String.format("%sクラスのフィールド%sが見つかりません", modelClass.getSimpleName(),subNames[0]));
+				}
+				Class<?> emb = f.getType();
+				f = ClassUtils.getField(subNames[1], emb);
+				if(f == null){
+					throw new RuntimeException(String.format("%sクラスのフィールド%sが見つかりません", modelClass.getSimpleName(),t._2));
+				}
+				sets.add(t._1 + "=?");
+				if(f.isAnnotationPresent(Converter.class)){
+					Converter c = f.getAnnotation(Converter.class);
+					params.add(new Pair<>(ClassUtils.callGetter(f, targetModel),ClassUtils.newInstance(c.value())));
+				}else{
+					params.add(new Pair<>(ClassUtils.callGetter(f, targetModel),null));
+				}
+			}else{
+				Field f = ClassUtils.getField(t._2, modelClass);
+				if(f == null){
+					throw new RuntimeException(String.format("%sクラスのフィールド%sが見つかりません", modelClass.getSimpleName(),t._2));
+				}
+				sets.add(t._1 + "=?");
+				if(f.isAnnotationPresent(Converter.class)){
+					Converter c = f.getAnnotation(Converter.class);
+					params.add(new Pair<>(ClassUtils.callGetter(f, model),ClassUtils.newInstance(c.value())));
+				}else{
+					params.add(new Pair<>(ClassUtils.callGetter(f, model),null));
+				}
+			}
+		}
+		
+		if(sets.isEmpty()){
+			throw new InvalidQueryException("Save target columns are empty.");
+		}
+		
+		List<String> where = new ArrayList<String>();
+		List<Pair<String, String>> ids = modelDescription.getIdNames();
+		for(Pair<String, String> t : ids){
+			Field f;
+			Object targetModel;
+			if(t._2.contains("/")){
+				String[] subNames = t._2.split("/");
+				if(subNames.length != 2){
+					throw new RuntimeException(String.format("フィールド名%sが不正です", t._2));
+				}
+				f = ClassUtils.getField(subNames[0], modelClass);
+				targetModel = ClassUtils.callGetter(f, model);
+				if(f == null){
+					throw new RuntimeException(String.format("%sクラスのフィールド%sが見つかりません", modelClass.getSimpleName(),subNames[0]));
+				}
+				Class<?> emb = f.getType();
+				f = ClassUtils.getField(subNames[1], emb);
+			}else{
+				f = ClassUtils.getField(t._2, modelClass);
+				targetModel = model;
+			}
+			
+			if(f == null){
+				throw new RuntimeException(String.format("%sクラスのフィールド%sが見つかりません", modelClass.getSimpleName(),t._2));
+			}
+			where.add(t._1 + "=?");
+			
+			Object key = convertParamType(f, targetModel);
+			if(key == null){
+				throw new QueryException("条件のプライマリーキー項目がnullです " + f.getName());
+			}
+			if(f.isAnnotationPresent(Converter.class)){
+				Converter c = f.getAnnotation(Converter.class);
+				params.add(new Pair<>(key,ClassUtils.newInstance(c.value())));
+			}else{
+				params.add(new Pair<>(key,null));
+			}
+		}
+		
+		String sql = String.format(SQL_UPDATE,root.getName() ,QueryUtils.joinWith(",", sets), QueryUtils.joinWith(" and ", where));
+		
+		QueryExecutor q = createExecutor(sql);
+		params.forEach(p -> q.addParam(p._1,p._2));
+		
+		try {
+			return q.executeUpdate() != 0;
+		} catch (QueryException e) {
+			logger.warn("Save failed.",e);
+			return false;
+		}
+	}
+
 	/**
 	 * このModelを削除します。
 	 * @param model モデル

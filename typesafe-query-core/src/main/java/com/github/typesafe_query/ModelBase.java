@@ -2,6 +2,8 @@ package com.github.typesafe_query;
 
 import java.util.Objects;
 
+import com.github.typesafe_query.meta.DBColumn;
+
 public abstract class ModelBase<T extends ModelBase<T>> {
 	
 	private Class<T> modelClass;
@@ -37,6 +39,11 @@ public abstract class ModelBase<T extends ModelBase<T>> {
 	public boolean save(){
 		//TODO castが気に食わない
 		return modelHandler.save(modelClass.cast(this));
+	}
+	
+	public boolean save(DBColumn<?>...columns){
+		//TODO castが気に食わない
+		return modelHandler.save(modelClass.cast(this),columns);
 	}
 	
 	public boolean delete(){
