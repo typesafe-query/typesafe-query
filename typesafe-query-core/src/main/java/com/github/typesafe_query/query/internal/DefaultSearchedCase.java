@@ -7,16 +7,16 @@ import com.github.typesafe_query.query.Exp;
 import com.github.typesafe_query.query.InvalidQueryException;
 import com.github.typesafe_query.query.QueryContext;
 import com.github.typesafe_query.query.SearchedCase;
-import com.github.typesafe_query.util.Tuple;
+import com.github.typesafe_query.util.Pair;
 
 public class DefaultSearchedCase extends DefaultCase implements SearchedCase{
 	
-	private List<Tuple<Exp, Object>> expressions;
+	private List<Pair<Exp, Object>> expressions;
 	private Exp when;
 	private Object else_;
 	
 	public DefaultSearchedCase() {
-		expressions = new ArrayList<Tuple<Exp,Object>>();
+		expressions = new ArrayList<Pair<Exp,Object>>();
 	}
 
 	@Override
@@ -27,7 +27,7 @@ public class DefaultSearchedCase extends DefaultCase implements SearchedCase{
 
 	@Override
 	public SearchedCase then(Object o) {
-		expressions.add(new Tuple<Exp, Object>(when, o));
+		expressions.add(new Pair<Exp, Object>(when, o));
 		return this;
 	}
 
@@ -47,7 +47,7 @@ public class DefaultSearchedCase extends DefaultCase implements SearchedCase{
 		sb
 		.append("CASE");
 		
-		for(Tuple<Exp, Object> t : expressions){
+		for(Pair<Exp, Object> t : expressions){
 			sb
 			.append(" WHEN ")
 			.append(t._1.getSQL(context))

@@ -9,7 +9,7 @@ import com.github.typesafe_query.annotation.EmbeddedId;
 import com.github.typesafe_query.annotation.Id;
 import com.github.typesafe_query.meta.DBTable;
 import com.github.typesafe_query.util.ClassUtils;
-import com.github.typesafe_query.util.Tuple;
+import com.github.typesafe_query.util.Pair;
 
 public class ModelDescription<T> {
 	private final Class<T> modelClass;
@@ -17,18 +17,18 @@ public class ModelDescription<T> {
 	
 	private final boolean idGenerated;
 	
-	private final List<Tuple<String, String>> idNames;
-	private final List<Tuple<String, String>> allNames;
-	private final List<Tuple<String, String>> valueNames;
+	private final List<Pair<String, String>> idNames;
+	private final List<Pair<String, String>> allNames;
+	private final List<Pair<String, String>> valueNames;
 	
 	public ModelDescription(Class<T> modelClass,DBTable table,boolean idGenerated,List<String> fieldNames) {
 		this.modelClass = modelClass;
 		this.table = table;
 		this.idGenerated = idGenerated;
 		
-		this.idNames = new ArrayList<Tuple<String, String>>();
-		this.allNames = new ArrayList<Tuple<String, String>>();
-		this.valueNames = new ArrayList<Tuple<String, String>>();
+		this.idNames = new ArrayList<Pair<String, String>>();
+		this.allNames = new ArrayList<Pair<String, String>>();
+		this.valueNames = new ArrayList<Pair<String, String>>();
 		
 		for(String fieldName : fieldNames){
 			if(fieldName.contains("/")){
@@ -72,7 +72,7 @@ public class ModelDescription<T> {
 			}
 		}
 		
-		Tuple<String, String> t = new Tuple<String,String>(colName, propName);
+		Pair<String, String> t = new Pair<String,String>(colName, propName);
 		allNames.add(t);
 		if(isId){
 			idNames.add(t);
@@ -100,15 +100,15 @@ public class ModelDescription<T> {
 		return idGenerated;
 	}
 
-	public List<Tuple<String, String>> getIdNames(){
-		return new ArrayList<Tuple<String, String>>(idNames);
+	public List<Pair<String, String>> getIdNames(){
+		return new ArrayList<Pair<String, String>>(idNames);
 	}
 	
-	public List<Tuple<String, String>> getAllNames(){
-		return new ArrayList<Tuple<String, String>>(allNames);
+	public List<Pair<String, String>> getAllNames(){
+		return new ArrayList<Pair<String, String>>(allNames);
 	}
 	
-	public List<Tuple<String, String>> getValueNames(){
-		return new ArrayList<Tuple<String, String>>(valueNames);
+	public List<Pair<String, String>> getValueNames(){
+		return new ArrayList<Pair<String, String>>(valueNames);
 	}
 }

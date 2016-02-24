@@ -7,13 +7,13 @@ import com.github.typesafe_query.meta.DBColumn;
 import com.github.typesafe_query.query.InvalidQueryException;
 import com.github.typesafe_query.query.QueryContext;
 import com.github.typesafe_query.query.SimpleCase;
-import com.github.typesafe_query.util.Tuple;
+import com.github.typesafe_query.util.Pair;
 
 public class DefaultSimpleCase<T> extends DefaultCase implements SimpleCase<T>{
 	
 	private DBColumn<T> caseTarget;
 	
-	private List<Tuple<T, Object>> expressions;
+	private List<Pair<T, Object>> expressions;
 	
 	private T when;
 	
@@ -21,7 +21,7 @@ public class DefaultSimpleCase<T> extends DefaultCase implements SimpleCase<T>{
 	
 	public DefaultSimpleCase(DBColumn<T> column) {
 		this.caseTarget = column;
-		expressions = new ArrayList<Tuple<T,Object>>();
+		expressions = new ArrayList<Pair<T,Object>>();
 	}
 
 	@Override
@@ -32,7 +32,7 @@ public class DefaultSimpleCase<T> extends DefaultCase implements SimpleCase<T>{
 
 	@Override
 	public SimpleCase<T> then(Object o) {
-		expressions.add(new Tuple<T, Object>(when, o));
+		expressions.add(new Pair<T, Object>(when, o));
 		return this;
 	}
 
@@ -53,7 +53,7 @@ public class DefaultSimpleCase<T> extends DefaultCase implements SimpleCase<T>{
 		.append("CASE ")
 		.append(context.getColumnPath(caseTarget));
 		
-		for(Tuple<T, Object> t : expressions){
+		for(Pair<T, Object> t : expressions){
 			sb
 			.append(" WHEN ")
 			.append(QueryUtils.literal(t._1))

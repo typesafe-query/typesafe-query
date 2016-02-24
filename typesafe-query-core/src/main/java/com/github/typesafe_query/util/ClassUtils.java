@@ -5,8 +5,10 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 
@@ -17,6 +19,20 @@ import java.util.Set;
  *
  */
 public final class ClassUtils {
+	
+	private static final Map<Class<?>, Class<?>> PRIMITIVE_WRAPPER_MAP = new HashMap<>();
+	
+	static{
+		PRIMITIVE_WRAPPER_MAP.put(Byte.TYPE, Byte.class);
+		PRIMITIVE_WRAPPER_MAP.put(Short.TYPE, Short.class);
+		PRIMITIVE_WRAPPER_MAP.put(Integer.TYPE, Integer.class);
+		PRIMITIVE_WRAPPER_MAP.put(Long.TYPE, Long.class);
+		PRIMITIVE_WRAPPER_MAP.put(Float.TYPE, Float.class);
+		PRIMITIVE_WRAPPER_MAP.put(Byte.TYPE, Byte.class);
+		PRIMITIVE_WRAPPER_MAP.put(Double.TYPE, Double.class);
+		PRIMITIVE_WRAPPER_MAP.put(Boolean.TYPE, Boolean.class);
+	}
+	
 	private ClassUtils() {}
 	
 	/**
@@ -240,5 +256,15 @@ public final class ClassUtils {
 		} catch (Exception e) {
 			return false;
 		}
+	}
+	
+	public static Class<?> primitiveToWrapperClass(Class<?> clazz){
+		if(!clazz.isPrimitive()){
+			return clazz;
+		}
+		if(PRIMITIVE_WRAPPER_MAP.containsKey(clazz)){
+			return PRIMITIVE_WRAPPER_MAP.get(clazz);
+		}
+		throw new RuntimeException("対応していないプリミティブタイプです " + clazz);
 	}
 }

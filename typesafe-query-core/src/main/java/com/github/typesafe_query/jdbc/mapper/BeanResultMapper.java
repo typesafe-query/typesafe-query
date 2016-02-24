@@ -2,14 +2,11 @@ package com.github.typesafe_query.jdbc.mapper;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 import org.slf4j.Logger;
@@ -20,8 +17,8 @@ import com.github.typesafe_query.annotation.Column;
 import com.github.typesafe_query.annotation.Embedded;
 import com.github.typesafe_query.annotation.EmbeddedId;
 import com.github.typesafe_query.annotation.Transient;
+import com.github.typesafe_query.query.QueryException;
 import com.github.typesafe_query.util.ClassUtils;
-import com.github.typesafe_query.util.Tuple;
 
 
 /**
@@ -48,12 +45,12 @@ public class BeanResultMapper<R> implements ResultMapper<R>{
 	@Override
 	public R map(ResultSet rs) throws SQLException {
 		ResultSetMetaData meta = rs.getMetaData();
-		List<Tuple<Integer, String>> pairs = createColmunProperyPair(meta, type);
+		List<MappingMetadata> pairs = createColmunProperyPair(meta, type);
 		
 		R model = ClassUtils.newInstance(type);
-		for(Tuple<Integer, String> t : pairs){
-			if(t._2.contains("/")){
-				String[] names = t._2.split("/");
+		for(MappingMetadata t : pairs){
+			if(t.propertyPath.contains("/")){
+				String[] names = t.propertyPath.split("/");
 				Field f = ClassUtils.getField(names[0], type);
 				Object pk = ClassUtils.callGetter(f, model);
 				if(pk == null){
@@ -62,11 +59,11 @@ public class BeanResultMapper<R> implements ResultMapper<R>{
 				}
 				
 				f = ClassUtils.getField(names[1], f.getType());
-				Object o = processColumn(rs, t._1, f);
+				Object o = processColumn(rs, t.columnIndex, t.columnJavaType, f);
 				callSetter(f, pk, o);
 			}else{
-				Field f = ClassUtils.getField(t._2, type);
-				Object o = processColumn(rs, t._1, f);
+				Field f = ClassUtils.getField(t.propertyPath, type);
+				Object o = processColumn(rs, t.columnIndex, t.columnJavaType, f);
 				callSetter(f, model, o);
 			}
 		}
@@ -74,28 +71,13 @@ public class BeanResultMapper<R> implements ResultMapper<R>{
 		return model;
 	}
 	
-	protected Object processColumn(ResultSet rs,int index,Field f) throws SQLException{
-		
-		Class<?> targetPropType = f.getType();
-		//Optional
-		if(Optional.class.isAssignableFrom(f.getType())){
-			ParameterizedType pt = (ParameterizedType)f.getGenericType();
-			Type[] types = pt.getActualTypeArguments();
-			targetPropType = (Class<?>)types[0];
-			logger.debug("Optional<{}>",targetPropType);
-		}
-		
-		Object o = DBManager.getJdbcValueConverter().getValue(rs, index, targetPropType);
-		
-		if(Optional.class.isAssignableFrom(f.getType())){
-			o = Optional.ofNullable(o);
-		}
-		return o;
+	protected Object processColumn(ResultSet rs,int index,Class<?> columnJavaType,Field f) throws SQLException{
+		return DBManager.getDialectTranslator().getValue(rs,index,columnJavaType,f);
 	}
 
-	private List<Tuple<Integer, String>> createColmunProperyPair(ResultSetMetaData meta,Class<?> type) throws SQLException{
+	private List<MappingMetadata> createColmunProperyPair(ResultSetMetaData meta,Class<?> type) throws SQLException{
 		
-		List<Tuple<Integer, String>> result = new ArrayList<Tuple<Integer, String>>();
+		List<MappingMetadata> result = new ArrayList<>();
 		
 		Field[] fileds = ClassUtils.getAllFields(type);
 		
@@ -112,7 +94,7 @@ public class BeanResultMapper<R> implements ResultMapper<R>{
 				if (equalsColumnAnnotation(colName, propertyName,type) ||
 						equalsColumnProperty(colName, propertyName)) {
 					if(!containsProperty(result, propertyName)){
-						result.add(new Tuple<Integer,String>(i, propertyName));
+						result.add(new MappingMetadata(i, propertyName, meta.getColumnClassName(i)));
 					}
 					found = true;
 					break;
@@ -136,7 +118,7 @@ public class BeanResultMapper<R> implements ResultMapper<R>{
 						if (equalsColumnAnnotation(colName, propertyName,pkClass) ||
 								equalsColumnProperty(colName, propertyName)) {
 							if(!containsProperty(result, propertyName)){
-								result.add(new Tuple<Integer,String>(i, f.getName() + "/" + propertyName));
+								result.add(new MappingMetadata(i, f.getName() + "/" + propertyName,meta.getColumnClassName(i)));
 							}
 							found = true;
 							break;
@@ -163,7 +145,7 @@ public class BeanResultMapper<R> implements ResultMapper<R>{
 						if (equalsColumnAnnotation(colName, propertyName,pkClass) ||
 								equalsColumnProperty(colName, propertyName)) {
 							if(!containsProperty(result, propertyName)){
-								result.add(new Tuple<Integer,String>(i, f.getName() + "/" + propertyName));
+								result.add(new MappingMetadata(i, f.getName() + "/" + propertyName, meta.getColumnClassName(i)));
 							}
 							found = true;
 							break;
@@ -194,9 +176,9 @@ public class BeanResultMapper<R> implements ResultMapper<R>{
 		return false;
 	}
 	
-	private boolean containsProperty(List<Tuple<Integer, String>> list,String propertyName){
-		for(Tuple<Integer, String> t : list){
-			if(t._2.equals(propertyName)){
+	private boolean containsProperty(List<MappingMetadata> list,String propertyName){
+		for(MappingMetadata t : list){
+			if(t.propertyPath.equals(propertyName)){
 				logger.warn("取得したカラム名が重複しているため、後から見つかった項目は無視されます property={}",propertyName);
 				return true;
 			}
@@ -225,11 +207,28 @@ public class BeanResultMapper<R> implements ResultMapper<R>{
 	}
 	
 	private static void callSetter(Field f,Object target,Object obj){
+		//TODO プリミティブタイプの時にnullをセットしようとする場合エラーにしないとだめ
 		try{
 			ClassUtils.callSetter(f, f.getType(), target, obj);
 		} catch (RuntimeException e) {
 			logger.error(String.format("cannot call Setter %s.%s(%s)",target.getClass().getName(),f.getName(),obj.getClass().getName()),e);
 			throw e;
+		}
+	}
+	
+	private static class MappingMetadata{
+		private final int columnIndex;
+		private final String propertyPath;
+		private final Class<?> columnJavaType;
+		
+		MappingMetadata(int columnIndex, String propertyPath, String columnJavaTypeName) {
+			this.columnIndex = columnIndex;
+			this.propertyPath = propertyPath;
+			try {
+				this.columnJavaType = Class.forName(columnJavaTypeName);
+			} catch (ClassNotFoundException e) {
+				throw new QueryException("Unknown Class", e);
+			}
 		}
 	}
 }

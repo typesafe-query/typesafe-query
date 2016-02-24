@@ -8,14 +8,8 @@ import com.github.typesafe_query.annotation.Transient;
 import com.sample.model.TypeModel.EN;
 
 public class InnerModel {
-	@Transient
-	//TODO 対応する #6
 	private Clob clob1;
-	@Transient
-	//TODO 対応する #6
 	private Blob blob1;
-	@Transient
-	//TODO 対応する #6
 	private SQLXML sqlxml;
 	@Transient
 	private EN enum1;
