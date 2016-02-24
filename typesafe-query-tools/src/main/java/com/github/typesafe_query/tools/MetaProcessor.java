@@ -310,7 +310,7 @@ public class MetaProcessor extends AbstractProcessor {
 		ff.setStatical(true);
 		ff.setFinal(true);
 		ff.setType(finder);
-		ff.setInitializeString("new DefaultFinder<>(_DESC)");
+		ff.setInitializeString("new DefaultFinder<>(new DefaultFinder<>(_DESC))");
 
 		metaClass.addImport(new JavaClass(PACKAGE_NAME + ".DefaultFinder"));
 		

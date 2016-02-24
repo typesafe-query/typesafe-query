@@ -19,6 +19,8 @@ import com.github.typesafe_query.query.Order;
  */
 public interface Finder<I,T> {
 	
+	Finder<I,T> includeDefault();
+	
 	T requiredById(I id);
 	
 	/**

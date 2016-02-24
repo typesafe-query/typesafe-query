@@ -40,6 +40,16 @@ public class DefaultFinder<I,T> implements Finder<I, T>{
 	
 	private ModelDescription<T> modelDescription;
 	
+	private DefaultFinder<I,T> finder;
+	
+	private Boolean includeDefault = true;
+	
+	public DefaultFinder(DefaultFinder<I,T> finder) {
+		this(finder.modelDescription);
+		this.finder = finder;
+		this.includeDefault = false;
+	}
+	
 	/**
 	 * モデルクラス、テーブル、モデル詳細を指定して新しいインスタンスを生成します。
 	 * @param modelDescription モデル詳細
@@ -48,6 +58,11 @@ public class DefaultFinder<I,T> implements Finder<I, T>{
 		this.modelClass = modelDescription.getModelClass();
 		this.root = modelDescription.getTable();
 		this.modelDescription = modelDescription;
+	}
+	
+	@Override
+	public Finder<I,T> includeDefault(){
+		return this.finder;
 	}
 	
 	@Override
@@ -461,11 +476,10 @@ public class DefaultFinder<I,T> implements Finder<I, T>{
 	
 	private Exp[] getExps(Exp... expressions){
 		List<Exp> defaultExps = modelDescription.getDefaultExps();
-		if(defaultExps != null && defaultExps.size() > 0){
+		if(defaultExps != null && defaultExps.size() > 0 && this.includeDefault){
 			defaultExps.addAll(Arrays.asList(expressions));
 			Exp[] exps = new Exp[defaultExps.size()];
 			defaultExps.toArray(exps);
-			
 			return exps;
 		}
 		else{
