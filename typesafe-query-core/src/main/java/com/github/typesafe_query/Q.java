@@ -16,6 +16,7 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import com.github.typesafe_query.enums.IntervalUnit;
 import com.github.typesafe_query.handler.BatchModelHandlerHandler;
 import com.github.typesafe_query.handler.ReusableModelHandlerHandler;
 import com.github.typesafe_query.meta.ComparableDBColumn;
@@ -504,4 +505,49 @@ public final class Q {
 	 * 現在時刻を取得するCURRENT_TIME句
 	 */
 	public static final DateDBColumnImpl<LocalTime> CURRENT_TIME = new DateDBColumnImpl<LocalTime>(null, "CURRENT_TIME");
+	
+	/**
+	 * 日付加減の単位(年)
+	 */
+	public static final IntervalUnit YEAR = IntervalUnit.YEAR;
+
+	/**
+	 * 日付加減の単位(四半期)
+	 */
+	public static final IntervalUnit QUARTER = IntervalUnit.QUARTER;
+
+	/**
+	 * 日付加減の単位(月)
+	 */
+	public static final IntervalUnit MONTH = IntervalUnit.MONTH;
+
+	/**
+	 * 日付加減の単位(週)
+	 */
+	public static final IntervalUnit WEEK = IntervalUnit.WEEK;
+
+	/**
+	 * 日付加減の単位(日)
+	 */
+	public static final IntervalUnit DAY = IntervalUnit.DAY;
+
+	/**
+	 * 日付加減の単位(時間)
+	 */
+	public static final IntervalUnit HOUR = IntervalUnit.HOUR;
+
+	/**
+	 * 日付加減の単位(分)
+	 */
+	public static final IntervalUnit MINUTE = IntervalUnit.MINUTE;
+
+	/**
+	 * 日付加減の単位(秒)
+	 */
+	public static final IntervalUnit SECOND = IntervalUnit.SECOND;
+
+	/**
+	 * 日付加減の単位(ミリ秒)
+	 */
+	public static final IntervalUnit MICROSECOND = IntervalUnit.MICROSECOND;
 }
