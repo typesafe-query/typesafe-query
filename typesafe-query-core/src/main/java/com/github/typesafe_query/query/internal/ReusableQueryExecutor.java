@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 import com.github.typesafe_query.DBManager;
 import com.github.typesafe_query.jdbc.mapper.BeanResultMapper;
@@ -90,6 +92,32 @@ public class ReusableQueryExecutor extends AbstractQueryExecutor implements Quer
 	@Override
 	public <R> List<R> getResultList(ResultMapper<R> mapper) {
 		return getSQLRunner().getList(params,mapper);
+	}
+
+	@Override
+	public <R> void fetch(Class<R> modelClass, Predicate<R> p) {
+		getSQLRunner().fetch(params, new BeanResultMapper<R>(modelClass), p);
+	}
+
+	@Override
+	public <R> void fetch(ResultMapper<R> mapper, Predicate<R> p) {
+		getSQLRunner().fetch(params, mapper, p);
+	}
+	
+	@Override
+	public <R> void fetch(Class<R> modelClass, Consumer<R> p) {
+		fetch(modelClass, r -> {
+			p.accept(r);
+			return true;
+		});
+	}
+
+	@Override
+	public <R> void fetch(ResultMapper<R> mapper, Consumer<R> p) {
+		fetch(mapper, r -> {
+			p.accept(r);
+			return true;
+		});
 	}
 
 	@Override

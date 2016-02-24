@@ -13,6 +13,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.junit.After;
 import org.junit.Before;
@@ -247,5 +248,140 @@ public class FinderTest {
 		} catch (IllegalArgumentException e) {
 			
 		}
+	}
+	
+	@Test
+	public void fetch(){
+		
+		AtomicInteger ai = new AtomicInteger(0);
+		ApUser_.find().fetch(a -> {
+			assertNotNull(a);
+			ai.getAndIncrement();
+		});
+		assertThat(ai.get(), is(4));
+		
+		AtomicInteger ai2 = new AtomicInteger(0);
+		ApUser_.find().fetch(a -> {
+			assertNotNull(a);
+			ai2.getAndIncrement();
+			if(ai2.get() == 2){
+				return false;
+			}
+			return true;
+		});
+		
+		assertThat(ai2.get(), is(2));
+	}
+	
+	@Test
+	public void fetch_limit(){
+		
+		AtomicInteger ai = new AtomicInteger(0);
+		ApUser_.find().fetch(a -> {
+			assertNotNull(a);
+			ai.getAndIncrement();
+		},3);
+		assertThat(ai.get(), is(3));
+		
+		AtomicInteger ai2 = new AtomicInteger(0);
+		ApUser_.find().fetch(a -> {
+			assertNotNull(a);
+			ai2.getAndIncrement();
+			if(ai2.get() == 2){
+				return false;
+			}
+			return true;
+		},3);
+		
+		assertThat(ai2.get(), is(2));
+	}
+	
+	@Test
+	public void fetch_limit_offset(){
+		
+		AtomicInteger ai = new AtomicInteger(0);
+		ApUser_.find().fetch(a -> {
+			assertNotNull(a);
+			ai.getAndIncrement();
+		},2,2);
+		assertThat(ai.get(), is(2));
+		
+		AtomicInteger ai2 = new AtomicInteger(0);
+		ApUser_.find().fetch(a -> {
+			assertNotNull(a);
+			ai2.getAndIncrement();
+			if(ai2.get() == 2){
+				return false;
+			}
+			return true;
+		},2,2);
+		
+		assertThat(ai2.get(), is(2));
+	}
+	
+	@Test
+	public void fetchWhere(){
+		
+		AtomicInteger ai = new AtomicInteger(0);
+		ApUser_.find().fetchWhere(ApUser_.UNIT_ID.eq("U1"), a -> {
+			assertNotNull(a);
+			ai.getAndIncrement();
+		});
+		assertThat(ai.get(), is(3));
+		
+		AtomicInteger ai2 = new AtomicInteger(0);
+		ApUser_.find().fetchWhere(ApUser_.UNIT_ID.eq("U1"), a -> {
+			assertNotNull(a);
+			ai2.getAndIncrement();
+			if(ai2.get() == 2){
+				return false;
+			}
+			return true;
+		});
+		assertThat(ai2.get(), is(2));
+	}
+	
+	@Test
+	public void fetchWhere_limit(){
+		
+		AtomicInteger ai = new AtomicInteger(0);
+		ApUser_.find().fetchWhere(ApUser_.UNIT_ID.eq("U1"), a -> {
+			assertNotNull(a);
+			ai.getAndIncrement();
+		},2);
+		assertThat(ai.get(), is(2));
+		
+		AtomicInteger ai2 = new AtomicInteger(0);
+		ApUser_.find().fetchWhere(ApUser_.UNIT_ID.eq("U1"), a -> {
+			assertNotNull(a);
+			ai2.getAndIncrement();
+			if(ai2.get() == 2){
+				return false;
+			}
+			return true;
+		},2);
+		assertThat(ai2.get(), is(2));
+	}
+	
+	@Test
+	public void fetchWhere_limit_offset(){
+		
+		AtomicInteger ai = new AtomicInteger(0);
+		ApUser_.find().fetchWhere(ApUser_.UNIT_ID.eq("U1"), a -> {
+			assertNotNull(a);
+			ai.getAndIncrement();
+		},2,2);
+		assertThat(ai.get(), is(1));
+		
+		AtomicInteger ai2 = new AtomicInteger(0);
+		ApUser_.find().fetchWhere(ApUser_.UNIT_ID.eq("U1"), a -> {
+			assertNotNull(a);
+			ai2.getAndIncrement();
+			if(ai2.get() == 2){
+				return false;
+			}
+			return true;
+		},2,2);
+		assertThat(ai2.get(), is(1));
 	}
 }

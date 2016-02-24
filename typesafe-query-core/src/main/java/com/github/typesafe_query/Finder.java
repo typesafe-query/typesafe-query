@@ -5,6 +5,8 @@ package com.github.typesafe_query;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 import com.github.typesafe_query.query.Exp;
 import com.github.typesafe_query.query.Order;
@@ -98,4 +100,17 @@ public interface Finder<I,T> {
 	 * @return 一覧
 	 */
 	List<T> listWhere(Exp expression,Integer offset,Integer limit,Order...orders);
+	
+	void fetch(Predicate<T> p, Order...orders);
+	void fetch(Predicate<T> p,int limit,Order...orders);
+	void fetch(Predicate<T> p,int offset,int limit,Order...orders);
+	void fetch(Consumer<T> p,Order...orders);
+	void fetch(Consumer<T> p,int limit,Order...orders);
+	void fetch(Consumer<T> p,int offset,int limit,Order...orders);
+	void fetchWhere(Exp expression,Predicate<T> p,Order...orders);
+	void fetchWhere(Exp expression,Predicate<T> p,Integer limit,Order...orders);
+	void fetchWhere(Exp expression,Predicate<T> p,Integer offset,Integer limit,Order...orders);
+	void fetchWhere(Exp expression,Consumer<T> p,Order...orders);
+	void fetchWhere(Exp expression,Consumer<T> p,Integer limit,Order...orders);
+	void fetchWhere(Exp expression,Consumer<T> p,Integer offset,Integer limit,Order...orders);
 }

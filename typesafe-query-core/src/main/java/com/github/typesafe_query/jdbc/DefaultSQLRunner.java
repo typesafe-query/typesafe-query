@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Predicate;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -84,6 +85,32 @@ public class DefaultSQLRunner implements SQLRunner{
 		}
 	}
 	
+	@Override
+	public <T> void fetch(List<Object> params, ResultMapper<T> mapper, Predicate<T> p) {
+		if(closed){
+			throw new IllegalStateException("SQLRunner is already closed.");
+		}
+		try {
+			createStatement();
+			logger.info("SQL={} PARAM={} QUERY_RUNNER={} PREPARED_STATEMENT={} CONNECTION={}",sql,params,this,ps,con);
+			prepareParams(ps, params);
+			ResultSet rs = null;
+			try{
+				rs = ps.executeQuery();
+				boolean doNext = true;
+				while(rs.next() && doNext){
+					doNext = p.test(mapper.map(rs));
+				}
+			}finally{
+				if(rs != null){
+					rs.close();
+				}
+			}
+		} catch (SQLException e) {
+			throw new QueryException("ExecuteQuery failed.", e);
+		}
+	}
+
 	@Override
 	public int executeUpdate(List<Object> params){
 		if(closed){

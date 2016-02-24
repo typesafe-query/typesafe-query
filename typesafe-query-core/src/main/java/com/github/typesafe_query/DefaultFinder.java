@@ -4,6 +4,8 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 import com.github.typesafe_query.meta.DBTable;
 import com.github.typesafe_query.query.QueryExecutor;
@@ -19,6 +21,7 @@ import com.github.typesafe_query.util.Tuple;
  * <p>検索を行うクラスです</p>
  * 
  * TODO v0.3.x 再利用可能インスタンスを作成するファクトリメソッドを追加する？ #23
+ * TODO 同じようなコードが多いのでリファクタリングする
  * @author Takahiko Sato(MOSA architect Inc.)
  */
 public class DefaultFinder<I,T> implements Finder<I, T>{
@@ -270,5 +273,165 @@ public class DefaultFinder<I,T> implements Finder<I, T>{
 				.offset(offset)
 				.forOnce()
 				.getResultList(modelClass);
+	}
+
+	@Override
+	public void fetch(Predicate<T> p, Order... orders) {
+		Q.select().from(root).orderBy(orders).forOnce().fetch(modelClass, p);
+	}
+
+	@Override
+	public void fetch(Predicate<T> p, int limit, Order... orders) {
+		if(limit < 1){
+			throw new IllegalArgumentException("limit must be greater than 0");
+		}
+		Q.select()
+			.from(root)
+			.orderBy(orders)
+			.limit(limit)
+			.forOnce()
+			.fetch(modelClass, p);
+	}
+
+	@Override
+	public void fetch(Predicate<T> p, int offset, int limit, Order... orders) {
+		if(limit < 1){
+			throw new IllegalArgumentException("limit must be greater than 0");
+		}
+		
+		if(offset < 0){
+			throw new IllegalArgumentException("offset must be greater than -1");
+		}
+		
+		Q.select()
+			.from(root)
+			.limit(limit)
+			.orderBy(orders)
+			.offset(offset)
+			.forOnce()
+			.fetch(modelClass, p);
+	}
+
+	@Override
+	public void fetch(Consumer<T> p, Order... orders) {
+		Q.select().from(root).orderBy(orders).forOnce().fetch(modelClass, p);
+	}
+
+	@Override
+	public void fetch(Consumer<T> p, int limit, Order... orders) {
+		if(limit < 1){
+			throw new IllegalArgumentException("limit must be greater than 0");
+		}
+		Q.select()
+			.from(root)
+			.orderBy(orders)
+			.limit(limit)
+			.forOnce()
+			.fetch(modelClass, p);
+	}
+
+	@Override
+	public void fetch(Consumer<T> p, int offset, int limit, Order... orders) {
+		if(limit < 1){
+			throw new IllegalArgumentException("limit must be greater than 0");
+		}
+		
+		if(offset < 0){
+			throw new IllegalArgumentException("offset must be greater than -1");
+		}
+		
+		Q.select()
+			.from(root)
+			.limit(limit)
+			.orderBy(orders)
+			.offset(offset)
+			.forOnce()
+			.fetch(modelClass, p);
+	}
+
+	@Override
+	public void fetchWhere(Exp expression, Predicate<T> p, Order... orders) {
+		Q.select()
+			.from(root)
+			.where(expression)
+			.orderBy(orders)
+			.forOnce()
+			.fetch(modelClass, p);
+	}
+
+	@Override
+	public void fetchWhere(Exp expression, Predicate<T> p, Integer limit, Order... orders) {
+		if(limit < 1){
+			throw new IllegalArgumentException("limit must be greater than 0");
+		}
+		Q.select()
+			.from(root)
+			.where(expression)
+			.orderBy(orders)
+			.limit(limit)
+			.forOnce()
+			.fetch(modelClass, p);
+	}
+
+	@Override
+	public void fetchWhere(Exp expression, Predicate<T> p, Integer offset, Integer limit, Order... orders) {
+		if(limit < 1){
+			throw new IllegalArgumentException("limit must be greater than 0");
+		}
+		
+		if(offset < 0){
+			throw new IllegalArgumentException("offset must be greater than -1");
+		}
+		Q.select()
+			.from(root)
+			.where(expression)
+			.orderBy(orders)
+			.limit(limit)
+			.offset(offset)
+			.forOnce()
+			.fetch(modelClass, p);
+	}
+
+	@Override
+	public void fetchWhere(Exp expression, Consumer<T> p, Order... orders) {
+		Q.select()
+			.from(root)
+			.where(expression)
+			.orderBy(orders)
+			.forOnce()
+			.fetch(modelClass, p);
+	}
+
+	@Override
+	public void fetchWhere(Exp expression, Consumer<T> p, Integer limit, Order... orders) {
+		if(limit < 1){
+			throw new IllegalArgumentException("limit must be greater than 0");
+		}
+		Q.select()
+			.from(root)
+			.where(expression)
+			.orderBy(orders)
+			.limit(limit)
+			.forOnce()
+			.fetch(modelClass, p);
+	}
+
+	@Override
+	public void fetchWhere(Exp expression, Consumer<T> p, Integer offset, Integer limit, Order... orders) {
+		if(limit < 1){
+			throw new IllegalArgumentException("limit must be greater than 0");
+		}
+		
+		if(offset < 0){
+			throw new IllegalArgumentException("offset must be greater than -1");
+		}
+		Q.select()
+			.from(root)
+			.where(expression)
+			.orderBy(orders)
+			.limit(limit)
+			.offset(offset)
+			.forOnce()
+			.fetch(modelClass, p);
 	}
 }
