@@ -40,7 +40,7 @@ public class DefaultFinder<I,T> implements Finder<I, T>{
 	
 	private ModelDescription<T> modelDescription;
 	
-	private DefaultFinder<I,T> finder;
+	private Finder<I,T> finder;
 	
 	private Boolean includeDefault = true;
 	

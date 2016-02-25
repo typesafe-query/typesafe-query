@@ -2,8 +2,13 @@ package com.github.typesafe_query.tools;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.AbstractMap;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -461,7 +466,7 @@ public class MetaProcessor extends AbstractProcessor {
 			f.setInitializeString(String.format("new NumberDBColumnImpl<>(TABLE,\"%s\")",colName));
 
 			metaClass.addField(f);
-			if(where != null) where.setValue(defaultWhereValue);
+			if(where != null) where.setValue(String.format("(short)%s", defaultWhereValue));
 		}else if("java.lang.Integer".equals(typeName) || "int".equals(typeName)){
 			//INumberDBColumn<java.lang.Integer>
 			JavaClass jc = new JavaClass(PACKAGE_NAME + ".meta.NumberDBColumn");
@@ -483,7 +488,7 @@ public class MetaProcessor extends AbstractProcessor {
 			f.setInitializeString(String.format("new NumberDBColumnImpl<>(TABLE,\"%s\")",colName));
 
 			metaClass.addField(f);
-			if(where != null) where.setValue(String.format("new Long(%s)", defaultWhereValue));
+			if(where != null) where.setValue(String.format("%sL", defaultWhereValue));
 		}else if("java.lang.Double".equals(typeName) || "double".equals(typeName)){
 			//INumberDBColumn<java.lang.Double>
 			JavaClass jc = new JavaClass(PACKAGE_NAME + ".meta.NumberDBColumn");
@@ -494,7 +499,7 @@ public class MetaProcessor extends AbstractProcessor {
 			f.setInitializeString(String.format("new NumberDBColumnImpl<>(TABLE,\"%s\")",colName));
 
 			metaClass.addField(f);
-			if(where != null) where.setValue(String.format("new Double(%s)", defaultWhereValue));
+			if(where != null) where.setValue(String.format("%sD", defaultWhereValue));
 		}else if("java.lang.Float".equals(typeName) || "float".equals(typeName)){
 			//INumberDBColumn<java.lang.Float>
 			JavaClass jc = new JavaClass(PACKAGE_NAME + ".meta.NumberDBColumn");
@@ -505,7 +510,7 @@ public class MetaProcessor extends AbstractProcessor {
 			f.setInitializeString(String.format("new NumberDBColumnImpl<>(TABLE,\"%s\")",colName));
 
 			metaClass.addField(f);
-			if(where != null) where.setValue(String.format("new Float(%s)", defaultWhereValue));
+			if(where != null) where.setValue(String.format("%sF", defaultWhereValue));
 		}else if("java.lang.Boolean".equals(typeName) || "boolean".equals(typeName)){
 			//IBooleanDBColumn
 			JavaClass jc = new JavaClass(PACKAGE_NAME + ".meta.BooleanDBColumn");
@@ -523,6 +528,7 @@ public class MetaProcessor extends AbstractProcessor {
 
 			f.setType(jc);
 			metaClass.addImport(new JavaClass(PACKAGE_NAME + ".meta.impl.NumberDBColumnImpl"));
+			metaClass.addImport(new JavaClass("java.math.BigDecimal"));
 			f.setInitializeString(String.format("new NumberDBColumnImpl<>(TABLE,\"%s\")",colName));
 			metaClass.addField(f);
 			if(where != null) where.setValue(String.format("new BigDecimal(%s)", defaultWhereValue));
@@ -545,6 +551,7 @@ public class MetaProcessor extends AbstractProcessor {
 			metaClass.addImport(new JavaClass(PACKAGE_NAME + ".meta.impl.DateDBColumnImpl"));
 			f.setInitializeString(String.format("new DateDBColumnImpl<>(TABLE,\"%s\")",colName));
 			metaClass.addField(f);
+			if(where != null) where.setValue(String.format("LocalDate.of(%s)", defaultWhereValue));
 		}else if("java.time.LocalTime".equals(typeName)){
 			//IDateDBColumn<java.time.LocalTime>
 			JavaClass jc = new JavaClass(PACKAGE_NAME + ".meta.DateDBColumn");
@@ -554,6 +561,7 @@ public class MetaProcessor extends AbstractProcessor {
 			metaClass.addImport(new JavaClass(PACKAGE_NAME + ".meta.impl.DateDBColumnImpl"));
 			f.setInitializeString(String.format("new DateDBColumnImpl<>(TABLE,\"%s\")",colName));
 			metaClass.addField(f);
+			if(where != null) where.setValue(String.format("LocalTime.of(%s)", defaultWhereValue));
 		}else if("java.time.LocalDateTime".equals(typeName)){
 			//IDateDBColumn<java.time.LocalDateTime>
 			JavaClass jc = new JavaClass(PACKAGE_NAME + ".meta.DateDBColumn");
@@ -563,6 +571,7 @@ public class MetaProcessor extends AbstractProcessor {
 			metaClass.addImport(new JavaClass(PACKAGE_NAME + ".meta.impl.DateDBColumnImpl"));
 			f.setInitializeString(String.format("new DateDBColumnImpl<>(TABLE,\"%s\")",colName));
 			metaClass.addField(f);
+			if(where != null) where.setValue(String.format("LocalDateTime.of(%s)", defaultWhereValue));
 		}else if("java.sql.Date".equals(typeName)){
 			//IDateDBColumn<java.sql.Date>
 			JavaClass jc = new JavaClass(PACKAGE_NAME + ".meta.DateDBColumn");
@@ -572,6 +581,7 @@ public class MetaProcessor extends AbstractProcessor {
 			metaClass.addImport(new JavaClass(PACKAGE_NAME + ".meta.impl.DateDBColumnImpl"));
 			f.setInitializeString(String.format("new DateDBColumnImpl<java.sql.Date>(TABLE,\"%s\")",colName));
 			metaClass.addField(f);
+			where.setValue(String.format("Date.valueOf(\"%s\")", defaultWhereValue));
 		}else if("java.sql.Time".equals(typeName)){
 			//IDateDBColumn<java.sql.Time>
 			JavaClass jc = new JavaClass(PACKAGE_NAME + ".meta.DateDBColumn");
@@ -581,15 +591,16 @@ public class MetaProcessor extends AbstractProcessor {
 			metaClass.addImport(new JavaClass(PACKAGE_NAME + ".meta.impl.DateDBColumnImpl"));
 			f.setInitializeString(String.format("new DateDBColumnImpl<java.sql.Time>(TABLE,\"%s\")",colName));
 			metaClass.addField(f);
+			where.setValue(String.format("Time.valueOf(\"%s\")", defaultWhereValue));
 		}else if("java.sql.Timestamp".equals(typeName)){
 			//IDateDBColumn<java.sql.Timestamp>
 			JavaClass jc = new JavaClass(PACKAGE_NAME + ".meta.DateDBColumn");
 			jc.setGenericTypes(new JavaClass[]{new JavaClass("java.sql.Timestamp")});
-
 			f.setType(jc);
 			metaClass.addImport(new JavaClass(PACKAGE_NAME + ".meta.impl.DateDBColumnImpl"));
 			f.setInitializeString(String.format("new DateDBColumnImpl<java.sql.Timestamp>(TABLE,\"%s\")",colName));
 			metaClass.addField(f);
+			where.setValue(String.format("Timestamp.valueOf(\"%s\")", defaultWhereValue));
 		}else{
 			throw new RuntimeException("対応していない型です " + typeName);
 		}
