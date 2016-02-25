@@ -25,7 +25,7 @@ public final class Unit_ implements MetaClass{
 	private static final List<String> _FIELDS = Arrays.asList("unitId","name");
 	private static final ModelDescription<Unit> _DESC = new ModelDescription<>(Unit.class,TABLE, false,_FIELDS);
 	private static final DefaultModelHandler<Unit> model = new DefaultModelHandler<>(_DESC);
-	private static final Finder<String,Unit> find = new DefaultFinder<>(_DESC);
+	private static final Finder<String,Unit> find = new DefaultFinder<>(new DefaultFinder<>(_DESC));
 	private static final Bulk bulk = new DefaultBulk(TABLE);
 
 	private Unit_(){

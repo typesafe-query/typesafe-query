@@ -246,7 +246,7 @@ public class MetaProcessor extends AbstractProcessor {
 		metaClass.addField(_fld);
 
 		List<String> defaultWheres = this.defaultWheres.stream().map(w -> {
-			return String.format("%s.%s(%s)", w.getValue().getKey(), w.getKey() ? "eq" : "neq", w.getValue().getValue());
+			return String.format("%s.%s(%s)", w.getValue().getKey(), w.getKey() != null && w.getKey() ? "neq" : "eq", w.getValue().getValue());
 		}).collect(Collectors.toList());
 		
 		JavaClass _desc = new JavaClass(PACKAGE_NAME + ".ModelDescription");
@@ -406,6 +406,7 @@ public class MetaProcessor extends AbstractProcessor {
 			colName = camelToSnake(ve.getSimpleName().toString());
 		}
 		
+		//デフォルト条件
 		AnnotationMirror wAnot = Utils.getAnnotation(ve, ANOT_DEFAULT_WHERE);
 		Boolean defaultWhereNot = null;
 		String defaultWhereValue = null;

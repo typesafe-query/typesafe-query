@@ -313,7 +313,7 @@ public class DefaultFinder<I,T> implements Finder<I, T>{
 
 	@Override
 	public void fetch(Predicate<T> p, Order... orders) {
-		Q.select().from(root).orderBy(orders).forOnce().fetch(modelClass, p);
+		Q.select().from(root).where(getExps()).orderBy(orders).forOnce().fetch(modelClass, p);
 	}
 
 	@Override
@@ -323,6 +323,7 @@ public class DefaultFinder<I,T> implements Finder<I, T>{
 		}
 		Q.select()
 			.from(root)
+			.where(getExps())
 			.orderBy(orders)
 			.limit(limit)
 			.forOnce()
@@ -341,6 +342,7 @@ public class DefaultFinder<I,T> implements Finder<I, T>{
 		
 		Q.select()
 			.from(root)
+			.where(getExps())
 			.limit(limit)
 			.orderBy(orders)
 			.offset(offset)
@@ -350,7 +352,7 @@ public class DefaultFinder<I,T> implements Finder<I, T>{
 
 	@Override
 	public void fetch(Consumer<T> p, Order... orders) {
-		Q.select().from(root).orderBy(orders).forOnce().fetch(modelClass, p);
+		Q.select().from(root).where(getExps()).orderBy(orders).forOnce().fetch(modelClass, p);
 	}
 
 	@Override
@@ -360,6 +362,7 @@ public class DefaultFinder<I,T> implements Finder<I, T>{
 		}
 		Q.select()
 			.from(root)
+			.where(getExps())
 			.orderBy(orders)
 			.limit(limit)
 			.forOnce()
@@ -378,6 +381,7 @@ public class DefaultFinder<I,T> implements Finder<I, T>{
 		
 		Q.select()
 			.from(root)
+			.where(getExps())
 			.limit(limit)
 			.orderBy(orders)
 			.offset(offset)
@@ -389,7 +393,7 @@ public class DefaultFinder<I,T> implements Finder<I, T>{
 	public void fetchWhere(Exp expression, Predicate<T> p, Order... orders) {
 		Q.select()
 			.from(root)
-			.where(expression)
+			.where(getExps(expression))
 			.orderBy(orders)
 			.forOnce()
 			.fetch(modelClass, p);
@@ -402,7 +406,7 @@ public class DefaultFinder<I,T> implements Finder<I, T>{
 		}
 		Q.select()
 			.from(root)
-			.where(expression)
+			.where(getExps(expression))
 			.orderBy(orders)
 			.limit(limit)
 			.forOnce()
@@ -420,7 +424,7 @@ public class DefaultFinder<I,T> implements Finder<I, T>{
 		}
 		Q.select()
 			.from(root)
-			.where(expression)
+			.where(getExps(expression))
 			.orderBy(orders)
 			.limit(limit)
 			.offset(offset)
@@ -432,7 +436,7 @@ public class DefaultFinder<I,T> implements Finder<I, T>{
 	public void fetchWhere(Exp expression, Consumer<T> p, Order... orders) {
 		Q.select()
 			.from(root)
-			.where(expression)
+			.where(getExps(expression))
 			.orderBy(orders)
 			.forOnce()
 			.fetch(modelClass, p);
@@ -445,7 +449,7 @@ public class DefaultFinder<I,T> implements Finder<I, T>{
 		}
 		Q.select()
 			.from(root)
-			.where(expression)
+			.where(getExps(expression))
 			.orderBy(orders)
 			.limit(limit)
 			.forOnce()
@@ -463,7 +467,7 @@ public class DefaultFinder<I,T> implements Finder<I, T>{
 		}
 		Q.select()
 			.from(root)
-			.where(expression)
+			.where(getExps(expression))
 			.orderBy(orders)
 			.limit(limit)
 			.offset(offset)
