@@ -27,6 +27,7 @@ import com.sample.model.ApUser_;
 import com.sample.model.Role;
 import com.sample.model.RolePK;
 import com.sample.model.Role_;
+import com.sample.model.TypeModel3_;
 import com.sample.model.Unit_;
 import com.sample.model.UserInfo_;
 
@@ -712,5 +713,14 @@ public class FinderTest {
 			return true;
 		},1,2);
 		assertThat(ai4.get(), is(1));
+	}
+	
+	@Test
+	public void defaultWhere(){
+		long count = TypeModel3_.find().count();
+		assertThat(count, is(2L));
+		
+		count = TypeModel3_.find().includeDefault().count();
+		assertThat(count, is(1L));
 	}
 }
