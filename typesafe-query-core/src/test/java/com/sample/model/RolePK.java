@@ -3,6 +3,7 @@ package com.sample.model;
 import java.io.Serializable;
 
 import com.github.typesafe_query.annotation.Column;
+import com.github.typesafe_query.annotation.DefaultWhere;
 
 /**
  * The primary key class for the role database table.
@@ -13,9 +14,11 @@ public class RolePK implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Column(name="unit_id")
+	@DefaultWhere(value="U1")
 	private String unitId;
 
 	@Column(name="role_id")
+	@DefaultWhere(value="R2",not=true)
 	private String roleId;
 
 	public RolePK() {

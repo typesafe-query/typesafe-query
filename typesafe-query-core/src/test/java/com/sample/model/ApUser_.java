@@ -33,9 +33,9 @@ public final class ApUser_ implements MetaClass{
 	public static final StringDBColumn ROLE_ID = new StringDBColumnImpl(TABLE,"role_id");
 	public static final StringDBColumn UNIT_ID = new StringDBColumnImpl(TABLE,"unit_id");
 	private static final List<String> _FIELDS = Arrays.asList("userId","lockFlg","name","validFrom","validTo","roleId","unitId");
-	private static final ModelDescription<ApUser> _DESC = new ModelDescription<>(ApUser.class,TABLE,false,_FIELDS);
+	private static final ModelDescription<ApUser> _DESC = new ModelDescription<>(ApUser.class,TABLE,false,_FIELDS, LOCK_FLG.eq("0"));
 	private static final DefaultModelHandler<ApUser> model = new DefaultModelHandler<>(_DESC);
-	private static final Finder<String,ApUser> find = new DefaultFinder<>(_DESC);
+	private static final Finder<String,ApUser> find = new DefaultFinder<>(new DefaultFinder<>(_DESC));
 	private static final Bulk bulk = new DefaultBulk(TABLE);
 
 	private ApUser_(){

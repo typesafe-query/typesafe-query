@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import com.github.typesafe_query.ModelBase;
 import com.github.typesafe_query.annotation.Column;
+import com.github.typesafe_query.annotation.DefaultWhere;
 import com.github.typesafe_query.annotation.Id;
 import com.github.typesafe_query.annotation.Table;
 
@@ -20,6 +21,7 @@ public class ApUser2 extends ModelBase<ApUser2>{
 	private String userId;
 
 	@Column(name="lock_flg")
+	@DefaultWhere(value="0")
 	private String lockFlg;
 
 	private String name;

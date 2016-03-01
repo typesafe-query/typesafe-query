@@ -25,7 +25,7 @@ public final class GeneratedIdTable_ implements MetaClass{
 	private static final List<String> _FIELDS = Arrays.asList("id","name");
 	private static final ModelDescription<GeneratedIdTable> _DESC = new ModelDescription<>(GeneratedIdTable.class,TABLE, true,_FIELDS);
 	private static final DefaultModelHandler<GeneratedIdTable> model = new DefaultModelHandler<>(_DESC);
-	private static final Finder<String,GeneratedIdTable> find = new DefaultFinder<>(_DESC);
+	private static final Finder<String,GeneratedIdTable> find = new DefaultFinder<>(new DefaultFinder<>(_DESC));
 	private static final Bulk bulk = new DefaultBulk(TABLE);
 
 	private GeneratedIdTable_(){
