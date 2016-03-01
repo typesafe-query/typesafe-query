@@ -40,7 +40,7 @@ public class DefaultFinder<I,T> implements Finder<I, T>{
 	
 	private ModelDescription<T> modelDescription;
 	
-	private Finder<I,T> finder;
+	private DefaultFinder<I,T> finder;
 	
 	private Boolean includeDefault = true;
 	
@@ -479,15 +479,22 @@ public class DefaultFinder<I,T> implements Finder<I, T>{
 	}
 	
 	private Exp[] getExps(Exp... expressions){
-		List<Exp> defaultExps = modelDescription.getDefaultExps();
-		if(defaultExps != null && defaultExps.size() > 0 && this.includeDefault){
-			defaultExps.addAll(Arrays.asList(expressions));
-			Exp[] exps = new Exp[defaultExps.size()];
-			defaultExps.toArray(exps);
-			return exps;
-		}
-		else{
+		if(!this.includeDefault) {
 			return expressions;
 		}
+		
+		List<Exp> defaultExps = modelDescription.getDefaultExps();
+		
+		if(defaultExps == null) {
+			return expressions;
+		}
+		if(defaultExps.isEmpty()) {
+			return expressions;
+		}
+		
+		defaultExps.addAll(Arrays.asList(expressions));
+		Exp[] exps = new Exp[defaultExps.size()];
+		defaultExps.toArray(exps);
+		return exps;
 	}
 }
