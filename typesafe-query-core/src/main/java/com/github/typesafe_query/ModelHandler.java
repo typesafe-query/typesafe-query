@@ -1,5 +1,7 @@
 package com.github.typesafe_query;
 
+import com.github.typesafe_query.meta.DBColumn;
+
 public interface ModelHandler<T> {
 	/**
 	 * このメソッドはv1.0.0までに削除されます。
@@ -12,5 +14,6 @@ public interface ModelHandler<T> {
 	Long createByGeneratedKey(T model);
 	boolean create(T model);
 	boolean save(T model);
+	boolean save(T model,DBColumn<?>... columns);
 	boolean delete(T model);
 }

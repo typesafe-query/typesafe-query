@@ -16,11 +16,13 @@ import com.github.typesafe_query.DefaultFinder;
 import com.github.typesafe_query.ReusableModelHandler;
 import com.github.typesafe_query.DefaultModelHandler;
 import com.github.typesafe_query.meta.DateDBColumn;
+import com.github.typesafe_query.meta.MetaClass;
+
 import javax.annotation.Generated;
 import com.github.typesafe_query.meta.StringDBColumn;
 
 @Generated("Meta Generator")
-public final class ApUser2_{
+public final class ApUser2_ implements MetaClass{
 
 	public static final DBTable TABLE = new DBTableImpl("other","ap_user2");
 	public static final StringDBColumn USER_ID = new StringDBColumnImpl(TABLE,"user_id");
@@ -33,7 +35,7 @@ public final class ApUser2_{
 	private static final List<String> _FIELDS = Arrays.asList("userId","lockFlg","name","validFrom","validTo","roleId","unitId");
 	private static final ModelDescription<ApUser2> _DESC = new ModelDescription<>(ApUser2.class,TABLE,false,_FIELDS);
 	private static final DefaultModelHandler<ApUser2> model = new DefaultModelHandler<>(_DESC);
-	private static final Finder<String,ApUser2> find = new DefaultFinder<>(_DESC);
+	private static final Finder<String,ApUser2> find = new DefaultFinder<>(new DefaultFinder<>(_DESC));
 	private static final Bulk bulk = new DefaultBulk(TABLE);
 
 	private ApUser2_(){

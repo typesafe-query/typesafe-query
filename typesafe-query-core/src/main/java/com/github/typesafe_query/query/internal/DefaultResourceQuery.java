@@ -8,6 +8,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.github.typesafe_query.Settings;
 import com.github.typesafe_query.query.NamedQuery;
 import com.github.typesafe_query.query.QueryException;
@@ -19,21 +22,27 @@ import com.github.typesafe_query.query.ResourceQuery;
  */
 public class DefaultResourceQuery extends DefaultStringQuery implements NamedQuery,ResourceQuery {
 	
-	private String name;
+	private static Logger logger = LoggerFactory.getLogger(DefaultResourceQuery.class);
+	
+	private final String path;
+	private final String name;
 	
 	public DefaultResourceQuery(String name) {
 		super();
 		this.name = name;
+		if(name.startsWith("/")){
+			name = name.substring(1);
+		}
+		this.path = Settings.get().getExternalFileRoot() + name;
 		
-		InputStream in = getClass().getResourceAsStream(name);
+		logger.debug("Path {}",path);
+		InputStream in = getClass().getResourceAsStream(path);
 		if(in == null){
-			throw new QueryException("ファイルが見つかりません :" + name);
+			throw new QueryException("ファイルが見つかりません :" + path);
 		}
 		
 		StringBuilder sb = new StringBuilder();
-		BufferedReader br = null;
-		try{
-			br = new BufferedReader(new InputStreamReader(in,Settings.get().getResourceQueryCharset()));
+		try(BufferedReader br = new BufferedReader(new InputStreamReader(in,Settings.get().getResourceQueryCharset()))){
 			String line;
 			while((line = br.readLine()) != null){
 				line = line.trim();
@@ -51,14 +60,6 @@ public class DefaultResourceQuery extends DefaultStringQuery implements NamedQue
 			addQuery(sql);
 		} catch (IOException e) {
 			throw new QueryException("ファイルの読み込みに失敗しました :" + name,e);
-		} finally{
-			if(br != null){
-				try {
-					br.close();
-				} catch (IOException e) {
-					throw new QueryException("ファイルの読み込みに失敗しました :" + name,e);
-				}
-			}
 		}
 	}
 

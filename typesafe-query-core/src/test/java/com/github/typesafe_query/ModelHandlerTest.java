@@ -146,6 +146,47 @@ public class ModelHandlerTest {
 	}
 	
 	@Test
+	public void update_selective(){
+		Optional<ApUser> user = ApUser_.find().byId("A1");
+		ApUser u = user.get();
+		u.setName("更新しました");
+		u.setLockFlg("0");
+		
+		ApUser_.model().save(u,ApUser_.NAME);
+		
+		Optional<ApUser> updated = ApUser_.find().byId("A1");
+		assertThat(updated.get().getUserId(), is("A1"));
+		assertThat(updated.get().getName(), is("更新しました"));
+		assertThat(updated.get().getLockFlg(), is("1"));
+		assertThat(updated.get().getValidFrom().get().getTime(), is(Date.valueOf("2015-01-10").getTime()));
+		assertFalse(updated.get().getValidTo().isPresent());
+		assertThat(updated.get().getUnitId(), is("U1"));
+		assertThat(updated.get().getRoleId(), is("R1"));
+		
+		
+		//キー無し
+		u.setUserId(null);
+		try {
+			ApUser_.model().save(u);
+			fail();
+		} catch (QueryException e) {
+		}
+		
+		//NOT NULL項目
+		ApUser ap = new ApUser();
+		ap.setUserId("AA");
+		boolean result = ApUser_.model().save(ap);
+		assertFalse(result);
+		
+		try {
+			ApUser_.model().save(null);
+			fail();
+		} catch (NullPointerException e) {
+		}
+		
+	}
+	
+	@Test
 	public void delete(){
 		Optional<ApUser> user = ApUser_.find().byId("A2");
 		ApUser u = user.get();

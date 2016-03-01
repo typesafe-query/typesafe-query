@@ -64,6 +64,10 @@ public class DefaultTypesafeQuery extends AbstractSQLQuery implements TypesafeQu
 	private Integer limit;
 	private Integer offset;
 	
+	private TypesafeQuery union;
+
+	private TypesafeQuery unionAll;
+	
 	private String sql;
 	
 	public DefaultTypesafeQuery() {
@@ -167,6 +171,18 @@ public class DefaultTypesafeQuery extends AbstractSQLQuery implements TypesafeQu
 	@Override
 	public TypesafeQuery offset(Integer offset) {
 		this.offset = offset;
+		return this;
+	}
+	
+	@Override
+	public TypesafeQuery union(TypesafeQuery query){
+		this.union = query;
+		return this;
+	}
+
+	@Override
+	public TypesafeQuery unionAll(TypesafeQuery query){
+		this.unionAll = query;
 		return this;
 	}
 	
@@ -332,6 +348,16 @@ public class DefaultTypesafeQuery extends AbstractSQLQuery implements TypesafeQu
 		
 		if(forUpdate){
 			sb.append(createForUpdate()).append(" ");
+		}
+		
+		if(union != null){
+			sb.append("UNION ");
+			sb.append(union.getSQL(context));
+		}
+
+		if(unionAll != null){
+			sb.append("UNION ALL ");
+			sb.append(unionAll.getSQL(context));
 		}
 
 		sql = sb.toString();

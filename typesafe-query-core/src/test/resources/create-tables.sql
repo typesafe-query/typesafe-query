@@ -67,6 +67,32 @@ CREATE TABLE typemodel
 	timestamp1 timestamp
 );
 
+CREATE TABLE typemodel3
+(
+	id bigint NOT NULL auto_increment, 
+	string varchar(256),
+	boolean1 char(1),
+	boolean2 char(1),
+	short1 smallint,
+	short2 smallint,
+	int1 integer,
+	int2 integer,
+	long1 bigint,
+	long2 bigint,
+	float1 number(1,1),
+	float2 number(1,1),
+	double1 number(1,1),
+	double2 number(1,1),
+	bigDecimal number(1,1),
+	date1 date,
+	date2 date,
+	time1 time,
+	time2 time,
+	timestamp1 timestamp,
+	timestamp2 timestamp,
+	PRIMARY KEY (id)
+);
+
 CREATE TABLE generated_id_table
 (
   id bigint NOT NULL auto_increment,
@@ -75,6 +101,9 @@ CREATE TABLE generated_id_table
 );
 
 INSERT INTO typemodel values('もじ','1','1','1','1',1,2,3,4,5,6,0.1,0.2,0.3,0.4,7,0.8,'hogehogehogeohgeohgeohgeoh','1013','1','2015-07-01','12:00:00','2015-07-01 12:00:00.555');
+
+INSERT INTO typemodel3 values(1,'1','1','0',1,2,3,4,5,6,0.1,0.2,0.3,0.4,0.5,'2016-01-01','2016-01-02','11:11:11','12:12:12','2016-01-01 11:11:11.111','2016-01-02 12:12:12.222');
+INSERT INTO typemodel3 values(2,'11','1','0',1,2,3,4,5,6,0.1,0.2,0.3,0.4,0.5,'2016-01-01','2016-01-02','11:11:11','12:12:12','2016-01-01 11:11:11.111','2016-01-02 12:12:12.222');
 
 INSERT INTO ap_user (user_id,name,lock_flg,valid_from,valid_to,unit_id,role_id) VALUES ('A1','ゆーざー1','1','2015-01-10',null,'U1','R1');
 INSERT INTO ap_user (user_id,name,lock_flg,valid_from,valid_to,unit_id,role_id) VALUES ('A2','ゆーざー2','0',null,'2015-01-10','U1','R1');

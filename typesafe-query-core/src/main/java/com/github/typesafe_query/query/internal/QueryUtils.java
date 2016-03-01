@@ -13,6 +13,6 @@ public final class QueryUtils {
 	}
 	
 	public static String literal(Object o){
-		return DBManager.getJdbcValueConverter().toLiteral(o);
+		return DBManager.getDialectTranslator().toLiteral(o);
 	}
 }

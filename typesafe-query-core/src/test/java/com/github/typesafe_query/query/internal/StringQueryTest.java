@@ -15,6 +15,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,6 +24,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.github.typesafe_query.ConnectionHolder;
+import com.github.typesafe_query.Q;
 import com.github.typesafe_query.query.BatchQueryExecutor;
 import com.github.typesafe_query.query.QueryExecutor;
 import com.github.typesafe_query.query.StringQuery;
@@ -123,22 +125,27 @@ public class StringQueryTest {
 	
 	@Test
 	public void batchTest() throws IOException{
-		BatchQueryExecutor q = stringQuery("update ap_user set name=? where user_id=?").forBatch();
-		q.clearParam().addParam("HOGE").addParam("A1").executeUpdate();
-		q.clearParam().addParam("PIYO").addParam("A2").executeUpdate();
-		q.executeBatch();
-		q.close();
+		Q.batch(stringQuery("update ap_user set name=? where user_id=?"))
+		.execute(e -> {
+			e.clearParam().addParam("HOGE").addParam("A1").executeUpdate();
+			e.clearParam().addParam("PIYO").addParam("A2").executeUpdate();
+		});
 		
-		QueryExecutor eq = stringQuery("select * from ap_user where user_id=?").forReuse();
+		List<Optional<String>> result = 
+			Q.reuse(stringQuery("select * from ap_user where user_id=?"))
+			.execute(e -> {
+				List<Optional<String>> r = new ArrayList<>();
+				r.add(e.addParam("A1").getResult((rs)->rs.getString("NAME")));
+				r.add(e.clearParam().addParam("A2").getResult((rs)->rs.getString("NAME")));
+				return r;
+			});
 		
-		Optional<String> rop = eq.addParam("A1").getResult((rs)->rs.getString("NAME"));
+		Optional<String> rop = result.get(0);
 		assertTrue(rop.isPresent());
 		assertThat(rop.get(), is("HOGE"));
 
-		rop = eq.clearParam().addParam("A2").getResult((rs)->rs.getString("NAME"));
+		rop = result.get(1);
 		assertTrue(rop.isPresent());
 		assertThat(rop.get(), is("PIYO"));
-		
-		eq.close();
 	}
 }

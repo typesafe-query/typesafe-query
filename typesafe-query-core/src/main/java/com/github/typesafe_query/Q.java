@@ -3,6 +3,7 @@
  */
 package com.github.typesafe_query;
 
+import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Time;
@@ -15,23 +16,28 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-import com.github.typesafe_query.helper.BatchQueryExecutorHelper;
-import com.github.typesafe_query.helper.ReusableQueryExecutorHelper;
+import com.github.typesafe_query.enums.IntervalUnit;
+import com.github.typesafe_query.handler.BatchModelHandlerHandler;
+import com.github.typesafe_query.handler.ReusableModelHandlerHandler;
 import com.github.typesafe_query.meta.ComparableDBColumn;
 import com.github.typesafe_query.meta.DBColumn;
+import com.github.typesafe_query.meta.MetaClass;
 import com.github.typesafe_query.meta.NumberDBColumn;
 import com.github.typesafe_query.meta.StringDBColumn;
 import com.github.typesafe_query.meta.impl.DateDBColumnImpl;
 import com.github.typesafe_query.meta.impl.NumberDBColumnImpl;
-import com.github.typesafe_query.query.BatchQueryExecutor;
 import com.github.typesafe_query.query.Exp;
 import com.github.typesafe_query.query.NamedQuery;
 import com.github.typesafe_query.query.Param;
+import com.github.typesafe_query.query.SQLQuery;
 import com.github.typesafe_query.query.SearchedCase;
 import com.github.typesafe_query.query.SimpleCase;
 import com.github.typesafe_query.query.StringQuery;
 import com.github.typesafe_query.query.TypesafeQuery;
 import com.github.typesafe_query.query.TypesafeQueryFactory;
+import com.github.typesafe_query.query.handler.BatchQueryHandler;
+import com.github.typesafe_query.query.handler.ReusableQueryHandler;
+import com.github.typesafe_query.query.internal.DefaultBatchQueryExecutor;
 import com.github.typesafe_query.query.internal.DefaultResourceQuery;
 import com.github.typesafe_query.query.internal.DefaultSearchedCase;
 import com.github.typesafe_query.query.internal.DefaultSimpleCase;
@@ -42,6 +48,7 @@ import com.github.typesafe_query.query.internal.expression.AndExp;
 import com.github.typesafe_query.query.internal.expression.ExistsExp;
 import com.github.typesafe_query.query.internal.expression.NotExistsExp;
 import com.github.typesafe_query.query.internal.expression.OrExp;
+import com.github.typesafe_query.util.ClassUtils;
 
 /**
  * シンプルなクエリを記述するためのヘルパークラスです。
@@ -88,14 +95,30 @@ public final class Q {
 		return new DefaultStringQuery(sql);
 	}
 	
-	public static ReusableQueryExecutorHelper prepare(ReusableQueryExecutor executor){
-		return new ReusableQueryExecutorHelper(executor);
+	public static ReusableQueryHandler reuse(SQLQuery query){
+		return new ReusableQueryHandler(new ReusableQueryExecutor(query));
 	}
 	
-	public static BatchQueryExecutorHelper prepare(BatchQueryExecutor executor){
-		return new BatchQueryExecutorHelper(executor);
+	public static BatchQueryHandler batch(SQLQuery query){
+		return new BatchQueryHandler(new DefaultBatchQueryExecutor(query));
 	}
 	
+	@SuppressWarnings("unchecked")
+	public static <T> ReusableModelHandlerHandler<T> reuseModel(Class<? extends MetaClass> metaClass){
+		//TODO リフレクション・・・
+		Method m = ClassUtils.getMethod("description", new Class[]{}, metaClass);
+		ModelDescription<T> desc = (ModelDescription<T>)ClassUtils.invoke(m, null);
+		return new ReusableModelHandlerHandler<>(new ReusableModelHandler<>(desc));
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <T> BatchModelHandlerHandler<T> batchModel(Class<? extends MetaClass> metaClass){
+		//TODO リフレクション・・・
+		Method m = ClassUtils.getMethod("description", new Class[]{}, metaClass);
+		ModelDescription<T> desc = (ModelDescription<T>)ClassUtils.invoke(m, null);
+		return new BatchModelHandlerHandler<>(new BatchModelHandler<>(desc));
+	}
+
 	public static SearchedCase case_(){
 		return new DefaultSearchedCase();
 	}
@@ -482,4 +505,49 @@ public final class Q {
 	 * 現在時刻を取得するCURRENT_TIME句
 	 */
 	public static final DateDBColumnImpl<LocalTime> CURRENT_TIME = new DateDBColumnImpl<LocalTime>(null, "CURRENT_TIME");
+	
+	/**
+	 * 日付加減の単位(年)
+	 */
+	public static final IntervalUnit YEAR = IntervalUnit.YEAR;
+
+	/**
+	 * 日付加減の単位(四半期)
+	 */
+	public static final IntervalUnit QUARTER = IntervalUnit.QUARTER;
+
+	/**
+	 * 日付加減の単位(月)
+	 */
+	public static final IntervalUnit MONTH = IntervalUnit.MONTH;
+
+	/**
+	 * 日付加減の単位(週)
+	 */
+	public static final IntervalUnit WEEK = IntervalUnit.WEEK;
+
+	/**
+	 * 日付加減の単位(日)
+	 */
+	public static final IntervalUnit DAY = IntervalUnit.DAY;
+
+	/**
+	 * 日付加減の単位(時間)
+	 */
+	public static final IntervalUnit HOUR = IntervalUnit.HOUR;
+
+	/**
+	 * 日付加減の単位(分)
+	 */
+	public static final IntervalUnit MINUTE = IntervalUnit.MINUTE;
+
+	/**
+	 * 日付加減の単位(秒)
+	 */
+	public static final IntervalUnit SECOND = IntervalUnit.SECOND;
+
+	/**
+	 * 日付加減の単位(ミリ秒)
+	 */
+	public static final IntervalUnit MICROSECOND = IntervalUnit.MICROSECOND;
 }

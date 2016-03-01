@@ -78,7 +78,7 @@ public class ModelBaseTest {
 		ApUser u = user.get();
 		u.setName("更新しました");
 		
-		ApUser_.model().save(u);
+		u.save();
 		
 		Optional<ApUser> updated = ApUser_.find().byId("A1");
 		assertThat(updated.get().getUserId(), is("A1"));
@@ -101,9 +101,43 @@ public class ModelBaseTest {
 		//NOT NULL項目
 		ApUser ap = new ApUser();
 		ap.setUserId("AA");
-		boolean result = ApUser_.model().save(ap);
+		boolean result = ap.save();
 		assertFalse(result);
 
+	}
+	
+	@Test
+	public void update_selective(){
+		Optional<ApUser> user = ApUser_.find().byId("A1");
+		ApUser u = user.get();
+		u.setName("更新しました");
+		u.setLockFlg("0");
+		
+		u.save(ApUser_.NAME);
+		
+		Optional<ApUser> updated = ApUser_.find().byId("A1");
+		assertThat(updated.get().getUserId(), is("A1"));
+		assertThat(updated.get().getName(), is("更新しました"));
+		assertThat(updated.get().getLockFlg(), is("1"));
+		assertThat(updated.get().getValidFrom().get().getTime(), is(Date.valueOf("2015-01-10").getTime()));
+		assertFalse(updated.get().getValidTo().isPresent());
+		assertThat(updated.get().getUnitId(), is("U1"));
+		assertThat(updated.get().getRoleId(), is("R1"));
+		
+		
+		//キー無し
+		u.setUserId(null);
+		try {
+			u.save();
+			fail();
+		} catch (QueryException e) {
+		}
+		
+		//NOT NULL項目
+		ApUser ap = new ApUser();
+		ap.setUserId("AA");
+		boolean result = ap.save();
+		assertFalse(result);
 	}
 	
 	@Test

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Predicate;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,7 +33,7 @@ public class DefaultSQLRunner implements SQLRunner{
 	}
 	
 	@Override
-	public <T> Optional<T> get(List<Object> params,ResultMapper<T> mapper){
+	public <T> Optional<T> get(List<JDBCTypeObject> params,ResultMapper<T> mapper){
 		if(closed){
 			throw new IllegalStateException("SQLRunner is already closed.");
 		}
@@ -58,7 +59,7 @@ public class DefaultSQLRunner implements SQLRunner{
 	}
 	
 	@Override
-	public <T> List<T> getList(List<Object> params,ResultMapper<T> mapper){
+	public <T> List<T> getList(List<JDBCTypeObject> params,ResultMapper<T> mapper){
 		if(closed){
 			throw new IllegalStateException("SQLRunner is already closed.");
 		}
@@ -85,7 +86,33 @@ public class DefaultSQLRunner implements SQLRunner{
 	}
 	
 	@Override
-	public int executeUpdate(List<Object> params){
+	public <T> void fetch(List<JDBCTypeObject> params, ResultMapper<T> mapper, Predicate<T> p) {
+		if(closed){
+			throw new IllegalStateException("SQLRunner is already closed.");
+		}
+		try {
+			createStatement();
+			logger.info("SQL={} PARAM={} QUERY_RUNNER={} PREPARED_STATEMENT={} CONNECTION={}",sql,params,this,ps,con);
+			prepareParams(ps, params);
+			ResultSet rs = null;
+			try{
+				rs = ps.executeQuery();
+				boolean doNext = true;
+				while(rs.next() && doNext){
+					doNext = p.test(mapper.map(rs));
+				}
+			}finally{
+				if(rs != null){
+					rs.close();
+				}
+			}
+		} catch (SQLException e) {
+			throw new QueryException("ExecuteQuery failed.", e);
+		}
+	}
+
+	@Override
+	public int executeUpdate(List<JDBCTypeObject> params){
 		if(closed){
 			throw new IllegalStateException("SQLRunner is already closed.");
 		}
@@ -100,7 +127,7 @@ public class DefaultSQLRunner implements SQLRunner{
 	}
 	
 	@Override
-	public Long insertWithGeneratedKey(List<Object> params){
+	public Long insertWithGeneratedKey(List<JDBCTypeObject> params){
 		if(closed){
 			throw new IllegalStateException("SQLRunner is already closed.");
 		}
@@ -125,7 +152,7 @@ public class DefaultSQLRunner implements SQLRunner{
 	}
 	
 	@Override
-	public void addBatch(List<Object> params){
+	public void addBatch(List<JDBCTypeObject> params){
 		if(closed){
 			throw new IllegalStateException("SQLRunner is already closed.");
 		}
@@ -188,12 +215,12 @@ public class DefaultSQLRunner implements SQLRunner{
 		}
 	}
 
-	private void prepareParams(PreparedStatement preparedStatement,List<Object> params) throws SQLException{
+	private void prepareParams(PreparedStatement preparedStatement,List<JDBCTypeObject> params) throws SQLException{
 		//Optional及びDateTime判定済み
 		Objects.requireNonNull(preparedStatement).clearParameters();
 		int index = 1;
-		for(Object o : params){
-			preparedStatement.setObject(index++, o);
+		for(JDBCTypeObject o : params){
+			preparedStatement.setObject(index++, o.getValue());
 		}
 	}
 }

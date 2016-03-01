@@ -43,6 +43,9 @@ public interface TypesafeQuery extends SQLQuery{
 	
 	TypesafeQuery limit(Integer limit);
 	TypesafeQuery offset(Integer offset);
+
+	TypesafeQuery union(TypesafeQuery query);
+	TypesafeQuery unionAll(TypesafeQuery query);
 	
 	//サブクエリ用
 	DBTable as(String alias);
