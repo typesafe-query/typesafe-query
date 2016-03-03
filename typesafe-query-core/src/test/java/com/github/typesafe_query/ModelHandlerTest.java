@@ -1,7 +1,12 @@
 package com.github.typesafe_query;
 
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -18,6 +23,8 @@ import com.sample.model.ApUser;
 import com.sample.model.ApUser_;
 import com.sample.model.GeneratedIdTable;
 import com.sample.model.GeneratedIdTable_;
+import com.sample.model.TypeModel3;
+import com.sample.model.TypeModel3_;
 
 public class ModelHandlerTest {
 	
@@ -210,5 +217,15 @@ public class ModelHandlerTest {
 		} catch (NullPointerException e) {
 		}
 		
+	}
+	
+	@Test
+	public void invalid(){
+		Optional<TypeModel3> model = TypeModel3_.find().includeDefault().byId(1L);
+		assertTrue(model.isPresent());
+		
+		boolean result = TypeModel3_.model().invalid(model.get());
+		
+		assertTrue(result);
 	}
 }

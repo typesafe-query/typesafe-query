@@ -71,8 +71,8 @@ CREATE TABLE typemodel3
 (
 	id bigint NOT NULL auto_increment, 
 	string varchar(256),
-	boolean1 char(1),
-	boolean2 char(1),
+	boolean1 boolean,
+	boolean2 boolean,
 	short1 smallint,
 	short2 smallint,
 	int1 integer,

@@ -22,9 +22,9 @@ public class ModelDescription<T> {
 	private final List<Pair<String, String>> idNames;
 	private final List<Pair<String, String>> allNames;
 	private final List<Pair<String, String>> valueNames;
-	private final List<Exp> defaultExps;
+	private final List<Exp> invalidExps;
 	
-	public ModelDescription(Class<T> modelClass,DBTable table,boolean idGenerated,List<String> fieldNames, Exp...defaultExps) {
+	public ModelDescription(Class<T> modelClass,DBTable table,boolean idGenerated,List<String> fieldNames, Exp...invalidExps) {
 		this.modelClass = modelClass;
 		this.table = table;
 		this.idGenerated = idGenerated;
@@ -32,7 +32,7 @@ public class ModelDescription<T> {
 		this.idNames = new ArrayList<Pair<String, String>>();
 		this.allNames = new ArrayList<Pair<String, String>>();
 		this.valueNames = new ArrayList<Pair<String, String>>();
-		this.defaultExps = defaultExps != null ? Arrays.asList(defaultExps) : new ArrayList<>();
+		this.invalidExps = invalidExps != null ? new ArrayList<>(Arrays.asList(invalidExps)) : new ArrayList<>();
 		
 		for(String fieldName : fieldNames){
 			if(fieldName.contains("/")){
@@ -116,8 +116,8 @@ public class ModelDescription<T> {
 		return new ArrayList<Pair<String, String>>(valueNames);
 	}
 
-	public List<Exp> getDefaultExps() {
-		return new ArrayList<>(defaultExps);
+	public List<Exp> getInvalidExps() {
+		return new ArrayList<>(invalidExps);
 	}
 
 }
