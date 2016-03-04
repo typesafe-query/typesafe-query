@@ -25,6 +25,9 @@ import com.github.typesafe_query.meta.StringDBColumn;
  *
  */
 public interface TypesafeQuery extends SQLQuery{
+	TypesafeQuery select();
+	TypesafeQuery select(DBColumn<?>... columns);
+	
 	TypesafeQuery from(DBTable root);
 	TypesafeQuery from(DBTable root,String alias);
 	TypesafeQuery distinct();

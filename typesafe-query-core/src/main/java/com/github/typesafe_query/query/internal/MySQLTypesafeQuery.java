@@ -1,6 +1,7 @@
 package com.github.typesafe_query.query.internal;
 
 import com.github.typesafe_query.meta.DBColumn;
+import com.github.typesafe_query.meta.VirtualDBTable;
 
 public class MySQLTypesafeQuery extends DefaultTypesafeQuery{
 
@@ -10,6 +11,10 @@ public class MySQLTypesafeQuery extends DefaultTypesafeQuery{
 
 	public MySQLTypesafeQuery(DBColumn<?>... columns) {
 		super(columns);
+	}
+
+	public MySQLTypesafeQuery(VirtualDBTable... withs) {
+		super(withs);
 	}
 
 	@Override

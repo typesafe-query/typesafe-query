@@ -4,6 +4,7 @@ import com.github.typesafe_query.meta.BooleanDBColumn;
 import com.github.typesafe_query.meta.ComparableDBColumn;
 import com.github.typesafe_query.meta.DBColumn;
 import com.github.typesafe_query.meta.DBTable;
+import com.github.typesafe_query.meta.VirtualDBTable;
 import com.github.typesafe_query.query.Case;
 import com.github.typesafe_query.query.Func;
 import com.github.typesafe_query.query.TypesafeQuery;
@@ -38,6 +39,12 @@ public class BooleanDBColumnImpl extends ComparableDBColumnImpl<Boolean> impleme
 	public <V extends DBColumn<Boolean>> V createFromTableAlias(
 			String tableAlias) {
 		return (V)new BooleanDBColumnImpl(new DBTableImpl(getTable().getSchema(),getTable().getSimpleName(), tableAlias), getName());
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public <V extends DBColumn<Boolean>> V toVirtualDBTableColumn(VirtualDBTable with){
+		return (V)new BooleanDBColumnImpl(with, getName());
 	}
 
 	@Override

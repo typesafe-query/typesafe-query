@@ -24,8 +24,10 @@ import com.github.typesafe_query.meta.DBColumn;
 import com.github.typesafe_query.meta.MetaClass;
 import com.github.typesafe_query.meta.NumberDBColumn;
 import com.github.typesafe_query.meta.StringDBColumn;
+import com.github.typesafe_query.meta.VirtualDBTable;
 import com.github.typesafe_query.meta.impl.DateDBColumnImpl;
 import com.github.typesafe_query.meta.impl.NumberDBColumnImpl;
+import com.github.typesafe_query.meta.impl.VirtualDBTableImple;
 import com.github.typesafe_query.query.Exp;
 import com.github.typesafe_query.query.NamedQuery;
 import com.github.typesafe_query.query.Param;
@@ -146,6 +148,10 @@ public final class Q {
 	
 	public static <T,V extends DBColumn<T>> V $(String alias,V v){
 		return v.createFromTableAlias(alias);
+	}
+	
+	public static <T,V extends DBColumn<T>> V $(VirtualDBTable with,V v){
+		return v.toVirtualDBTableColumn(with);
 	}
 	
 	/**
@@ -451,6 +457,14 @@ public final class Q {
 	 */
 	public static <V extends Comparable<? super V>> ComparableDBColumn<V> all(ComparableDBColumn<V> c){
 		return c.all();
+	}
+
+	public static TypesafeQuery with(VirtualDBTable... withs){
+		return TypesafeQueryFactory.get(withs);
+	}
+
+	public static VirtualDBTable as(String virtualTableName, TypesafeQuery query){
+		return new VirtualDBTableImple(virtualTableName, query);
 	}
 
 	/**

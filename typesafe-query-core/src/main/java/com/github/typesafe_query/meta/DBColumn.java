@@ -20,6 +20,7 @@ public interface DBColumn<T>{
 	String getOtherName();
 	DBTable getTable();
 	<V extends DBColumn<T>> V createFromTableAlias(String tableAlias);
+	<V extends DBColumn<T>> V toVirtualDBTableColumn(VirtualDBTable with);
 	
 	String getExpression(QueryContext context,String expression);
 	
