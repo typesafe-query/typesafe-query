@@ -311,7 +311,7 @@ public class SelectQueryTest {
 	
 	@Test
 	public void select_subquery_from(){
-		List<Object> results = select().from(select().from(ApUser_.TABLE).as("sub")).forOnce().getResultList((rs)->rs.getObject(1));
+		List<Object> results = select().from(select().from(ApUser_.TABLE).as("sub")).forOnce().getResultList((rs)->rs.get(1));
 		assertNotNull(results);
 		assertThat(results.size(), is(4));
 	}
@@ -329,7 +329,7 @@ public class SelectQueryTest {
 				.on(
 					ApUser_.ROLE_ID.eq($("sub",Role_.ROLE_ID))
 				)
-				.forOnce().getResultList((rs)->rs.getObject(1));
+				.forOnce().getResultList((rs)->rs.get(1));
 		assertNotNull(results);
 		assertThat(results.size(), is(4));
 	}
@@ -347,7 +347,7 @@ public class SelectQueryTest {
 				.on(
 					ApUser_.ROLE_ID.eq($("sub",Role_.ROLE_ID))
 				)
-				.forOnce().getResultList((rs)->rs.getObject(1));
+				.forOnce().getResultList((rs)->rs.get(1));
 		assertNotNull(results);
 		assertThat(results.size(), is(4));
 	}
@@ -361,7 +361,7 @@ public class SelectQueryTest {
 				.from(
 					ApUser_.TABLE
 				)
-				.forOnce().getResultList((rs)->rs.getObject(1));
+				.forOnce().getResultList((rs)->rs.get(1));
 		assertNotNull(results);
 		assertThat(results.size(), is(4));
 	}
@@ -373,7 +373,7 @@ public class SelectQueryTest {
 					ApUser_.TABLE
 				)
 				.where(ApUser_.ROLE_ID.eq(select(Role_.ROLE_ID).from(Role_.TABLE).where(Role_.ROLE_ID.eq("R1"))))
-				.forOnce().getResultList((rs)->rs.getObject(1));
+				.forOnce().getResultList((rs)->rs.get(1));
 		assertNotNull(results);
 		assertThat(results.size(), is(3));
 	}
@@ -385,7 +385,7 @@ public class SelectQueryTest {
 					ApUser_.TABLE
 				)
 				.where(ApUser_.ROLE_ID.in(select(Role_.ROLE_ID).from(Role_.TABLE)))
-				.forOnce().getResultList((rs)->rs.getObject(1));
+				.forOnce().getResultList((rs)->rs.get(1));
 		assertNotNull(results);
 		assertThat(results.size(), is(4));
 	}
@@ -397,7 +397,7 @@ public class SelectQueryTest {
 					ApUser_.TABLE
 				)
 				.where(ApUser_.ROLE_ID.like(select(Role_.ROLE_ID).from(Role_.TABLE).where(Role_.ROLE_ID.eq("R1"))))
-				.forOnce().getResultList((rs)->rs.getObject(1));
+				.forOnce().getResultList((rs)->rs.get(1));
 		assertNotNull(results);
 		assertThat(results.size(), is(3));
 	}

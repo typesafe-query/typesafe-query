@@ -142,7 +142,7 @@ public class DefaultFinder<I,T> implements Finder<I, T>{
 		String w = where != null && !where.isEmpty() ? String.format(" WHERE %s", where) : "";
 		Optional<Object> count = Q.stringQuery(String.format(SQL_TEMPLATE_COUNT, root.getName()) + w)
 			.forOnce()
-			.getResult((rs) -> rs.getObject("CNT"));
+			.getResult((rd) -> rd.get("CNT"));
 		//JDBCによってcountの戻りの型が違う
 		return ((Number)count.get()).longValue();
 	}
@@ -173,7 +173,7 @@ public class DefaultFinder<I,T> implements Finder<I, T>{
 		}
 		Optional<Object> count = Q.stringQuery(sql)
 				.forOnce()
-				.getResult((rs) -> rs.getObject("CNT"));
+				.getResult((rd) -> rd.get("CNT"));
 		return ((Number)count.get()).longValue();
 	}
 
