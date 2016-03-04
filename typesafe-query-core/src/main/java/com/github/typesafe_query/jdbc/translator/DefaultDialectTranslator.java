@@ -5,7 +5,6 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.sql.Date;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Timestamp;
@@ -23,6 +22,7 @@ import org.slf4j.LoggerFactory;
 
 import com.github.typesafe_query.annotation.Converter;
 import com.github.typesafe_query.jdbc.JDBCTypeObject;
+import com.github.typesafe_query.jdbc.ResultData;
 import com.github.typesafe_query.jdbc.convert.TypeConverter;
 import com.github.typesafe_query.jdbc.convert.basic.BigDecimalToDoubleConverter;
 import com.github.typesafe_query.jdbc.convert.basic.BigDecimalToFloatConverter;
@@ -52,7 +52,7 @@ public class DefaultDialectTranslator implements DialectTranslator{
 	}
 
 	@Override
-	public Object getValue(ResultSet rs, int index, Class<?> columnJavaType, Field f) throws SQLException {
+	public Object getValue(ResultData rs, int index, Class<?> columnJavaType, Field f) throws SQLException {
 		Class<?> propType = f.getType();
 		//==== Moved from BeanResultMapper issues#6
 		//Optional
@@ -98,13 +98,13 @@ public class DefaultDialectTranslator implements DialectTranslator{
 		return TO_DBTYPE_CONVERTER_MAP.get(to);
 	}
 
-	protected Object getValue(ResultSet rs, int index, Class<?> columnJavaType, Class<?> propType, Field f) throws SQLException {
-		if (!propType.isPrimitive() && rs.getObject(index) == null ) {
+	protected Object getValue(ResultData rs, int index, Class<?> columnJavaType, Class<?> propType, Field f) throws SQLException {
+		if (!propType.isPrimitive() && rs.get(index) == null ) {
 			return null;
 		}
 		
 		//ResuleSetMetadata#getColumnClassNameに変換する
-		Object result = rs.getObject(index);
+		Object result = rs.get(index);
 		propType = ClassUtils.primitiveToWrapperClass(propType);
 
 		//propTypeとクラスが同じならリターン
