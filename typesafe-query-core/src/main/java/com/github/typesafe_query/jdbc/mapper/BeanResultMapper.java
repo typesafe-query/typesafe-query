@@ -2,7 +2,6 @@ package com.github.typesafe_query.jdbc.mapper;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -17,6 +16,7 @@ import com.github.typesafe_query.annotation.Column;
 import com.github.typesafe_query.annotation.Embedded;
 import com.github.typesafe_query.annotation.EmbeddedId;
 import com.github.typesafe_query.annotation.Transient;
+import com.github.typesafe_query.jdbc.ResultData;
 import com.github.typesafe_query.query.QueryException;
 import com.github.typesafe_query.util.ClassUtils;
 
@@ -43,7 +43,7 @@ public class BeanResultMapper<R> implements ResultMapper<R>{
 	}
 
 	@Override
-	public R map(ResultSet rs) throws SQLException {
+	public R map(ResultData rs) throws SQLException {
 		ResultSetMetaData meta = rs.getMetaData();
 		List<MappingMetadata> pairs = createColmunProperyPair(meta, type);
 		
@@ -71,7 +71,7 @@ public class BeanResultMapper<R> implements ResultMapper<R>{
 		return model;
 	}
 	
-	protected Object processColumn(ResultSet rs,int index,Class<?> columnJavaType,Field f) throws SQLException{
+	protected Object processColumn(ResultData rs,int index,Class<?> columnJavaType,Field f) throws SQLException{
 		return DBManager.getDialectTranslator().getValue(rs,index,columnJavaType,f);
 	}
 

@@ -45,7 +45,7 @@ public class DefaultSQLRunner implements SQLRunner{
 			try{
 				rs = ps.executeQuery();
 				if(rs.next()){
-					return Optional.of(mapper.map(rs));
+					return Optional.of(mapper.map(new DefaultResultData(rs)));
 				}
 				return Optional.empty();
 			}finally{
@@ -71,8 +71,9 @@ public class DefaultSQLRunner implements SQLRunner{
 			try{
 				rs = ps.executeQuery();
 				List<T> list = new ArrayList<T>();
+				ResultData rd = new DefaultResultData(rs);
 				while(rs.next()){
-					list.add(mapper.map(rs));
+					list.add(mapper.map(rd));
 				}
 				return list;
 			}finally{
@@ -98,8 +99,9 @@ public class DefaultSQLRunner implements SQLRunner{
 			try{
 				rs = ps.executeQuery();
 				boolean doNext = true;
+				ResultData rd = new DefaultResultData(rs);
 				while(rs.next() && doNext){
-					doNext = p.test(mapper.map(rs));
+					doNext = p.test(mapper.map(rd));
 				}
 			}finally{
 				if(rs != null){
