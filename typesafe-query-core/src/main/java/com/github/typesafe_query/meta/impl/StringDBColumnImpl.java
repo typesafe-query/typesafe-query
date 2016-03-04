@@ -8,6 +8,7 @@ import com.github.typesafe_query.meta.DBColumn;
 import com.github.typesafe_query.meta.DBTable;
 import com.github.typesafe_query.meta.NumberDBColumn;
 import com.github.typesafe_query.meta.StringDBColumn;
+import com.github.typesafe_query.meta.VirtualDBTable;
 import com.github.typesafe_query.query.Case;
 import com.github.typesafe_query.query.Exp;
 import com.github.typesafe_query.query.Func;
@@ -189,6 +190,12 @@ public class StringDBColumnImpl extends ComparableDBColumnImpl<String> implement
 	public <V extends DBColumn<String>> V createFromTableAlias(
 			String tableAlias) {
 		return (V)new StringDBColumnImpl(new DBTableImpl(getTable().getSchema(), getTable().getSimpleName(), tableAlias), getName());
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public <V extends DBColumn<String>> V toVirtualDBTableColumn(VirtualDBTable with){
+		return (V)new StringDBColumnImpl(with, getName());
 	}
 
 	@Override

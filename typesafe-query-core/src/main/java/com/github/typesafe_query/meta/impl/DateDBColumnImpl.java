@@ -9,6 +9,7 @@ import com.github.typesafe_query.meta.DBColumn;
 import com.github.typesafe_query.meta.DBTable;
 import com.github.typesafe_query.meta.DateDBColumn;
 import com.github.typesafe_query.meta.NumberDBColumn;
+import com.github.typesafe_query.meta.VirtualDBTable;
 import com.github.typesafe_query.query.Case;
 import com.github.typesafe_query.query.Func;
 import com.github.typesafe_query.query.TypesafeQuery;
@@ -57,6 +58,12 @@ public class DateDBColumnImpl<T extends Comparable<? super T>> extends Comparabl
 	@Override
 	public <V extends DBColumn<T>> V createFromTableAlias(String tableAlias) {
 		return (V)new DateDBColumnImpl<T>(new DBTableImpl(getTable().getSchema(),getTable().getSimpleName(), tableAlias), getName());
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public <V extends DBColumn<T>> V toVirtualDBTableColumn(VirtualDBTable with){
+		return (V)new DateDBColumnImpl<T>(with, getName());
 	}
 
 	@Override

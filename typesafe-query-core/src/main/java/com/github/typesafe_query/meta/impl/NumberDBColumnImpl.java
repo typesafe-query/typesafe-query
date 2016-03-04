@@ -9,6 +9,7 @@ import com.github.typesafe_query.meta.ComparableDBColumn;
 import com.github.typesafe_query.meta.DBColumn;
 import com.github.typesafe_query.meta.DBTable;
 import com.github.typesafe_query.meta.NumberDBColumn;
+import com.github.typesafe_query.meta.VirtualDBTable;
 import com.github.typesafe_query.query.Case;
 import com.github.typesafe_query.query.Func;
 import com.github.typesafe_query.query.TypesafeQuery;
@@ -107,6 +108,12 @@ public class NumberDBColumnImpl<T extends Number & Comparable<? super T>> extend
 	@Override
 	public <V extends DBColumn<T>> V createFromTableAlias(String tableAlias) {
 		return (V)new NumberDBColumnImpl<T>(new DBTableImpl(getTable().getSchema(),getTable().getSimpleName(), tableAlias), getName());
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public <V extends DBColumn<T>> V toVirtualDBTableColumn(VirtualDBTable with){
+		return (V)new NumberDBColumnImpl<T>(with, getName());
 	}
 
 	@Override

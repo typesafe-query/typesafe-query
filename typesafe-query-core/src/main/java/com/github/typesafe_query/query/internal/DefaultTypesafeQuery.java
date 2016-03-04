@@ -21,12 +21,14 @@ import com.github.typesafe_query.meta.DBTable;
 import com.github.typesafe_query.meta.DateDBColumn;
 import com.github.typesafe_query.meta.NumberDBColumn;
 import com.github.typesafe_query.meta.StringDBColumn;
+import com.github.typesafe_query.meta.VirtualDBTable;
 import com.github.typesafe_query.meta.impl.BooleanDBColumnImpl;
 import com.github.typesafe_query.meta.impl.DBTableImpl;
 import com.github.typesafe_query.meta.impl.DateDBColumnImpl;
 import com.github.typesafe_query.meta.impl.NumberDBColumnImpl;
 import com.github.typesafe_query.meta.impl.StringDBColumnImpl;
 import com.github.typesafe_query.meta.impl.SubQueryDBTableImpl;
+import com.github.typesafe_query.meta.impl.VirtualDBTableImple;
 import com.github.typesafe_query.query.Exp;
 import com.github.typesafe_query.query.Join;
 import com.github.typesafe_query.query.Order;
@@ -44,6 +46,8 @@ public class DefaultTypesafeQuery extends AbstractSQLQuery implements TypesafeQu
 	private static final String ROWNUM_TEMPATE_NOLIMIT = "SELECT E.* FROM (%s) E WHERE E.RN >= %d";
 	
 	private DBColumn<?>[] select;
+	
+	private VirtualDBTable[] withs;
 	
 	private DBTable from;
 	
@@ -78,7 +82,24 @@ public class DefaultTypesafeQuery extends AbstractSQLQuery implements TypesafeQu
 		this.joins = new ArrayList<Join<TypesafeQuery>>();
 		this.select = columns;
 	}
+	
+	public DefaultTypesafeQuery(VirtualDBTable... withs) {
+		this.joins = new ArrayList<Join<TypesafeQuery>>();
+		this.withs = withs;
+	}
+	
+	@Override
+	public TypesafeQuery select() {
+		this.select = new DBColumn<?>[0];
+		return this;
+	}
 
+	@Override
+	public TypesafeQuery select(DBColumn<?>... columns) {
+		this.select = columns;
+		return this;
+	}
+	
 	@Override
 	public TypesafeQuery from(DBTable root) {
 		this.from = root;
@@ -277,16 +298,27 @@ public class DefaultTypesafeQuery extends AbstractSQLQuery implements TypesafeQu
 			return sql;
 		}
 		StringBuilder sb = new StringBuilder();
-		sb.append("SELECT ");
-		
-		if(distinct){
-			sb.append("DISTINCT ");
-		}
-		
+
 		if(context == null){
 			context = new DefaultQueryContext(this.from);
 		}else{
 			context.addFrom(from);
+		}
+		
+		if(withs != null){
+			sb.append("WITH ");
+			List<String> withList = new ArrayList<>();
+			for(VirtualDBTable with : withs){
+				withList.add(with.getWithSQL(context));
+			}
+			sb.append(String.join(", ", withList));
+			sb.append(" ");
+		}
+		
+		sb.append("SELECT ");
+		
+		if(distinct){
+			sb.append("DISTINCT ");
 		}
 		
 		//SELECT項目の指定前にテーブルをCONTEXTに追加
