@@ -16,4 +16,5 @@ public interface ModelHandler<T> {
 	boolean save(T model);
 	boolean save(T model,DBColumn<?>... columns);
 	boolean delete(T model);
+	boolean invalid(T model);
 }

@@ -33,7 +33,7 @@ public final class ApUser2_ implements MetaClass{
 	public static final StringDBColumn ROLE_ID = new StringDBColumnImpl(TABLE,"role_id");
 	public static final StringDBColumn UNIT_ID = new StringDBColumnImpl(TABLE,"unit_id");
 	private static final List<String> _FIELDS = Arrays.asList("userId","lockFlg","name","validFrom","validTo","roleId","unitId");
-	private static final ModelDescription<ApUser2> _DESC = new ModelDescription<>(ApUser2.class,TABLE,false,_FIELDS);
+	private static final ModelDescription<ApUser2> _DESC = new ModelDescription<>(ApUser2.class,TABLE,false,_FIELDS, LOCK_FLG.neq("1"));
 	private static final DefaultModelHandler<ApUser2> model = new DefaultModelHandler<>(_DESC);
 	private static final Finder<String,ApUser2> find = new DefaultFinder<>(new DefaultFinder<>(_DESC));
 	private static final Bulk bulk = new DefaultBulk(TABLE);

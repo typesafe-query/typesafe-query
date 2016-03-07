@@ -483,18 +483,18 @@ public class DefaultFinder<I,T> implements Finder<I, T>{
 			return expressions;
 		}
 		
-		List<Exp> defaultExps = modelDescription.getDefaultExps();
+		List<Exp> invalidExps = modelDescription.getInvalidExps();
 		
-		if(defaultExps == null) {
+		if(invalidExps == null) {
 			return expressions;
 		}
-		if(defaultExps.isEmpty()) {
+		if(invalidExps.isEmpty()) {
 			return expressions;
 		}
 		
-		defaultExps.addAll(Arrays.asList(expressions));
-		Exp[] exps = new Exp[defaultExps.size()];
-		defaultExps.toArray(exps);
+		invalidExps.addAll(Arrays.asList(expressions));
+		Exp[] exps = new Exp[invalidExps.size()];
+		invalidExps.toArray(exps);
 		return exps;
 	}
 }

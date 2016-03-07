@@ -387,7 +387,7 @@ public class FinderTest {
 	}
 
 	@Test
-	public void byId_defaultWhere(){
+	public void byId_invalid(){
 		//単一主キー：正常-結果なし
 		Optional<ApUser> user = ApUser_.find().includeDefault().byId("A1");
 		assertThat(user, is(Optional.<ApUser>empty()));
@@ -416,13 +416,13 @@ public class FinderTest {
 	}
  
 	@Test
-	public void count_defaultWhere(){
+	public void count_invalid(){
 		long count = ApUser_.find().includeDefault().count();
 		assertThat(count, is(2L));
 	}
  
 	@Test
-	public void countWhere_defaultWhere(){
+	public void countWhere_invalid(){
 		long count = ApUser_.find().includeDefault().countWhere(ApUser_.UNIT_ID.eq("U1"));
 		assertThat(count, is(1L));
 		
@@ -431,7 +431,7 @@ public class FinderTest {
 	}
  
 	@Test
-	public void list_defaultWhere(){
+	public void list_invalid(){
 		List<ApUser> users = ApUser_.find().includeDefault().list();
 		
 		assertFalse(users.isEmpty());
@@ -444,7 +444,7 @@ public class FinderTest {
 	}
  
 	@Test
-	public void list_limit_defaultWhere(){
+	public void list_limit_invalid(){
 		List<ApUser> users = ApUser_.find().includeDefault().list(2);
 		
 		assertFalse(users.isEmpty());
@@ -459,7 +459,7 @@ public class FinderTest {
 	}
  
 	@Test
-	public void list_limit_offset_defaultWhere(){
+	public void list_limit_offset_invalid(){
 		List<ApUser> users = ApUser_.find().includeDefault().list(2,2);
 		
 		assertTrue(users.isEmpty());
@@ -482,7 +482,7 @@ public class FinderTest {
 	}
  
 	@Test
-	public void singleWhere_defaultWhere(){
+	public void singleWhere_invalid(){
 		Optional<ApUser> op = ApUser_.find().includeDefault().where(ApUser_.UNIT_ID.eq("U2"));
 		assertTrue(op.isPresent());
 
@@ -494,7 +494,7 @@ public class FinderTest {
 	}
  
 	@Test
-	public void listWhere_defaultWhere(){
+	public void listWhere_invalid(){
 		List<ApUser> list = ApUser_.find().includeDefault().listWhere(ApUser_.UNIT_ID.eq("U1"));
 		assertNotNull(list);
 		assertThat(list.size(), is(1));
@@ -509,7 +509,7 @@ public class FinderTest {
 	}
  
 	@Test
-	public void listWhere_limit_defaultWhere(){
+	public void listWhere_limit_invalid(){
 		List<ApUser> list = ApUser_.find().includeDefault().listWhere(ApUser_.UNIT_ID.eq("U1"),2);
 		assertNotNull(list);
 		assertThat(list.size(), is(1));
@@ -531,7 +531,7 @@ public class FinderTest {
 	}
  
 	@Test
-	public void listWhere_limit_offset_defaultWhere(){
+	public void listWhere_limit_offset_invalid(){
 		List<ApUser> list = ApUser_.find().includeDefault().listWhere(ApUser_.UNIT_ID.eq("U1"),2,2);
 		assertNotNull(list);
 		assertTrue(list.isEmpty());
@@ -563,7 +563,7 @@ public class FinderTest {
 	}
  
 	@Test
-	public void fetch_defaultWhere(){
+	public void fetch_invalid(){
 		
 		AtomicInteger ai = new AtomicInteger(0);
 		ApUser_.find().includeDefault().fetch(a -> {
@@ -586,7 +586,7 @@ public class FinderTest {
 	}
  
 	@Test
-	public void fetch_limit_defaultWhere(){
+	public void fetch_limit_invalid(){
 		
 		AtomicInteger ai = new AtomicInteger(0);
 		ApUser_.find().includeDefault().fetch(a -> {
@@ -609,7 +609,7 @@ public class FinderTest {
 	}
  
 	@Test
-	public void fetch_limit_offset_defaultWhere(){
+	public void fetch_limit_offset_invalid(){
 		
 		AtomicInteger ai = new AtomicInteger(0);
 		ApUser_.find().includeDefault().fetch(a -> {
@@ -632,7 +632,7 @@ public class FinderTest {
 	}
  
 	@Test
-	public void fetchWhere_defaultWhere(){
+	public void fetchWhere_invalid(){
 		
 		AtomicInteger ai = new AtomicInteger(0);
 		ApUser_.find().includeDefault().fetchWhere(ApUser_.UNIT_ID.eq("U1"), a -> {
@@ -654,7 +654,7 @@ public class FinderTest {
 	}
  
 	@Test
-	public void fetchWhere_limit_defaultWhere(){
+	public void fetchWhere_limit_invalid(){
 		
 		AtomicInteger ai = new AtomicInteger(0);
 		ApUser_.find().includeDefault().fetchWhere(ApUser_.UNIT_ID.eq("U1"), a -> {
@@ -676,7 +676,7 @@ public class FinderTest {
 	}
  
 	@Test
-	public void fetchWhere_limit_offset_defaultWhere(){
+	public void fetchWhere_limit_offset_invalid(){
 		
 		AtomicInteger ai = new AtomicInteger(0);
 		ApUser_.find().includeDefault().fetchWhere(ApUser_.UNIT_ID.eq("U1"), a -> {
@@ -716,7 +716,7 @@ public class FinderTest {
 	}
 	
 	@Test
-	public void defaultWhere(){
+	public void invalid(){
 		long count = TypeModel3_.find().count();
 		assertThat(count, is(2L));
 		

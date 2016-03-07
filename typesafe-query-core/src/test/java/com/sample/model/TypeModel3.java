@@ -8,62 +8,43 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
-import com.github.typesafe_query.annotation.DefaultWhere;
 import com.github.typesafe_query.annotation.Id;
+import com.github.typesafe_query.annotation.Invalid;
 
 public class TypeModel3 {
 	@Id
 	private Long id;
 
-	@DefaultWhere(value="1")
 	private String string;
 	
-	@DefaultWhere(value="true")
+	@Invalid(value="false")
 	private boolean boolean1;
-	@DefaultWhere(value="false")
 	private Boolean boolean2;
 
-	@DefaultWhere(value="1")
 	private short short1;
-	@DefaultWhere(value="2")
 	private Short short2;
 	
-	@DefaultWhere(value="3")
 	private int int1;
-	@DefaultWhere(value="4")
 	private Integer int2;
 	
-	@DefaultWhere(value="5")
 	private long long1;
-	@DefaultWhere(value="6")
 	private Long long2;
 	
-	@DefaultWhere(value="0.1")
 	private float float1;
-	@DefaultWhere(value="0.2")
 	private Float float2;
 
-	@DefaultWhere(value="0.3")
 	private double double1;
-	@DefaultWhere(value="0.4")
 	private Double double2;
 	
-	@DefaultWhere(value="0.5")
 	private BigDecimal bigDecimal;
 	
-	@DefaultWhere(value="2016,01,01")
 	private LocalDate date1;
-	@DefaultWhere(value="2016-01-02")
 	private Date date2;
 	
-	@DefaultWhere(value="11,11,11")
 	private LocalTime time1;
-	@DefaultWhere(value="12:12:12")
 	private Time time2;
 	
-	@DefaultWhere(value="2016,01,01,11,11,11,111")
 	private LocalDateTime timestamp1;
-	@DefaultWhere(value="2016-01-02 12:12:12.222")
 	private Timestamp timestamp2;
 	
 	public Long getId() {
