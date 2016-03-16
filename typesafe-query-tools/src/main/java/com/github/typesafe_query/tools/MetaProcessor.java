@@ -601,6 +601,20 @@ public class MetaProcessor extends AbstractProcessor {
 			f.setInitializeString(String.format("new DateDBColumnImpl<java.sql.Timestamp>(TABLE,\"%s\")",colName));
 			metaClass.addField(f);
 			where.setValue(String.format("Timestamp.valueOf(\"%s\")", defaultWhereValue));
+		}else if("java.sql.Blob".equals(typeName)){
+			JavaClass jc = new JavaClass(PACKAGE_NAME + ".meta.LobDBColumn");
+			jc.setGenericTypes(new JavaClass[]{new JavaClass("java.sql.Blob")});
+			f.setType(jc);
+			metaClass.addImport(new JavaClass(PACKAGE_NAME + ".meta.impl.LobDBColumnImpl"));
+			f.setInitializeString(String.format("new LobDBColumnImpl<java.sql.Blob>(TABLE,\"%s\")",colName));
+			metaClass.addField(f);
+		}else if("java.sql.Clob".equals(typeName)){
+			JavaClass jc = new JavaClass(PACKAGE_NAME + ".meta.LobDBColumn");
+			jc.setGenericTypes(new JavaClass[]{new JavaClass("java.sql.Clob")});
+			f.setType(jc);
+			metaClass.addImport(new JavaClass(PACKAGE_NAME + ".meta.impl.LobDBColumnImpl"));
+			f.setInitializeString(String.format("new LobDBColumnImpl<java.sql.Clob>(TABLE,\"%s\")",colName));
+			metaClass.addField(f);
 		}else{
 			throw new RuntimeException("対応していない型です " + typeName);
 		}
